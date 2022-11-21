@@ -3237,19 +3237,128 @@
     return str;
   }
 
+  // src/split-spaces-exclude-quotes.ts
+  function splitSpacesExcludeQuotes(input) {
+    const matches = input.match(/\\?.|^$/g);
+    if (matches) {
+      return matches.reduce(
+        (p, c) => {
+          if (c === '"') {
+            p.quote ^= 1;
+          } else if (!p.quote && c === " ") {
+            p.a.push("");
+          } else {
+            p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
+          }
+          return p;
+        },
+        { a: [""] }
+      ).a;
+    }
+  }
+
+  // src/commands/utils.ts
+  function getItemIdFromName(itemName) {
+    for (const item of $dataItems) {
+      if (item && item.name === itemName) {
+        return item.id;
+      }
+    }
+    throw "Item could not be found by name";
+  }
+
+  // src/commands/addItem.ts
+  function addItem(args) {
+    if (args.length != 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.gainItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+  }
+
+  // src/commands/fadeIn.ts
+  function fadeIn(args) {
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameScreen.startFadeIn(args[0] ? args[0] : 24);
+    SceneManager._scene._active = true;
+  }
+
+  // src/commands/fadeOut.ts
+  function fadeOut(args) {
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    SceneManager._scene._active = false;
+    $gameScreen.startFadeOut(args[0] ? args[0] : 24);
+  }
+
+  // src/commands/removeItem.ts
+  function removeItem(args) {
+    if (args.length != 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.loseItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+  }
+
+  // src/commands/setBackground.ts
+  function setBackground(args) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    const opacity = parseInt(args[0]);
+    if (opacity < 0 || opacity > 2) {
+      throw new Error("Invalid opacity level, must be between 0 and two");
+    }
+    $gameMessage.setBackground(opacity);
+  }
+
+  // src/commands/wait.ts
+  async function wait(args) {
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    await new Promise((r) => setTimeout(r, parseInt(args[0])));
+  }
+
+  // src/commands/index.ts
+  var commands = {
+    AddItem: addItem,
+    FadeOut: fadeOut,
+    FadeIn: fadeIn,
+    RemoveItem: removeItem,
+    Wait: wait,
+    SetBackground: setBackground
+  };
+  function getCommand(command, args) {
+    if (commands[command]) {
+      return commands[command](args);
+    }
+    throw new Error("Invalid command");
+  }
+
   // src/index.ts
-  console.log("Moogle");
+  function initializeVariableStorage() {
+    Game_System.prototype.variableStorage = function() {
+      if (!this._variableStorage) {
+        this._variableStorage = /* @__PURE__ */ new Map();
+      }
+      return this._variableStorage;
+    };
+    return /* @__PURE__ */ new Map();
+  }
   var MAX_DIALOG_EXHAUSTION = 3;
   PluginManager.registerCommand("pixelmapYarnSpinner", "yarn", (args) => {
-    console.log("HRRDLY");
     return fetch(args["Yarn File Path"]).then((response) => {
       if (!response.ok) {
         throw new Error("HTTP error " + response.status);
       }
       const prefix = args["Yarn File Path"].split(".")[0].replace("dialog/", "");
       const startAt = args["Start At"];
-      response.text().then((dialogue) => {
-        yarnSpinnerProcesser(prefix, dialogue, startAt);
+      void response.text().then((dialogue) => {
+        yarnSpinnerProcesser(prefix, dialogue, startAt).catch((e) => {
+          console.error(e);
+        });
       });
     });
   });
@@ -3354,129 +3463,15 @@
           runner.advance();
           await processYarnDialog(runner);
         }
+        break;
+      default:
+        break;
     }
   }
   async function commandHandler(cmdResult) {
-    const splitCmd = cmdResult.command.match(/\\?.|^$/g).reduce(
-      (p, c) => {
-        if (c === '"') {
-          p.quote ^= 1;
-        } else if (!p.quote && c === " ") {
-          p.a.push("");
-        } else {
-          p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
-        }
-        return p;
-      },
-      { a: [""] }
-    ).a;
+    const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
     const cmd = splitCmd[0];
-    switch (cmd) {
-      case "FadeOut":
-        if (splitCmd.length == 2) {
-          SceneManager._scene._active = false;
-          $gameScreen.startFadeOut(splitCmd[1] ? splitCmd[1] : 24);
-        } else {
-          console.log("Invalid argument number passed into FadeOut!");
-        }
-        break;
-      case "FadeIn":
-        if (splitCmd.length == 2) {
-          $gameScreen.startFadeIn(splitCmd[1] ? splitCmd[1] : 24);
-          SceneManager._scene._active = true;
-        } else {
-          console.log("Invalid argument number passed into FadeOut!");
-        }
-        break;
-      case "Wait":
-        if (splitCmd.length == 2) {
-          await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
-        } else {
-          console.log("Invalid argument number passed into Wait!");
-        }
-        break;
-      case "SetBackground":
-        if (splitCmd.length == 2) {
-          $gameMessage.setBackground(parseInt(splitCmd[1]));
-        } else {
-          console.log("Invalid argument number passed into SetBackground!");
-        }
-        break;
-      case "FadeToBlackAndBack":
-        if (splitCmd.length == 2) {
-          SceneManager._scene._active = false;
-          $gameScreen.startFadeOut(30);
-          await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
-          $gameScreen.startFadeIn(30);
-          SceneManager._scene._active = true;
-        } else {
-          console.log("Invalid argument number passed into FadeToBlackAndBack!");
-        }
-        break;
-      case "AddItem":
-        if (splitCmd.length == 3) {
-          $gameParty.gainItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
-        } else {
-          console.log("Invalid argument number passed into AddItem!");
-        }
-        break;
-      case "RemoveItem":
-        if (splitCmd.length == 3) {
-          $gameParty.loseItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
-        } else {
-          console.log("Invalid argument number passed into RemoveItem!");
-        }
-        break;
-      case "PlaySound":
-        if (splitCmd.length == 3) {
-          AudioManager.playSe({
-            name: splitCmd[1],
-            pan: 0,
-            pitch: 100,
-            volume: parseInt(splitCmd[2]),
-            pos: 0
-          });
-        } else {
-          console.log("Invalid argument number passed into PlaySound!");
-        }
-        break;
-      case "PlayMusic":
-        if (splitCmd.length == 1) {
-          $gameSystem.replayBgm();
-        } else if (splitCmd.length == 2) {
-          AudioManager.playBgm({
-            name: splitCmd[1],
-            pos: 0,
-            pan: 0,
-            pitch: 100,
-            volume: 100
-          });
-        } else {
-          console.log("Invalid argument number passed into PlaySound!");
-        }
-        break;
-      case "StopMusic":
-        if (splitCmd.length == 1) {
-          $gameSystem.saveBgm();
-          AudioManager.fadeOutBgm(0);
-        } else if (splitCmd.length == 2) {
-          $gameSystem.saveBgm();
-          AudioManager.fadeOutBgm(parseInt(splitCmd[1]));
-        } else {
-          console.log("Invalid argument number passed into PlaySound!");
-        }
-        break;
-      default:
-        console.log("No support yet for command: " + cmd);
-    }
-  }
-  function getItemIdFromName(itemName) {
-    for (const item of $dataItems) {
-      if (item && item.name === itemName) {
-        return item.id;
-      }
-    }
-    throw "Item could not be found by name";
+    await getCommand(cmd, splitCmd.slice(1));
   }
   var VariableStorage = class {
     constructor(prefix) {

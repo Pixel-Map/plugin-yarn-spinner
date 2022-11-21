@@ -1,5 +1,5 @@
 {
-  "name": "plugin-yarn-spinner",
+  "name": "rmmz-game",
   "main": "index.html",
   "chromium-args": "--force-color-profile=srgb",
   "window": {
@@ -37,24 +37,26 @@
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "esbuild": "^0.15.14",
+    "esbuild": "^0.15.15",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.16.0",
     "jest": "^29.3.1",
     "jest-junit": "^13",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^16",
     "prettier": "^2.7.1",
-    "projen": "^0.65.23",
+    "projen": "^0.65.31",
     "standard-version": "^9",
     "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "cron-schedule": "*"
+    "yarn-bound": "^0.3.1"
   },
   "license": "Apache-2.0",
   "version": "0.0.0",

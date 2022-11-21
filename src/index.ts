@@ -3,22 +3,42 @@ import YarnBound from 'yarn-bound';
 import { playerHasItemByName } from './playerHasItemByName';
 import { YarnNodeType } from './types';
 import { wrap } from './wrap';
+import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
+
+import { getCommand } from './commands';
 // import { MMO_Core_Player } from '../mmoCore';
 // import { buyHouse } from '../pixelmapHouses';
 
-console.log('Moogle');
+declare global {
+  interface Game_System {
+    variableStorage: () => Map<string, any>;
+    _variableStorage: Map<string, any>;
+  }
+}
+
+export function initializeVariableStorage() {
+  Game_System.prototype.variableStorage = function () {
+    if (!this._variableStorage) {
+      this._variableStorage = new Map<string, unknown>();
+    }
+    return this._variableStorage;
+  };
+  return new Map<string, unknown>();
+}
+
 const MAX_DIALOG_EXHAUSTION = 3;
 
 PluginManager.registerCommand('pixelmapYarnSpinner', 'yarn', (args) => {
-  console.log('HRRDLY');
   return fetch(args['Yarn File Path']).then((response) => {
     if (!response.ok) {
       throw new Error('HTTP error ' + response.status); // Rejects the promise
     }
     const prefix = args['Yarn File Path'].split('.')[0].replace('dialog/', '');
     const startAt = args['Start At'];
-    response.text().then((dialogue) => {
-      yarnSpinnerProcesser(prefix, dialogue, startAt);
+    void response.text().then((dialogue) => {
+      yarnSpinnerProcesser(prefix, dialogue, startAt).catch((e) => {
+        console.error(e);
+      });
     });
   });
 });
@@ -156,145 +176,90 @@ async function processYarnDialog(runner: YarnBound) {
         runner.advance();
         await processYarnDialog(runner);
       }
+      break;
+    default:
+      break;
   }
 }
 
 async function commandHandler(cmdResult: YarnBound.CommandResult) {
   // This matcher splits by spaces, but ignores spaces within quotes
-  const splitCmd = cmdResult.command.match(/\\?.|^$/g).reduce(
-    (p: { quote: number; a: any[] }, c: string) => {
-      if (c === '"') {
-        // eslint-disable-next-line no-bitwise
-        p.quote ^= 1;
-      } else if (!p.quote && c === ' ') {
-        p.a.push('');
-      } else {
-        p.a[p.a.length - 1] += c.replace(/\\(.)/, '$1');
-      }
-      return p;
-    },
-    { a: [''] },
-  ).a;
+  const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
 
   const cmd = splitCmd[0];
-  switch (cmd) {
-    case 'FadeOut':
-      if (splitCmd.length == 2) {
-        // @ts-ignore
-        SceneManager._scene._active = false;
-        $gameScreen.startFadeOut(splitCmd[1] ? splitCmd[1] : 24);
-      } else {
-        console.log('Invalid argument number passed into FadeOut!');
-      }
-      break;
-    case 'FadeIn':
-      if (splitCmd.length == 2) {
-        $gameScreen.startFadeIn(splitCmd[1] ? splitCmd[1] : 24);
-        // @ts-ignore
-        SceneManager._scene._active = true;
-      } else {
-        console.log('Invalid argument number passed into FadeOut!');
-      }
-      break;
-    case 'Wait':
-      if (splitCmd.length == 2) {
-        await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
-      } else {
-        console.log('Invalid argument number passed into Wait!');
-      }
-      break;
-    case 'SetBackground':
-      if (splitCmd.length == 2) {
-        $gameMessage.setBackground(parseInt(splitCmd[1]));
-      } else {
-        console.log('Invalid argument number passed into SetBackground!');
-      }
-      break;
-    case 'FadeToBlackAndBack':
-      if (splitCmd.length == 2) {
-        // @ts-ignore
-        SceneManager._scene._active = false;
-        $gameScreen.startFadeOut(30);
-        await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
-        $gameScreen.startFadeIn(30);
-        // @ts-ignore
-        SceneManager._scene._active = true;
-      } else {
-        console.log('Invalid argument number passed into FadeToBlackAndBack!');
-      }
-      break;
-    case 'AddItem':
-      if (splitCmd.length == 3) {
-        $gameParty.gainItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
-      } else {
-        console.log('Invalid argument number passed into AddItem!');
-      }
-      break;
-    case 'RemoveItem':
-      if (splitCmd.length == 3) {
-        $gameParty.loseItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
-      } else {
-        console.log('Invalid argument number passed into RemoveItem!');
-      }
-      break;
-    case 'PlaySound':
-      if (splitCmd.length == 3) {
-        AudioManager.playSe({
-          name: splitCmd[1],
-          pan: 0,
-          pitch: 100,
-          volume: parseInt(splitCmd[2]),
-          pos: 0,
-        });
-      } else {
-        console.log('Invalid argument number passed into PlaySound!');
-      }
-      break;
-    case 'PlayMusic':
-      if (splitCmd.length == 1) {
-        $gameSystem.replayBgm();
-      } else if (splitCmd.length == 2) {
-        AudioManager.playBgm({
-          name: splitCmd[1],
-          pos: 0,
-          pan: 0,
-          pitch: 100,
-          volume: 100,
-        });
-      } else {
-        console.log('Invalid argument number passed into PlaySound!');
-      }
-      break;
-    case 'StopMusic':
-      if (splitCmd.length == 1) {
-        $gameSystem.saveBgm();
-        AudioManager.fadeOutBgm(0);
-      } else if (splitCmd.length == 2) {
-        $gameSystem.saveBgm();
-        AudioManager.fadeOutBgm(parseInt(splitCmd[1]));
-      } else {
-        console.log('Invalid argument number passed into PlaySound!');
-      }
-      break;
-    // case 'BuyHouse':
-    //   if (splitCmd.length == 1) {
-    //     buyHouse();
-    //   } else {
-    //     console.log('Invalid argument number passed into PlaySound!');
-    //   }
-    //   break;
-    default:
-      console.log('No support yet for command: ' + cmd);
-  }
-}
+  await getCommand(cmd, splitCmd.slice(1));
 
-function getItemIdFromName(itemName: string): number {
-  for (const item of $dataItems) {
-    if (item && item.name === itemName) {
-      return item.id;
-    }
-  }
-  throw 'Item could not be found by name';
+  //     break;
+  //   case 'FadeToBlackAndBack':
+  //     if (splitCmd.length == 2) {
+  //       // @ts-ignore
+  //       SceneManager._scene._active = false;
+  //       $gameScreen.startFadeOut(30);
+  //       await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
+  //       $gameScreen.startFadeIn(30);
+  //       // @ts-ignore
+  //       SceneManager._scene._active = true;
+  //     } else {
+  //       console.log('Invalid argument number passed into FadeToBlackAndBack!');
+  //     }
+  //     break;
+
+  //   case 'RemoveItem':
+  //     if (splitCmd.length == 3) {
+  //       $gameParty.loseItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
+  //     } else {
+  //       console.log('Invalid argument number passed into RemoveItem!');
+  //     }
+  //     break;
+  //   case 'PlaySound':
+  //     if (splitCmd.length == 3) {
+  //       AudioManager.playSe({
+  //         name: splitCmd[1],
+  //         pan: 0,
+  //         pitch: 100,
+  //         volume: parseInt(splitCmd[2]),
+  //         pos: 0,
+  //       });
+  //     } else {
+  //       console.log('Invalid argument number passed into PlaySound!');
+  //     }
+  //     break;
+  //   case 'PlayMusic':
+  //     if (splitCmd.length == 1) {
+  //       $gameSystem.replayBgm();
+  //     } else if (splitCmd.length == 2) {
+  //       AudioManager.playBgm({
+  //         name: splitCmd[1],
+  //         pos: 0,
+  //         pan: 0,
+  //         pitch: 100,
+  //         volume: 100,
+  //       });
+  //     } else {
+  //       console.log('Invalid argument number passed into PlaySound!');
+  //     }
+  //     break;
+  //   case 'StopMusic':
+  //     if (splitCmd.length == 1) {
+  //       $gameSystem.saveBgm();
+  //       AudioManager.fadeOutBgm(0);
+  //     } else if (splitCmd.length == 2) {
+  //       $gameSystem.saveBgm();
+  //       AudioManager.fadeOutBgm(parseInt(splitCmd[1]));
+  //     } else {
+  //       console.log('Invalid argument number passed into PlaySound!');
+  //     }
+  //     break;
+  //   // case 'BuyHouse':
+  //   //   if (splitCmd.length == 1) {
+  //   //     buyHouse();
+  //   //   } else {
+  //   //     console.log('Invalid argument number passed into PlaySound!');
+  //   //   }
+  //   //   break;
+  //   default:
+  //     console.log('No support yet for command: ' + cmd);
+  // }
 }
 
 class VariableStorage {

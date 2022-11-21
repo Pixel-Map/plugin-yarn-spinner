@@ -1,8 +1,9 @@
-const { typescript, javascript } = require('projen');
+import { typescript } from 'projen';
+
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'plugin-yarn-spinner',
-
+  projenrcTs: true,
   deps: ['yarn-bound'],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [
@@ -10,6 +11,7 @@ const project = new typescript.TypeScriptProject({
     '@comuns-rpgmaker/plugin-metadata@github:kenerwin88/plugin-metadata',
     'esbuild',
     'prettier',
+    'eslint-plugin-sonarjs',
   ] /* Build dependencies for this module. */,
   // packageName: undefined,  /* The "name" in package.json. */
   tsconfig: {
@@ -18,6 +20,7 @@ const project = new typescript.TypeScriptProject({
       skipLibCheck: true,
       lib: ['DOM'],
     },
+    include: ['.projenrc.ts'],
   },
   package: false,
   scripts: {
@@ -31,6 +34,7 @@ const project = new typescript.TypeScriptProject({
 //   target: 'es2022',
 //   platform: 'browser',
 // });
+project.eslint?.addExtends('plugin:sonarjs/recommended');
 project.compileTask.reset();
 project.compileTask.exec('./build.js');
 

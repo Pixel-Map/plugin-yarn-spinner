@@ -28,7 +28,8 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    ".projenrc.ts"
   ],
   "exclude": [
     "src/lunalite-pixi.mz.d.ts"

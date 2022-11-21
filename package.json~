@@ -1,0 +1,22 @@
+{
+    "name": "rmmz-game",
+    "main": "index.html",
+    "chromium-args": "--force-color-profile=srgb",
+    "window": {
+        "title": "rpgmaker-mz-plugin-template",
+        "width": 816,
+        "height": 624,
+        "position": "center",
+        "icon": "icon/icon.png"
+    },
+    "scripts": {
+        "build": "./build.js",
+        "dev": "./dev.js"
+    },
+    "dependencies": {
+        "@comuns-rpgmaker/plugin-metadata": "github:kenerwin88/plugin-metadata",
+        "cron-schedule": "^3.0.6",
+        "esbuild": "^0.15.13",
+        "prettier": "^2.7.1"
+    }
+}

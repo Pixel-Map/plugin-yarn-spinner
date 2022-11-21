@@ -1,0 +1,5 @@
+.eslintrc.js
+server/.eslintrc.js
+server/node_modules
+src/plugins/pocketEvents/index.ts
+src/lunalite-pixi-mz.d.ts

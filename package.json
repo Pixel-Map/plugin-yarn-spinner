@@ -1,5 +1,5 @@
 {
-  "name": "rmmz-game",
+  "name": "plugin-yarn-spinner",
   "main": "index.html",
   "chromium-args": "--force-color-profile=srgb",
   "window": {

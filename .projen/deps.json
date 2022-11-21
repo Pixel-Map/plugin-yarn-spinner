@@ -89,7 +89,7 @@
       "type": "build"
     },
     {
-      "name": "cron-schedule",
+      "name": "yarn-bound",
       "type": "runtime"
     }
   ],

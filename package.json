@@ -1,5 +1,14 @@
 {
   "name": "plugin-yarn-spinner",
+  "main": "index.html",
+  "chromium-args": "--force-color-profile=srgb",
+  "window": {
+    "title": "plugin-yarn-spinner",
+    "width": 816,
+    "height": 624,
+    "position": "center",
+    "icon": "icon/icon.png"
+  },
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
@@ -47,7 +56,6 @@
   "dependencies": {
     "cron-schedule": "*"
   },
-  "main": "lib/index.js",
   "license": "Apache-2.0",
   "version": "0.0.0",
   "jest": {

@@ -3,7 +3,7 @@ const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'plugin-yarn-spinner',
 
-  deps: ['cron-schedule'],
+  deps: ['yarn-bound'],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [
     'eslint-plugin-prettier',
@@ -16,6 +16,7 @@ const project = new typescript.TypeScriptProject({
     exclude: ['src/lunalite-pixi.mz.d.ts'],
     compilerOptions: {
       skipLibCheck: true,
+      lib: ['DOM'],
     },
   },
   package: false,

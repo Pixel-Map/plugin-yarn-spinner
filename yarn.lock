@@ -612,6 +612,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@mnbroatch/bondage@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@mnbroatch/bondage/-/bondage-4.0.3.tgz#781209822a63648c65f4076504cf4cb7bc525806"
+  integrity sha512-rv4QfMDb/hlX0+/VP9fhhGOQ6zxq5DaW639+C55B5jltfW325w77nTW1ziBPbsYoSqQ6UEJbCsciKkro3uUn0Q==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1794,11 +1799,6 @@ core-util-is@~1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
-
-cron-schedule@*:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/cron-schedule/-/cron-schedule-3.0.6.tgz#7d0a3ad9154112fc3720fe43238a43d50e8465e7"
-  integrity sha512-izfGgKyzzIyLaeb1EtZ3KbglkS6AKp9cv7LxmiyoOu+fXfol1tQDC0Cof0enVZGNtudTHW+3lfuW9ZkLQss4Wg==
 
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
@@ -5956,6 +5956,13 @@ yargs@^17.3.1:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
+
+yarn-bound@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/yarn-bound/-/yarn-bound-0.3.1.tgz#ad786ed62742260c4d1798494502da5121777d92"
+  integrity sha512-cCucyoEK5K7aa9KkmwuQlNBWxEH+fiZ2Q5b9t6WyReF82TZRziK3uPf3KUgInksNr7wJouOqo+XNXr0OwRb5gA==
+  dependencies:
+    "@mnbroatch/bondage" "^4.0.3"
 
 yocto-queue@^0.1.0:
   version "0.1.0"

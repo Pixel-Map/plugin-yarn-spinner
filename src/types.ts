@@ -5,3 +5,8 @@ enum SELF_SWITCH_ID {
   C = 'C',
   D = 'D',
 }
+
+export enum YarnNodeType {
+  Anytime = 'Anytime',
+  Exhausted = 'Exhausted',
+}

@@ -12,8 +12,14 @@ title: MoveTest
 <<MoveEvent Monster1 left 4 0.25>>
 <<MoveEvent Monster2 left 4 0.25>>
 <<MoveEvent Monster3 left 4 0.25>>
+<<Wait 3000>>
 
 <<MoveEvent Monster1 up 4 0.25>>
 <<MoveEvent Monster2 up 4 0.25>>
 <<MoveEvent Monster3 up 4 0.25>>
+
+// <<SetFacing Monster1 down>>
+// <<SetFacing Monster2 down>>
+// <<SetFacing Monster3 down>>
+
 ===

@@ -3369,7 +3369,7 @@
     const eventName = args[0];
     console.log(args[1]);
     const direction = DIRECTION[args[1].toUpperCase()];
-    const distance = args[2];
+    const distance = parseInt(args[2]);
     const speed = args[3];
     const event = $gameMap._events[getEventIdByName(eventName)];
     event.setThrough(true);
@@ -3379,8 +3379,12 @@
       }, 60);
     } else {
       event.moveStraight(direction);
+      const distanceRemaining = distance - 1;
       setTimeout(() => {
         event.setThrough(false);
+        if (distanceRemaining > 0) {
+          moveEvent([args[0], args[1], distanceRemaining.toString(), args[3]]);
+        }
       }, 60);
     }
   }

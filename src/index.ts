@@ -204,51 +204,6 @@ async function commandHandler(cmdResult: YarnBound.CommandResult) {
   //     }
   //     break;
 
-  //   case 'RemoveItem':
-  //     if (splitCmd.length == 3) {
-  //       $gameParty.loseItem($dataItems[getItemIdFromName(splitCmd[1])], parseInt(splitCmd[2]), false);
-  //     } else {
-  //       console.log('Invalid argument number passed into RemoveItem!');
-  //     }
-  //     break;
-  //   case 'PlaySound':
-  //     if (splitCmd.length == 3) {
-  //       AudioManager.playSe({
-  //         name: splitCmd[1],
-  //         pan: 0,
-  //         pitch: 100,
-  //         volume: parseInt(splitCmd[2]),
-  //         pos: 0,
-  //       });
-  //     } else {
-  //       console.log('Invalid argument number passed into PlaySound!');
-  //     }
-  //     break;
-  //   case 'PlayMusic':
-  //     if (splitCmd.length == 1) {
-  //       $gameSystem.replayBgm();
-  //     } else if (splitCmd.length == 2) {
-  //       AudioManager.playBgm({
-  //         name: splitCmd[1],
-  //         pos: 0,
-  //         pan: 0,
-  //         pitch: 100,
-  //         volume: 100,
-  //       });
-  //     } else {
-  //       console.log('Invalid argument number passed into PlaySound!');
-  //     }
-  //     break;
-  //   case 'StopMusic':
-  //     if (splitCmd.length == 1) {
-  //       $gameSystem.saveBgm();
-  //       AudioManager.fadeOutBgm(0);
-  //     } else if (splitCmd.length == 2) {
-  //       $gameSystem.saveBgm();
-  //       AudioManager.fadeOutBgm(parseInt(splitCmd[1]));
-  //     } else {
-  //       console.log('Invalid argument number passed into PlaySound!');
-  //     }
   //     break;
   //   // case 'BuyHouse':
   //   //   if (splitCmd.length == 1) {

@@ -3266,6 +3266,14 @@
     }
     throw "Item could not be found by name";
   }
+  function getEventIdByName(name) {
+    for (const event of $dataMap.events) {
+      if ((event == null ? void 0 : event.name) == name) {
+        return event.id;
+      }
+    }
+    throw new Error("Could not locate an event with name: " + name);
+  }
 
   // src/commands/addItem.ts
   function addItem(args) {
@@ -3321,16 +3329,83 @@
     await new Promise((r) => setTimeout(r, parseInt(args[0])));
   }
 
+  // src/commands/playSound.ts
+  function playSound(args) {
+    if (args.length != 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    const soundName = args[0];
+    const volume = parseInt(args[1]);
+    AudioManager.playSe({
+      name: soundName,
+      pan: 0,
+      pitch: 100,
+      volume,
+      pos: 0
+    });
+  }
+
+  // src/commands/playMusic.ts
+  function playMusic(args) {
+    if (args.length < 1 || args.length > 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    const musicName = args[0];
+    const volume = args[1] ? parseInt(args[1]) : 100;
+    AudioManager.playBgm({
+      name: musicName,
+      pos: 0,
+      pan: 0,
+      pitch: 100,
+      volume
+    });
+  }
+
+  // src/commands/moveEvent.ts
+  function moveEvent(args) {
+    if (args.length != 4) {
+      throw new Error("Invalid number of arguments");
+    }
+    const eventName = args[0];
+    console.log(args[1]);
+    const direction = DIRECTION[args[1].toUpperCase()];
+    const distance = args[2];
+    const speed = args[3];
+    const event = $gameMap._events[getEventIdByName(eventName)];
+    event.setThrough(true);
+    if (event.isMoving()) {
+      setTimeout(() => {
+        moveEvent(args);
+      }, 60);
+    } else {
+      event.moveStraight(direction);
+      setTimeout(() => {
+        event.setThrough(false);
+      }, 60);
+    }
+  }
+  var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
+    DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
+    DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
+    DIRECTION2[DIRECTION2["LEFT"] = 4] = "LEFT";
+    DIRECTION2[DIRECTION2["RIGHT"] = 6] = "RIGHT";
+    return DIRECTION2;
+  })(DIRECTION || {});
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
     FadeOut: fadeOut,
     FadeIn: fadeIn,
+    MoveEvent: moveEvent,
+    PlayMusic: playMusic,
+    PlaySound: playSound,
     RemoveItem: removeItem,
     Wait: wait,
     SetBackground: setBackground
   };
   function getCommand(command, args) {
+    console.log(command);
     if (commands[command]) {
       return commands[command](args);
     }

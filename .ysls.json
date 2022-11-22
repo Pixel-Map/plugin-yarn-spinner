@@ -1,0 +1,250 @@
+{
+  "Commands": [
+    {
+      "YarnName": "SetBackground",
+      "Language": "text",
+      "DefinitionName": "SetBackground",
+      "Documentation": "Set the message box background transparency level.",
+      "Signature": "SetBackground bgType",
+      "Parameters": [
+        {
+          "Name": "bgType",
+          "Type": "Number",
+          "Documentation": "You can specify 0, 1, or 2.",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "Wait",
+      "Language": "text",
+      "DefinitionName": "Wait",
+      "Documentation": "Wait the given number of ms",
+      "Signature": "Wait time",
+      "Parameters": [
+        {
+          "Name": "time",
+          "Type": "Number",
+          "Documentation": "Time in milliseconds",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "FadeOut",
+      "Language": "text",
+      "DefinitionName": "FadeOut",
+      "Documentation": "FadeOut to black screen",
+      "Signature": "FadeOut numberOfFrames",
+      "Parameters": [
+        {
+          "Name": "numberOfFrames",
+          "Type": "Number",
+          "Documentation": "Number of frames to fade out (default of 24)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "FadeIn",
+      "Language": "text",
+      "DefinitionName": "FadeIn",
+      "Documentation": "FadeIn to black screen",
+      "Signature": "FadeIn numberOfFrames",
+      "Parameters": [
+        {
+          "Name": "numberOfFrames",
+          "Type": "Number",
+          "Documentation": "Number of frames to fade in (default of 24)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "PlaySound",
+      "Language": "text",
+      "DefinitionName": "PlaySound",
+      "Documentation": "Plays a sound effect at X volume (0-100).",
+      "Signature": "SetBackground name volume",
+      "Parameters": [
+        {
+          "Name": "name",
+          "Type": "String",
+          "Documentation": "The name of the sound effect, without the extension",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "volume",
+          "Type": "Number",
+          "Documentation": "The volume to play the SFX, from 0 to 100",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "BuyHouse",
+      "Language": "text",
+      "DefinitionName": "BuyHouse",
+      "Documentation": "Attempt to Buy House",
+      "Signature": "BuyHouse",
+      "Parameters": []
+    },
+    {
+      "YarnName": "PlayMusic",
+      "Language": "text",
+      "DefinitionName": "PlayMusic",
+      "Documentation": "Play Music (use default unless specified)",
+      "Signature": "PlayMusic musicName",
+      "Parameters": [
+        {
+          "Name": "musicName",
+          "Type": "String",
+          "Documentation": "Name of music, defaults to what WAS playing",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "StopMusic",
+      "Language": "text",
+      "DefinitionName": "StopMusic",
+      "Documentation": "Stop music with optional fadeout",
+      "Signature": "FadeToBlackAndBack interval",
+      "Parameters": [
+        {
+          "Name": "interval",
+          "Type": "Number",
+          "Documentation": "Length of time to fade in seconds",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "FadeToBlackAndBack",
+      "Language": "text",
+      "DefinitionName": "FadeToBlackAndBack",
+      "Documentation": "Fades to black and back over the given time period, for emphasis.",
+      "Signature": "FadeToBlackAndBack interval",
+      "Parameters": [
+        {
+          "Name": "interval",
+          "Type": "Number",
+          "Documentation": "Length of time to fade in MS",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "AddItem",
+      "Language": "text",
+      "DefinitionName": "AddItem",
+      "Documentation": "Gives the player x number of a given item.",
+      "Signature": "AddItem itemName quantity",
+      "Parameters": [
+        {
+          "Name": "itemName",
+          "Type": "String",
+          "Documentation": "ID of the item to give",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "quantity",
+          "Type": "Number",
+          "Documentation": "quantity",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "RemoveItem",
+      "Language": "text",
+      "DefinitionName": "RemoveItem",
+      "Documentation": "Removes x number of a given item from player.",
+      "Signature": "RemoveItem itemName quantity",
+      "Parameters": [
+        {
+          "Name": "itemName",
+          "Type": "String",
+          "Documentation": "ID of the item to remove",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "quantity",
+          "Type": "Number",
+          "Documentation": "quantity",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "stop",
+      "Language": "text",
+      "DefinitionName": "stop",
+      "Documentation": "Immediately ends the dialogue, as though the game had reached the end of a node. Use this if you need to leave a conversation in the middle of an if statement, or a shortcut option.",
+      "Signature": "stop",
+      "Parameters": []
+    }
+  ],
+  "Functions": [
+    {
+      "YarnName": "playerHasItem",
+      "Language": "text",
+      "DefinitionName": "playerHasItem",
+      "Documentation": "Returns true if the player has the given item ID.",
+      "Signature": "playerHasItem(value)",
+      "Parameters": [
+        {
+          "Name": "value",
+          "Type": "String",
+          "Documentation": "",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "string",
+      "Language": "text",
+      "DefinitionName": "string",
+      "Documentation": "Converts value to string type.",
+      "Signature": "string(value)",
+      "Parameters": [
+        {
+          "Name": "value",
+          "Type": "Any",
+          "Documentation": "",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "number",
+      "Language": "text",
+      "DefinitionName": "number",
+      "Documentation": "Converts value to number type.",
+      "Signature": "number(value)",
+      "Parameters": [
+        {
+          "Name": "value",
+          "Type": "Any",
+          "Documentation": "",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "bool",
+      "Language": "text",
+      "DefinitionName": "bool",
+      "Documentation": "Converts value to boolean type.",
+      "Signature": "bool(value)",
+      "Parameters": [
+        {
+          "Name": "value",
+          "Type": "Any",
+          "Documentation": "",
+          "IsParamsArray": false
+        }
+      ]
+    }
+  ]
+}

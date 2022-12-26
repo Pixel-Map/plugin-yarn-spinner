@@ -3404,6 +3404,14 @@
     $gameParty.gainGold(parseInt(args[0]));
   }
 
+  // src/commands/removeGold.ts
+  function removeGold(args) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.loseGold(parseInt(args[0]));
+  }
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
@@ -3414,6 +3422,7 @@
     PlayMusic: playMusic,
     PlaySound: playSound,
     RemoveItem: removeItem,
+    RemoveGold: removeGold,
     Wait: wait,
     SetBackground: setBackground
   };

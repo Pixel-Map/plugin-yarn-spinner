@@ -8,6 +8,7 @@ import { playSound } from './playSound';
 import { playMusic } from './playMusic';
 import { moveEvent } from './moveEvent';
 import { addGold } from './addGold';
+import { removeGold } from './removeGold';
 
 export const commands = {
   AddItem: addItem,
@@ -18,6 +19,7 @@ export const commands = {
   PlayMusic: playMusic,
   PlaySound: playSound,
   RemoveItem: removeItem,
+  RemoveGold: removeGold,
   Wait: wait,
   SetBackground: setBackground,
 };

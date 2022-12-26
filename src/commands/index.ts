@@ -7,9 +7,11 @@ import { wait } from './wait';
 import { playSound } from './playSound';
 import { playMusic } from './playMusic';
 import { moveEvent } from './moveEvent';
+import { addGold } from './addGold';
 
 export const commands = {
   AddItem: addItem,
+  AddGold: addGold,
   FadeOut: fadeOut,
   FadeIn: fadeIn,
   MoveEvent: moveEvent,

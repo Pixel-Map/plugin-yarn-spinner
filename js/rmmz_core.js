@@ -1,5 +1,5 @@
 //=============================================================================
-// rmmz_core.js v1.5.0
+// rmmz_core.js v1.6.0
 //=============================================================================
 
 //-----------------------------------------------------------------------------
@@ -192,7 +192,7 @@ Utils.RPGMAKER_NAME = "MZ";
  * @type string
  * @constant
  */
-Utils.RPGMAKER_VERSION = "1.5.0";
+Utils.RPGMAKER_VERSION = "1.6.0";
 
 /**
  * Checks whether the current RPG Maker version is greater than or equal to
@@ -872,7 +872,7 @@ Graphics._createErrorPrinter = function() {
 };
 
 Graphics._updateErrorPrinter = function() {
-    const width = 640 * this._realScale;
+    const width = this._width * 0.8 * this._realScale;
     const height = 100 * this._realScale;
     this._errorPrinter.style.width = width + "px";
     this._errorPrinter.style.height = height + "px";

@@ -3396,9 +3396,18 @@
     return DIRECTION2;
   })(DIRECTION || {});
 
+  // src/commands/addGold.ts
+  function addGold(args) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.gainGold(parseInt(args[0]));
+  }
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
+    AddGold: addGold,
     FadeOut: fadeOut,
     FadeIn: fadeIn,
     MoveEvent: moveEvent,

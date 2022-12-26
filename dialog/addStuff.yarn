@@ -1,0 +1,5 @@
+title: AddStuff
+---
+Enjoy more gold!
+<<AddGold 30>>
+===

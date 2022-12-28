@@ -1,5 +1,5 @@
-import { getEventIdByName } from './utils';
 import { DIRECTION } from './enums';
+import { getEventIdByName } from './utils';
 
 /**
  * Move an event

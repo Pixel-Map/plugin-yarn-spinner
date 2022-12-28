@@ -1,15 +1,15 @@
+import { addGold } from './addGold';
 import { addItem } from './addItem';
 import { fadeIn } from './fadeIn';
 import { fadeOut } from './fadeOut';
+import { moveEvent } from './moveEvent';
+import { playMusic } from './playMusic';
+import { playSound } from './playSound';
+import { removeGold } from './removeGold';
 import { removeItem } from './removeItem';
 import { setBackground } from './setBackground';
-import { wait } from './wait';
-import { playSound } from './playSound';
-import { playMusic } from './playMusic';
-import { moveEvent } from './moveEvent';
-import { addGold } from './addGold';
-import { removeGold } from './removeGold';
 import { setFacing } from './setFacing';
+import { wait } from './wait';
 
 export const commands = {
   AddItem: addItem,

@@ -3232,11 +3232,17 @@
 
   // src/commands/fadeIn.ts
   function fadeIn(args) {
-    if (args.length > 1) {
+    if (args.length > 6) {
       throw new Error("Invalid number of arguments");
     }
-    $gameScreen.startFadeIn(args[0] ? args[0] : 24);
-    SceneManager._scene._active = true;
+    const [duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1] = args;
+    if (args.length <= 1) {
+      $gameScreen.startFadeIn(duration);
+    } else {
+      console.log("fade in with color");
+      console.log(duration, red, green, blue, grey, alpha, duration);
+      $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
+    }
   }
 
   // src/commands/fadeOut.ts
@@ -3244,8 +3250,16 @@
     if (args.length > 1) {
       throw new Error("Invalid number of arguments");
     }
-    SceneManager._scene._active = false;
     $gameScreen.startFadeOut(args[0] ? args[0] : 24);
+  }
+
+  // src/commands/hideEntity.ts
+  function hideEntity(args) {
+    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
+    gameEvent.setOpacity(0);
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
   }
 
   // src/commands/enums.ts
@@ -3352,23 +3366,6 @@
     $gameMap._events[_callingEventId].setDirection(direction);
   }
 
-  // src/commands/wait.ts
-  async function wait(args) {
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    await new Promise((r) => setTimeout(r, parseInt(args[0])));
-  }
-
-  // src/commands/hideEntity.ts
-  function hideEntity(args) {
-    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
-    gameEvent.setOpacity(0);
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-  }
-
   // src/commands/showEntity.ts
   function showEntity(args) {
     if (args.length > 2) {
@@ -3389,6 +3386,14 @@
     const opacityInHexFormat = opacity * 255;
     console.log(opacity);
     gameEvent.setOpacity(opacityInHexFormat);
+  }
+
+  // src/commands/wait.ts
+  async function wait(args) {
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    await new Promise((r) => setTimeout(r, parseInt(args[0])));
   }
 
   // src/commands/index.ts

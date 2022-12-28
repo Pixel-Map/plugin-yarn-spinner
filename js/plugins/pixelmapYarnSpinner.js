@@ -3196,67 +3196,6 @@
   // src/index.ts
   var import_yarn_bound = __toESM(require_yarn_bound());
 
-  // src/playerHasItemByName.ts
-  function playerHasItemByName(itemName) {
-    for (const item of $dataItems) {
-      if (item && item.name === itemName) {
-        return $gameParty.hasItem(item, true);
-      }
-    }
-    return false;
-  }
-
-  // src/wrap.ts
-  function wrap(str, options) {
-    options = options || {};
-    if (str == null) {
-      return str;
-    }
-    const width = options.width || 50;
-    const indent = typeof options.indent === "string" ? options.indent : "";
-    const newline = options.newline || "\n" + indent;
-    const escape = typeof options.escape === "function" ? options.escape : identity;
-    let regexString = ".{1," + width + "}";
-    if (!options.cut) {
-      regexString += "([\\s\u200B]+|$)|[^\\s\u200B]+?([\\s\u200B]+|$)";
-    }
-    const re = new RegExp(regexString, "g");
-    const lines = str.match(re) || [];
-    let result = indent + lines.map(function(line) {
-      if (line.slice(-1) === "\n") {
-        line = line.slice(0, line.length - 1);
-      }
-      return escape(line);
-    }).join(newline);
-    if (options.trim) {
-      result = result.replace(/[ \t]*$/gm, "");
-    }
-    return result;
-  }
-  function identity(str) {
-    return str;
-  }
-
-  // src/split-spaces-exclude-quotes.ts
-  function splitSpacesExcludeQuotes(input) {
-    const matches = input.match(/\\?.|^$/g);
-    if (matches) {
-      return matches.reduce(
-        (p, c) => {
-          if (c === '"') {
-            p.quote ^= 1;
-          } else if (!p.quote && c === " ") {
-            p.a.push("");
-          } else {
-            p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
-          }
-          return p;
-        },
-        { a: [""] }
-      ).a;
-    }
-  }
-
   // src/commands/utils.ts
   function getItemIdFromName(itemName) {
     for (const item of $dataItems) {
@@ -3443,6 +3382,67 @@
     throw new Error("Invalid command");
   }
 
+  // src/playerHasItemByName.ts
+  function playerHasItemByName(itemName) {
+    for (const item of $dataItems) {
+      if (item && item.name === itemName) {
+        return $gameParty.hasItem(item, true);
+      }
+    }
+    return false;
+  }
+
+  // src/split-spaces-exclude-quotes.ts
+  function splitSpacesExcludeQuotes(input) {
+    const matches = input.match(/\\?.|^$/g);
+    if (matches) {
+      return matches.reduce(
+        (p, c) => {
+          if (c === '"') {
+            p.quote ^= 1;
+          } else if (!p.quote && c === " ") {
+            p.a.push("");
+          } else {
+            p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
+          }
+          return p;
+        },
+        { a: [""] }
+      ).a;
+    }
+  }
+
+  // src/wrap.ts
+  function wrap(str, options) {
+    options = options || {};
+    if (str == null) {
+      return str;
+    }
+    const width = options.width || 50;
+    const indent = typeof options.indent === "string" ? options.indent : "";
+    const newline = options.newline || "\n" + indent;
+    const escape = typeof options.escape === "function" ? options.escape : identity;
+    let regexString = ".{1," + width + "}";
+    if (!options.cut) {
+      regexString += "([\\s\u200B]+|$)|[^\\s\u200B]+?([\\s\u200B]+|$)";
+    }
+    const re = new RegExp(regexString, "g");
+    const lines = str.match(re) || [];
+    let result = indent + lines.map(function(line) {
+      if (line.slice(-1) === "\n") {
+        line = line.slice(0, line.length - 1);
+      }
+      return escape(line);
+    }).join(newline);
+    if (options.trim) {
+      result = result.replace(/[ \t]*$/gm, "");
+    }
+    return result;
+  }
+  function identity(str) {
+    return str;
+  }
+
   // src/index.ts
   function initializeVariableStorage() {
     Game_System.prototype.variableStorage = function() {
@@ -3519,26 +3519,32 @@
     });
     return filtered[Math.floor(Math.random() * filtered.length)][0];
   }
+  function updateCharacterPortrait(currentResult) {
+    const character = currentResult.markup.find((markup) => {
+      return markup.name === "character";
+    });
+    if (character) {
+      $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
+    }
+  }
+  function addFormattedGameMessage(currentResult) {
+    if (currentResult.text.trim().length > 0) {
+      let text = currentResult.text;
+      const special = currentResult.markup.find((markup) => {
+        return markup.name === "special";
+      });
+      if (special) {
+        text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
+      }
+      $gameMessage.add(wrap(text, { width: 58 }));
+    }
+  }
   async function processYarnDialog(runner, callingEventId) {
     const currentResult = runner.currentResult;
     switch (currentResult.constructor) {
       case import_yarn_bound.default.TextResult:
-        const character = currentResult.markup.find((markup) => {
-          return markup.name === "character";
-        });
-        if (character) {
-          $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
-        }
-        if (currentResult.text.trim().length > 0) {
-          let text = currentResult.text;
-          const special = currentResult.markup.find((markup) => {
-            return markup.name === "special";
-          });
-          if (special) {
-            text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
-          }
-          $gameMessage.add(wrap(text, { width: 58 }));
-        }
+        updateCharacterPortrait(currentResult);
+        addFormattedGameMessage(currentResult);
         if (!currentResult.isDialogueEnd) {
           if (currentResult.text.trim().length > 0) {
           }
@@ -3602,12 +3608,8 @@
     }
   };
   function getDynamicValue(variableName) {
-    switch (variableName) {
-      case "playerOwnsTile":
-        return true;
-      case "playerOwnsHouse":
-        return true;
-    }
+    console.log(variableName);
+    return true;
   }
   Window_ChoiceList.prototype.callOkHandler = function() {
     const callback = $gameMessage._choiceCallback;

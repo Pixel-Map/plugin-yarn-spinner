@@ -1,11 +1,11 @@
 // @ts-ignore
 import YarnBound from 'yarn-bound';
+import { getCommand } from './commands';
 import { playerHasItemByName } from './playerHasItemByName';
+import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
 import { wrap } from './wrap';
-import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 
-import { getCommand } from './commands';
 // import { MMO_Core_Player } from '../mmoCore';
 // import { buyHouse } from '../pixelmapHouses';
 
@@ -111,36 +111,46 @@ function getRandomNodeOfType(type: YarnNodeType, dialogue: string) {
   return filtered[Math.floor(Math.random() * filtered.length)][0];
 }
 
+/**
+ * Updates the character's face image within gameMessage if available.
+ * @param currentResult
+ */
+function updateCharacterPortrait(currentResult: any) {
+  const character = currentResult.markup.find((markup: { name: string }) => {
+    return markup.name === 'character';
+  });
+  if (character) {
+    $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
+  }
+}
+
+function addFormattedGameMessage(currentResult: any) {
+  if (currentResult.text.trim().length > 0) {
+    let text = currentResult.text;
+
+    // Add Special Color
+    const special = currentResult.markup.find((markup: { name: string }) => {
+      return markup.name === 'special';
+    });
+    if (special) {
+      text =
+        currentResult.text.slice(0, special.position) +
+        '\\C[1]' +
+        currentResult.text.slice(special.position, special.position + special.length) +
+        '\\C[0]' +
+        currentResult.text.slice(special.position + special.length);
+    }
+    $gameMessage.add(wrap(text, { width: 58 }));
+  }
+}
+
 async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   const currentResult = runner.currentResult;
   switch (currentResult.constructor) {
     case YarnBound.TextResult:
-      // Set the portrait to the name speaking
-      const character = currentResult.markup.find((markup: { name: string }) => {
-        return markup.name === 'character';
-      });
-      if (character) {
-        $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
-      }
+      updateCharacterPortrait(currentResult);
+      addFormattedGameMessage(currentResult);
 
-      // var charName = $gameActors.actor(1).name();
-      if (currentResult.text.trim().length > 0) {
-        let text = currentResult.text;
-
-        // Add Special Color
-        const special = currentResult.markup.find((markup: { name: string }) => {
-          return markup.name === 'special';
-        });
-        if (special) {
-          text =
-            currentResult.text.slice(0, special.position) +
-            '\\C[1]' +
-            currentResult.text.slice(special.position, special.position + special.length) +
-            '\\C[0]' +
-            currentResult.text.slice(special.position + special.length);
-        }
-        $gameMessage.add(wrap(text, { width: 58 }));
-      }
       if (!currentResult.isDialogueEnd) {
         if (currentResult.text.trim().length > 0) {
           // $gameMessage.newPage();
@@ -249,14 +259,16 @@ class VariableStorage {
 }
 
 function getDynamicValue(variableName: string): any {
-  switch (variableName) {
-    case 'playerOwnsTile':
-      return true;
-    // return MMO_Core_Player.playerOwnsNFT('0x050dc61dfb867e0fe3cf2948362b6c0f3faf790b');
-    case 'playerOwnsHouse':
-      return true;
-    // return !!MMO_Core_Player.Player.house;
-  }
+  console.log(variableName);
+  return true;
+  // switch (variableName) {
+  //   case 'playerOwnsTile':
+  //     return true;
+  //   // return MMO_Core_Player.playerOwnsNFT('0x050dc61dfb867e0fe3cf2948362b6c0f3faf790b');
+  //   case 'playerOwnsHouse':
+  //     return true;
+  //   // return !!MMO_Core_Player.Player.house;
+  // }
 }
 
 // MonkeyPatch by Hudell, without this, it's impossible to call messages AFTER a choice callback

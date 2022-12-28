@@ -12,12 +12,14 @@ import { setBackground } from './setBackground';
 import { setFacing } from './setFacing';
 import { showEntity } from './showEntity';
 import { wait } from './wait';
+import { flashScreen } from './flashScreen';
 
 export const commands = {
   AddItem: addItem,
   AddGold: addGold,
   FadeOut: fadeOut,
   FadeIn: fadeIn,
+  FlashScreen: flashScreen,
   HideEntity: hideEntity,
   MoveEvent: moveEvent,
   PlayMusic: playMusic,

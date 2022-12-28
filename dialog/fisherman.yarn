@@ -6,14 +6,14 @@ Lets fade out
 <<FadeIn 30>>
 Lets fade to ... mostly transparent blue?
 <<Wait 1000>>
-<<FadeIn 30 51 153 255 0 0.3>>
+<<FadeOut 30 51 153 255 0 0.3>>
 <<Wait 1000>>
 Did it work?
-<<FadeIn 30 0 0 0 0 1>>
+<<FadeIn>>
 <<SetBackground 0>>
 <<Wait 2000>>
 Let's get some sepia
-<<FadeIn 200 34 -34 -68 170 1>>
+<<FadeOut 200 34 -34 -68 170 1>>
 <<Wait 1000>>
 Scuba
 <<SetBackground 1>>
@@ -22,5 +22,5 @@ Francis
 <<SetBackground 2>>
 <<Wait 3000>>
 Card
-<<FadeIn 30 0 0 0 0 1>>
+<<FadeIn>>
 ===

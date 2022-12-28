@@ -1,5 +1,5 @@
 {
-  "name": "plugin-yarn-spinner",
+  "name": "rmmz-game",
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",

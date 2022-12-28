@@ -2,7 +2,7 @@ import { typescript } from 'projen';
 
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
-  name: 'plugin-yarn-spinner',
+  name: 'rmmz-game',
   projenrcTs: true,
   deps: ['yarn-bound'],
   entrypoint: 'index.html',

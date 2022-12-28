@@ -9,6 +9,7 @@ import { playMusic } from './playMusic';
 import { moveEvent } from './moveEvent';
 import { addGold } from './addGold';
 import { removeGold } from './removeGold';
+import { setFacing } from './setFacing';
 
 export const commands = {
   AddItem: addItem,
@@ -20,14 +21,14 @@ export const commands = {
   PlaySound: playSound,
   RemoveItem: removeItem,
   RemoveGold: removeGold,
+  SetFacing: setFacing,
   Wait: wait,
   SetBackground: setBackground,
 };
 
-export function getCommand(command: keyof typeof commands, args: any) {
-  console.log(command);
+export function getCommand(command: keyof typeof commands, args: any, callingEventId: number) {
   if (commands[command]) {
-    return commands[command](args) as unknown as Function;
+    return commands[command](args, callingEventId) as unknown as Function;
   }
   throw new Error('Invalid command');
 }

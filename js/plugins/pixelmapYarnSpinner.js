@@ -3361,16 +3361,23 @@
     });
   }
 
+  // src/commands/enums.ts
+  var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
+    DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
+    DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
+    DIRECTION2[DIRECTION2["LEFT"] = 4] = "LEFT";
+    DIRECTION2[DIRECTION2["RIGHT"] = 6] = "RIGHT";
+    return DIRECTION2;
+  })(DIRECTION || {});
+
   // src/commands/moveEvent.ts
   function moveEvent(args) {
     if (args.length != 4) {
       throw new Error("Invalid number of arguments");
     }
     const eventName = args[0];
-    console.log(args[1]);
     const direction = DIRECTION[args[1].toUpperCase()];
     const distance = parseInt(args[2]);
-    const speed = args[3];
     const event = $gameMap._events[getEventIdByName(eventName)];
     event.setThrough(true);
     if (event.isMoving()) {
@@ -3388,13 +3395,6 @@
       }, 60);
     }
   }
-  var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
-    DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
-    DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
-    DIRECTION2[DIRECTION2["LEFT"] = 4] = "LEFT";
-    DIRECTION2[DIRECTION2["RIGHT"] = 6] = "RIGHT";
-    return DIRECTION2;
-  })(DIRECTION || {});
 
   // src/commands/addGold.ts
   function addGold(args) {
@@ -3412,6 +3412,15 @@
     $gameParty.loseGold(parseInt(args[0]));
   }
 
+  // src/commands/setFacing.ts
+  function setFacing(args, _callingEventId) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    const direction = DIRECTION[args[0].toUpperCase()];
+    $gameMap._events[_callingEventId].setDirection(direction);
+  }
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
@@ -3423,13 +3432,13 @@
     PlaySound: playSound,
     RemoveItem: removeItem,
     RemoveGold: removeGold,
+    SetFacing: setFacing,
     Wait: wait,
     SetBackground: setBackground
   };
-  function getCommand(command, args) {
-    console.log(command);
+  function getCommand(command, args, callingEventId) {
     if (commands[command]) {
-      return commands[command](args);
+      return commands[command](args, callingEventId);
     }
     throw new Error("Invalid command");
   }
@@ -3445,7 +3454,9 @@
     return /* @__PURE__ */ new Map();
   }
   var MAX_DIALOG_EXHAUSTION = 3;
-  PluginManager.registerCommand("pixelmapYarnSpinner", "yarn", (args) => {
+  PluginManager.registerCommand("pixelmapYarnSpinner", "yarn", invokeYarn);
+  function invokeYarn(args) {
+    const callingEventId = this._eventId;
     return fetch(args["Yarn File Path"]).then((response) => {
       if (!response.ok) {
         throw new Error("HTTP error " + response.status);
@@ -3453,13 +3464,13 @@
       const prefix = args["Yarn File Path"].split(".")[0].replace("dialog/", "");
       const startAt = args["Start At"];
       void response.text().then((dialogue) => {
-        yarnSpinnerProcesser(prefix, dialogue, startAt).catch((e) => {
+        yarnSpinnerProcesser(prefix, dialogue, startAt, callingEventId).catch((e) => {
           console.error(e);
         });
       });
     });
-  });
-  async function yarnSpinnerProcesser(prefix, dialogue, startAt) {
+  }
+  async function yarnSpinnerProcesser(prefix, dialogue, startAt, callingEventId) {
     const variableStorage = new VariableStorage(prefix);
     if (startAt == "StardewMode") {
       startAt = getStardewModeNode(variableStorage, dialogue);
@@ -3477,7 +3488,7 @@
       },
       variableStorage
     });
-    await processYarnDialog(runner);
+    await processYarnDialog(runner, callingEventId);
   }
   function getStardewModeNode(variableStorage, dialogue) {
     let exhaustion = variableStorage.getExhaustion();
@@ -3508,7 +3519,7 @@
     });
     return filtered[Math.floor(Math.random() * filtered.length)][0];
   }
-  async function processYarnDialog(runner) {
+  async function processYarnDialog(runner, callingEventId) {
     const currentResult = runner.currentResult;
     switch (currentResult.constructor) {
       case import_yarn_bound.default.TextResult:
@@ -3532,7 +3543,7 @@
           if (currentResult.text.trim().length > 0) {
           }
           runner.advance();
-          await processYarnDialog(runner);
+          await processYarnDialog(runner, callingEventId);
         }
         break;
       case import_yarn_bound.default.OptionsResult:
@@ -3551,24 +3562,24 @@
         $gameMessage.setChoices(choices, 0, 0);
         $gameMessage.setChoiceCallback(async (responseIndex) => {
           runner.advance(choiceIndexMap[responseIndex]);
-          await processYarnDialog(runner);
+          await processYarnDialog(runner, callingEventId);
         });
         break;
       case import_yarn_bound.default.CommandResult:
-        await commandHandler(currentResult);
+        await commandHandler(currentResult, callingEventId);
         if (!currentResult.isDialogueEnd) {
           runner.advance();
-          await processYarnDialog(runner);
+          await processYarnDialog(runner, callingEventId);
         }
         break;
       default:
         break;
     }
   }
-  async function commandHandler(cmdResult) {
+  async function commandHandler(cmdResult, callingEventId) {
     const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
     const cmd = splitCmd[0];
-    await getCommand(cmd, splitCmd.slice(1));
+    await getCommand(cmd, splitCmd.slice(1), callingEventId);
   }
   var VariableStorage = class {
     constructor(prefix) {

@@ -28,7 +28,10 @@ export function initializeVariableStorage() {
 
 const MAX_DIALOG_EXHAUSTION = 3;
 
-PluginManager.registerCommand('pixelmapYarnSpinner', 'yarn', (args) => {
+PluginManager.registerCommand('pixelmapYarnSpinner', 'yarn', invokeYarn);
+
+function invokeYarn(this: any, args: any) {
+  const callingEventId: number = this._eventId as number;
   return fetch(args['Yarn File Path']).then((response) => {
     if (!response.ok) {
       throw new Error('HTTP error ' + response.status); // Rejects the promise
@@ -36,14 +39,14 @@ PluginManager.registerCommand('pixelmapYarnSpinner', 'yarn', (args) => {
     const prefix = args['Yarn File Path'].split('.')[0].replace('dialog/', '');
     const startAt = args['Start At'];
     void response.text().then((dialogue) => {
-      yarnSpinnerProcesser(prefix, dialogue, startAt).catch((e) => {
+      yarnSpinnerProcesser(prefix, dialogue, startAt, callingEventId).catch((e) => {
         console.error(e);
       });
     });
   });
-});
+}
 
-export async function yarnSpinnerProcesser(prefix: string, dialogue: string, startAt: string) {
+export async function yarnSpinnerProcesser(prefix: string, dialogue: string, startAt: string, callingEventId: number) {
   const variableStorage = new VariableStorage(prefix);
 
   // Stardew Mode is heavily opinionated, and based on https://stardewvalleywiki.com/Modding:Dialogue
@@ -65,7 +68,7 @@ export async function yarnSpinnerProcesser(prefix: string, dialogue: string, sta
     variableStorage: variableStorage,
   });
 
-  await processYarnDialog(runner);
+  await processYarnDialog(runner, callingEventId);
 }
 
 function getStardewModeNode(variableStorage: VariableStorage, dialogue: string) {
@@ -108,7 +111,7 @@ function getRandomNodeOfType(type: YarnNodeType, dialogue: string) {
   return filtered[Math.floor(Math.random() * filtered.length)][0];
 }
 
-async function processYarnDialog(runner: YarnBound) {
+async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   const currentResult = runner.currentResult;
   switch (currentResult.constructor) {
     case YarnBound.TextResult:
@@ -143,7 +146,7 @@ async function processYarnDialog(runner: YarnBound) {
           // $gameMessage.newPage();
         }
         runner.advance();
-        await processYarnDialog(runner);
+        await processYarnDialog(runner, callingEventId);
       }
       break;
     case YarnBound.OptionsResult:
@@ -167,14 +170,14 @@ async function processYarnDialog(runner: YarnBound) {
       $gameMessage.setChoiceCallback(async (responseIndex) => {
         // @ts-ignore
         runner.advance(choiceIndexMap[responseIndex]);
-        await processYarnDialog(runner);
+        await processYarnDialog(runner, callingEventId);
       });
       break;
     case YarnBound.CommandResult:
-      await commandHandler(currentResult);
+      await commandHandler(currentResult, callingEventId);
       if (!currentResult.isDialogueEnd) {
         runner.advance();
-        await processYarnDialog(runner);
+        await processYarnDialog(runner, callingEventId);
       }
       break;
     default:
@@ -182,12 +185,12 @@ async function processYarnDialog(runner: YarnBound) {
   }
 }
 
-async function commandHandler(cmdResult: YarnBound.CommandResult) {
+async function commandHandler(cmdResult: YarnBound.CommandResult, callingEventId: number) {
   // This matcher splits by spaces, but ignores spaces within quotes
   const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
 
   const cmd = splitCmd[0];
-  await getCommand(cmd, splitCmd.slice(1));
+  await getCommand(cmd, splitCmd.slice(1), callingEventId);
 
   //     break;
   //   case 'FadeToBlackAndBack':

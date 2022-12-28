@@ -1,0 +1,10 @@
+title: SpriteCommands
+---
+<<SetFacing left>>
+<<Wait 1000>>
+<<SetFacing right>>
+<<Wait 1000>>
+<<SetFacing up>>
+<<Wait 1000>>
+<<SetFacing down>>
+===

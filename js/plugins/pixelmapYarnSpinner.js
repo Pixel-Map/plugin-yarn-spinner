@@ -3196,6 +3196,14 @@
   // src/index.ts
   var import_yarn_bound = __toESM(require_yarn_bound());
 
+  // src/commands/addGold.ts
+  function addGold(args) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.gainGold(parseInt(args[0]));
+  }
+
   // src/commands/utils.ts
   function getItemIdFromName(itemName) {
     for (const item of $dataItems) {
@@ -3240,66 +3248,6 @@
     $gameScreen.startFadeOut(args[0] ? args[0] : 24);
   }
 
-  // src/commands/removeItem.ts
-  function removeItem(args) {
-    if (args.length != 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    $gameParty.loseItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
-  }
-
-  // src/commands/setBackground.ts
-  function setBackground(args) {
-    if (args.length != 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    const opacity = parseInt(args[0]);
-    if (opacity < 0 || opacity > 2) {
-      throw new Error("Invalid opacity level, must be between 0 and two");
-    }
-    $gameMessage.setBackground(opacity);
-  }
-
-  // src/commands/wait.ts
-  async function wait(args) {
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    await new Promise((r) => setTimeout(r, parseInt(args[0])));
-  }
-
-  // src/commands/playSound.ts
-  function playSound(args) {
-    if (args.length != 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const soundName = args[0];
-    const volume = parseInt(args[1]);
-    AudioManager.playSe({
-      name: soundName,
-      pan: 0,
-      pitch: 100,
-      volume,
-      pos: 0
-    });
-  }
-
-  // src/commands/playMusic.ts
-  function playMusic(args) {
-    if (args.length < 1 || args.length > 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const musicName = args[0];
-    const volume = args[1] ? parseInt(args[1]) : 100;
-    AudioManager.playBgm({
-      name: musicName,
-      pos: 0,
-      pan: 0,
-      pitch: 100,
-      volume
-    });
-  }
-
   // src/commands/enums.ts
   var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
     DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
@@ -3335,12 +3283,36 @@
     }
   }
 
-  // src/commands/addGold.ts
-  function addGold(args) {
-    if (args.length != 1) {
+  // src/commands/playMusic.ts
+  function playMusic(args) {
+    if (args.length < 1 || args.length > 2) {
       throw new Error("Invalid number of arguments");
     }
-    $gameParty.gainGold(parseInt(args[0]));
+    const musicName = args[0];
+    const volume = args[1] ? parseInt(args[1]) : 100;
+    AudioManager.playBgm({
+      name: musicName,
+      pos: 0,
+      pan: 0,
+      pitch: 100,
+      volume
+    });
+  }
+
+  // src/commands/playSound.ts
+  function playSound(args) {
+    if (args.length != 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    const soundName = args[0];
+    const volume = parseInt(args[1]);
+    AudioManager.playSe({
+      name: soundName,
+      pan: 0,
+      pitch: 100,
+      volume,
+      pos: 0
+    });
   }
 
   // src/commands/removeGold.ts
@@ -3349,6 +3321,26 @@
       throw new Error("Invalid number of arguments");
     }
     $gameParty.loseGold(parseInt(args[0]));
+  }
+
+  // src/commands/removeItem.ts
+  function removeItem(args) {
+    if (args.length != 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    $gameParty.loseItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+  }
+
+  // src/commands/setBackground.ts
+  function setBackground(args) {
+    if (args.length != 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    const opacity = parseInt(args[0]);
+    if (opacity < 0 || opacity > 2) {
+      throw new Error("Invalid opacity level, must be between 0 and two");
+    }
+    $gameMessage.setBackground(opacity);
   }
 
   // src/commands/setFacing.ts
@@ -3360,18 +3352,59 @@
     $gameMap._events[_callingEventId].setDirection(direction);
   }
 
+  // src/commands/wait.ts
+  async function wait(args) {
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+    await new Promise((r) => setTimeout(r, parseInt(args[0])));
+  }
+
+  // src/commands/hideEntity.ts
+  function hideEntity(args) {
+    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
+    gameEvent.setOpacity(0);
+    if (args.length > 1) {
+      throw new Error("Invalid number of arguments");
+    }
+  }
+
+  // src/commands/showEntity.ts
+  function showEntity(args) {
+    if (args.length > 2) {
+      throw new Error("Invalid number of arguments");
+    }
+    let opacity = 1;
+    if (args.length > 1) {
+      opacity = parseFloat(args[1]);
+    }
+    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
+    console.log(args);
+    if (opacity > 1) {
+      throw new Error("Opacity greater than 1, please use a value between 0 and 1");
+    }
+    if (opacity < 0) {
+      throw new Error("Opacity less than 0, please use a value between 0 and 1");
+    }
+    const opacityInHexFormat = opacity * 255;
+    console.log(opacity);
+    gameEvent.setOpacity(opacityInHexFormat);
+  }
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
     AddGold: addGold,
     FadeOut: fadeOut,
     FadeIn: fadeIn,
+    HideEntity: hideEntity,
     MoveEvent: moveEvent,
     PlayMusic: playMusic,
     PlaySound: playSound,
     RemoveItem: removeItem,
     RemoveGold: removeGold,
     SetFacing: setFacing,
+    ShowEntity: showEntity,
     Wait: wait,
     SetBackground: setBackground
   };

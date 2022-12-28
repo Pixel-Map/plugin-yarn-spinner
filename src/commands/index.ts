@@ -10,18 +10,22 @@ import { removeItem } from './removeItem';
 import { setBackground } from './setBackground';
 import { setFacing } from './setFacing';
 import { wait } from './wait';
+import { hideEntity } from './hideEntity';
+import { showEntity } from './showEntity';
 
 export const commands = {
   AddItem: addItem,
   AddGold: addGold,
   FadeOut: fadeOut,
   FadeIn: fadeIn,
+  HideEntity: hideEntity,
   MoveEvent: moveEvent,
   PlayMusic: playMusic,
   PlaySound: playSound,
   RemoveItem: removeItem,
   RemoveGold: removeGold,
   SetFacing: setFacing,
+  ShowEntity: showEntity,
   Wait: wait,
   SetBackground: setBackground,
 };

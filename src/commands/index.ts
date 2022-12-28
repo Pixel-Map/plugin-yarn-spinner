@@ -2,6 +2,7 @@ import { addGold } from './addGold';
 import { addItem } from './addItem';
 import { fadeIn } from './fadeIn';
 import { fadeOut } from './fadeOut';
+import { hideEntity } from './hideEntity';
 import { moveEvent } from './moveEvent';
 import { playMusic } from './playMusic';
 import { playSound } from './playSound';
@@ -9,9 +10,8 @@ import { removeGold } from './removeGold';
 import { removeItem } from './removeItem';
 import { setBackground } from './setBackground';
 import { setFacing } from './setFacing';
-import { wait } from './wait';
-import { hideEntity } from './hideEntity';
 import { showEntity } from './showEntity';
+import { wait } from './wait';
 
 export const commands = {
   AddItem: addItem,

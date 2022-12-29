@@ -1,36 +1,36 @@
 title: Greeting
 ---
-<<FlashScreen>>
-<<Wait 1000>>
-<<FlashScreen 8 155 255 255>>
-<<Wait 120>>
-<<FlashScreen 8 255 155 255>>
-<<Wait 120>>
-<<FlashScreen 8 255 255 155>>
-<<Wait 120>>
-<<FlashScreen 8 155 155 155>>
-<<Wait 120>>
+<<flash_screen>>
+<<wait 1000>>
+<<flash_screen 8 155 255 255>>
+<<wait 120>>
+<<flash_screen 8 255 155 255>>
+<<wait 120>>
+<<flash_screen 8 255 255 155>>
+<<wait 120>>
+<<flash_screen 8 155 155 155>>
+<<wait 120>>
 Lets fade out
-<<FadeOut 30>>
-<<Wait 1000>>
-<<FadeIn 30>>
+<<fade_out 30>>
+<<wait 1000>>
+<<fade_in 30>>
 Lets fade to ... mostly transparent blue?
-<<Wait 1000>>
-<<FadeOut 30 51 153 255 0 0.3>>
-<<Wait 1000>>
+<<wait 1000>>
+<<fade_out 30 51 153 255 0 0.3>>
+<<wait 1000>>
 Did it work?
-<<FadeIn>>
-<<SetBackground 0>>
-<<Wait 2000>>
+<<fade_in>>
+<<set_background 0>>
+<<wait 2000>>
 Let's get some sepia
-<<FadeOut 200 34 -34 -68 170 1>>
-<<Wait 1000>>
+<<fade_out 200 34 -34 -68 170 1>>
+<<wait 1000>>
 Scuba
-<<SetBackground 1>>
-<<Wait 1000>>
+<<set_background 1>>
+<<wait 1000>>
 Francis
-<<SetBackground 2>>
-<<Wait 3000>>
+<<set_background 2>>
+<<wait 3000>>
 Card
-<<FadeIn>>
+<<fade_in>>
 ===

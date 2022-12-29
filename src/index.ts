@@ -1,13 +1,10 @@
 // @ts-ignore
 import YarnBound from 'yarn-bound';
 import { getCommand } from './commands';
-import { playerHasItemByName } from './playerHasItemByName';
+import { functions } from './functions';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
 import { wrap } from './wrap';
-
-// import { MMO_Core_Player } from '../mmoCore';
-// import { buyHouse } from '../pixelmapHouses';
 
 declare global {
   interface Game_System {
@@ -57,14 +54,7 @@ export async function yarnSpinnerProcesser(prefix: string, dialogue: string, sta
   const runner = new YarnBound({
     dialogue,
     startAt: startAt,
-    functions: {
-      random_range: (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-      },
-      playerHasItem: (value: string) => {
-        return playerHasItemByName(value);
-      },
-    },
+    functions: functions,
     variableStorage: variableStorage,
   });
 

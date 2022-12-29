@@ -3094,7 +3094,7 @@
                   let {
                     dialogue,
                     variableStorage,
-                    functions,
+                    functions: functions2,
                     handleCommand,
                     combineTextAndOptionsResults,
                     locale,
@@ -3114,8 +3114,8 @@
                     variableStorage.display = variableStorage.display || variableStorage.get;
                     this.runner.setVariableStorage(variableStorage);
                   }
-                  if (functions) {
-                    Object.entries(functions).forEach((entry) => {
+                  if (functions2) {
+                    Object.entries(functions2).forEach((entry) => {
                       this.registerFunction(...entry);
                     });
                   }
@@ -3224,10 +3224,11 @@
 
   // src/commands/addItem.ts
   function addItem(args) {
-    if (args.length != 2) {
+    if (args.length < 1 || args.length > 2) {
       throw new Error("Invalid number of arguments");
     }
-    $gameParty.gainItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+    const [itemName, quantity = "1"] = args;
+    $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], parseInt(quantity), false);
   }
 
   // src/commands/fadeIn.ts
@@ -3251,6 +3252,15 @@
     } else {
       $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
     }
+  }
+
+  // src/commands/flashScreen.ts
+  function flashScreen(args) {
+    if (args.length > 6) {
+      throw new Error("Invalid number of arguments");
+    }
+    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
+    $gameScreen.startFlash([red, green, blue, intensity], duration);
   }
 
   // src/commands/hideEntity.ts
@@ -3398,32 +3408,23 @@
     await new Promise((r) => setTimeout(r, parseInt(args[0])));
   }
 
-  // src/commands/flashScreen.ts
-  function flashScreen(args) {
-    if (args.length > 6) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
-    $gameScreen.startFlash([red, green, blue, intensity], duration);
-  }
-
   // src/commands/index.ts
   var commands = {
-    AddItem: addItem,
-    AddGold: addGold,
-    FadeOut: fadeOut,
-    FadeIn: fadeIn,
-    FlashScreen: flashScreen,
-    HideEntity: hideEntity,
-    MoveEvent: moveEvent,
-    PlayMusic: playMusic,
-    PlaySound: playSound,
-    RemoveItem: removeItem,
-    RemoveGold: removeGold,
-    SetFacing: setFacing,
-    ShowEntity: showEntity,
-    Wait: wait,
-    SetBackground: setBackground
+    add_item: addItem,
+    add_gold: addGold,
+    fade_out: fadeOut,
+    fade_in: fadeIn,
+    flash_screen: flashScreen,
+    hide_entity: hideEntity,
+    move_event: moveEvent,
+    play_music: playMusic,
+    play_sound: playSound,
+    remove_item: removeItem,
+    remove_gold: removeGold,
+    set_facing: setFacing,
+    show_entity: showEntity,
+    wait,
+    set_background: setBackground
   };
   function getCommand(command, args, callingEventId) {
     if (commands[command]) {
@@ -3441,6 +3442,22 @@
     }
     return false;
   }
+
+  // src/functions/hasItem.ts
+  function hasItem(itemName) {
+    return playerHasItemByName(itemName);
+  }
+
+  // src/functions/randomRange.ts
+  function randomRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  // src/functions/index.ts
+  var functions = {
+    has_item: hasItem,
+    random_range: randomRange
+  };
 
   // src/split-spaces-exclude-quotes.ts
   function splitSpacesExcludeQuotes(input) {
@@ -3528,14 +3545,7 @@
     const runner = new import_yarn_bound.default({
       dialogue,
       startAt,
-      functions: {
-        random_range: (min, max) => {
-          return Math.floor(Math.random() * (max - min + 1) + min);
-        },
-        playerHasItem: (value) => {
-          return playerHasItemByName(value);
-        }
-      },
+      functions,
       variableStorage
     });
     await processYarnDialog(runner, callingEventId);

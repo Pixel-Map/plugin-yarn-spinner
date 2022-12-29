@@ -1,28 +1,24 @@
 title: MoveTest
 ---
-<<MoveEvent up 2 0.25>>
-<<MoveEvent down 2 0.25>>
+<<move_event up 2 0.25>>
+<<move_event down 2 0.25>>
 
-<<MoveEvent right 4 0.25 Monster1>>
-<<MoveEvent right 4 0.25 Monster2>>
-<<MoveEvent right 4 0.25 Monster3>>
+<<move_event right 4 0.25 Monster1>>
+<<move_event right 4 0.25 Monster2>>
+<<move_event right 4 0.25 Monster3>>
 
-<<MoveEvent down 4 0.25 Monster1>>
-<<MoveEvent down 4 0.25 Monster2>>
-<<MoveEvent down 4 0.25 Monster3>>
+<<move_event down 4 0.25 Monster1>>
+<<move_event down 4 0.25 Monster2>>
+<<move_event down 4 0.25 Monster3>>
 
-<<MoveEvent left 4 0.25 Monster1>>
-<<MoveEvent left 4 0.25 Monster2>>
-<<MoveEvent left 4 0.25 Monster3>>
+<<move_event left 4 0.25 Monster1>>
+<<move_event left 4 0.25 Monster2>>
+<<move_event left 4 0.25 Monster3>>
 
-<<Wait 3000>>
+<<wait 3000>>
 
-<<MoveEvent up 4 0.25 Monster1>>
-<<MoveEvent up 4 0.25 Monster2>>
-<<MoveEvent up 4 0.25 Monster3>>
-
-// <<SetFacing Monster1 down>>
-// <<SetFacing Monster2 down>>
-// <<SetFacing Monster3 down>>
+<<move_event up 4 0.25 Monster1>>
+<<move_event up 4 0.25 Monster2>>
+<<move_event up 4 0.25 Monster3>>
 
 ===

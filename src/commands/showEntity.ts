@@ -10,7 +10,6 @@ export function showEntity(args: Array<string>) {
     opacity = parseFloat(args[1]);
   }
   const gameEvent = $gameMap.event(getEventIdByName(args[0]));
-  console.log(args);
 
   if (opacity > 1) {
     throw new Error('Opacity greater than 1, please use a value between 0 and 1');
@@ -20,6 +19,5 @@ export function showEntity(args: Array<string>) {
   }
 
   const opacityInHexFormat = opacity * 255; // 255 is fully opaque
-  console.log(opacity);
   gameEvent.setOpacity(opacityInHexFormat);
 }

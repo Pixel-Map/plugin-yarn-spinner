@@ -7,6 +7,15 @@ title: SpriteCommands
 <<SetFacing up>>
 <<Wait 200>>
 <<SetFacing down>>
+
+<<SetFacing left Monster1>>
+<<Wait 200>>
+<<SetFacing right Monster1>>
+<<Wait 200>>
+<<SetFacing up Monster1>>
+<<Wait 200>>
+<<SetFacing down Monster1>>
+
 <<Wait 200>>
 <<ShowEntity MovementMan 0.8>>
 <<Wait 50>>

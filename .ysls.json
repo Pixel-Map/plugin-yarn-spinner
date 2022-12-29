@@ -1,250 +1,406 @@
 {
-  "Commands": [
-    {
-      "YarnName": "SetBackground",
-      "Language": "text",
-      "DefinitionName": "SetBackground",
-      "Documentation": "Set the message box background transparency level.",
-      "Signature": "SetBackground bgType",
-      "Parameters": [
+    "Commands": [
         {
-          "Name": "bgType",
-          "Type": "Number",
-          "Documentation": "You can specify 0, 1, or 2.",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "Wait",
-      "Language": "text",
-      "DefinitionName": "Wait",
-      "Documentation": "Wait the given number of ms",
-      "Signature": "Wait time",
-      "Parameters": [
-        {
-          "Name": "time",
-          "Type": "Number",
-          "Documentation": "Time in milliseconds",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "FadeOut",
-      "Language": "text",
-      "DefinitionName": "FadeOut",
-      "Documentation": "FadeOut to black screen",
-      "Signature": "FadeOut numberOfFrames",
-      "Parameters": [
-        {
-          "Name": "numberOfFrames",
-          "Type": "Number",
-          "Documentation": "Number of frames to fade out (default of 24)",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "FadeIn",
-      "Language": "text",
-      "DefinitionName": "FadeIn",
-      "Documentation": "FadeIn to black screen",
-      "Signature": "FadeIn numberOfFrames",
-      "Parameters": [
-        {
-          "Name": "numberOfFrames",
-          "Type": "Number",
-          "Documentation": "Number of frames to fade in (default of 24)",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "PlaySound",
-      "Language": "text",
-      "DefinitionName": "PlaySound",
-      "Documentation": "Plays a sound effect at X volume (0-100).",
-      "Signature": "SetBackground name volume",
-      "Parameters": [
-        {
-          "Name": "name",
-          "Type": "String",
-          "Documentation": "The name of the sound effect, without the extension",
-          "IsParamsArray": false
+            "YarnName": "AddGold",
+            "DefinitionName": "AddGold",
+            "Documentation": "Adds X amount of gold to the player",
+            "Signature": "AddGold amount",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "amount",
+                    "Type": "Number",
+                    "Documentation": "Any number, including negative, but then you should probably just use RemoveGold",
+                    "IsParamsArray": false
+                }
+            ]
         },
         {
-          "Name": "volume",
-          "Type": "Number",
-          "Documentation": "The volume to play the SFX, from 0 to 100",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "BuyHouse",
-      "Language": "text",
-      "DefinitionName": "BuyHouse",
-      "Documentation": "Attempt to Buy House",
-      "Signature": "BuyHouse",
-      "Parameters": []
-    },
-    {
-      "YarnName": "PlayMusic",
-      "Language": "text",
-      "DefinitionName": "PlayMusic",
-      "Documentation": "Play Music (use default unless specified)",
-      "Signature": "PlayMusic musicName",
-      "Parameters": [
-        {
-          "Name": "musicName",
-          "Type": "String",
-          "Documentation": "Name of music, defaults to what WAS playing",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "StopMusic",
-      "Language": "text",
-      "DefinitionName": "StopMusic",
-      "Documentation": "Stop music with optional fadeout",
-      "Signature": "FadeToBlackAndBack interval",
-      "Parameters": [
-        {
-          "Name": "interval",
-          "Type": "Number",
-          "Documentation": "Length of time to fade in seconds",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "FadeToBlackAndBack",
-      "Language": "text",
-      "DefinitionName": "FadeToBlackAndBack",
-      "Documentation": "Fades to black and back over the given time period, for emphasis.",
-      "Signature": "FadeToBlackAndBack interval",
-      "Parameters": [
-        {
-          "Name": "interval",
-          "Type": "Number",
-          "Documentation": "Length of time to fade in MS",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "AddItem",
-      "Language": "text",
-      "DefinitionName": "AddItem",
-      "Documentation": "Gives the player x number of a given item.",
-      "Signature": "AddItem itemName quantity",
-      "Parameters": [
-        {
-          "Name": "itemName",
-          "Type": "String",
-          "Documentation": "ID of the item to give",
-          "IsParamsArray": false
+            "YarnName": "AddItem",
+            "DefinitionName": "AddItem",
+            "Documentation": "Gives the player x number of a given item.",
+            "Signature": "AddItem itemName quantity",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "itemName",
+                    "Type": "String",
+                    "Documentation": "ID of the item to give",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "quantity",
+                    "Type": "Number",
+                    "Documentation": "quantity",
+                    "IsParamsArray": false
+                }
+            ]
         },
         {
-          "Name": "quantity",
-          "Type": "Number",
-          "Documentation": "quantity",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "RemoveItem",
-      "Language": "text",
-      "DefinitionName": "RemoveItem",
-      "Documentation": "Removes x number of a given item from player.",
-      "Signature": "RemoveItem itemName quantity",
-      "Parameters": [
-        {
-          "Name": "itemName",
-          "Type": "String",
-          "Documentation": "ID of the item to remove",
-          "IsParamsArray": false
+            "YarnName": "FadeIn",
+            "DefinitionName": "FadeIn",
+            "Documentation": "FadeIn to normal (from black screen or tint)",
+            "Signature": "FadeIn numberOfFrames",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "numberOfFrames",
+                    "Type": "Number",
+                    "Documentation": "Number of frames to fade in (default of 24)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "24"
+                }
+            ]
         },
         {
-          "Name": "quantity",
-          "Type": "Number",
-          "Documentation": "quantity",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "stop",
-      "Language": "text",
-      "DefinitionName": "stop",
-      "Documentation": "Immediately ends the dialogue, as though the game had reached the end of a node. Use this if you need to leave a conversation in the middle of an if statement, or a shortcut option.",
-      "Signature": "stop",
-      "Parameters": []
-    }
-  ],
-  "Functions": [
-    {
-      "YarnName": "playerHasItem",
-      "Language": "text",
-      "DefinitionName": "playerHasItem",
-      "Documentation": "Returns true if the player has the given item ID.",
-      "Signature": "playerHasItem(value)",
-      "Parameters": [
+            "YarnName": "FadeOut",
+            "DefinitionName": "FadeOut",
+            "Documentation": "FadeOut to black screen (or tinted)",
+            "Signature": "FadeOut duration red green blue grey alpha",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "duration",
+                    "Type": "Number",
+                    "Documentation": "Number of frames to fade out (default of 24)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "24"
+                },
+                {
+                    "Name": "red",
+                    "Type": "Number",
+                    "Documentation": "Amount of red (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "green",
+                    "Type": "Number",
+                    "Documentation": "Amount of green (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "blue",
+                    "Type": "Number",
+                    "Documentation": "Amount of blue (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "grey",
+                    "Type": "Number",
+                    "Documentation": "Amount of grey (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "alpha",
+                    "Type": "float",
+                    "Documentation": "Amount of alpha (transparency value, default of 1, decimal between 0 and 1)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "1"
+                }
+            ]
+        },
         {
-          "Name": "value",
-          "Type": "String",
-          "Documentation": "",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "string",
-      "Language": "text",
-      "DefinitionName": "string",
-      "Documentation": "Converts value to string type.",
-      "Signature": "string(value)",
-      "Parameters": [
+            "YarnName": "FlashScreen",
+            "DefinitionName": "FlashScreen",
+            "Documentation": "FlashScreen (optionally tinted)",
+            "Signature": "FlashScreen duration red green blue intensity",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "duration",
+                    "Type": "Number",
+                    "Documentation": "Number of frames for flash (default of 8)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "8"
+                },
+                {
+                    "Name": "red",
+                    "Type": "Number",
+                    "Documentation": "Amount of red (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "green",
+                    "Type": "Number",
+                    "Documentation": "Amount of green (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "blue",
+                    "Type": "Number",
+                    "Documentation": "Amount of blue (RGB value, default of 0)",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0"
+                },
+                {
+                    "Name": "intensity",
+                    "Type": "Number",
+                    "Documentation": "Amount of intensity (Default and max of 255))",
+                    "IsParamsArray": false,
+                    "DefaultValue": "255"
+                }
+            ]
+        },
         {
-          "Name": "value",
-          "Type": "Any",
-          "Documentation": "",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "number",
-      "Language": "text",
-      "DefinitionName": "number",
-      "Documentation": "Converts value to number type.",
-      "Signature": "number(value)",
-      "Parameters": [
+            "YarnName": "HideEntity",
+            "DefinitionName": "HideEntity",
+            "Documentation": "Hides the entity (via passed in name).  If no entity specified, hides the calling entity",
+            "Signature": "HideEntity entityName",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "entityName",
+                    "Type": "String",
+                    "Documentation": "If unspecified, assumes you meant the calling entity",
+                    "IsParamsArray": false,
+                    "DefaultValue": "this"
+                }
+            ]
+        },
         {
-          "Name": "value",
-          "Type": "Any",
-          "Documentation": "",
-          "IsParamsArray": false
-        }
-      ]
-    },
-    {
-      "YarnName": "bool",
-      "Language": "text",
-      "DefinitionName": "bool",
-      "Documentation": "Converts value to boolean type.",
-      "Signature": "bool(value)",
-      "Parameters": [
+            "YarnName": "MoveEvent",
+            "DefinitionName": "MoveEvent",
+            "Documentation": "Moves an Event",
+            "Signature": "MoveEvent direction distance speed eventName",
+            "Language": "text",
+            "Parameters": [
+                
+                {
+                    "Name": "direction",
+                    "Type": "String",
+                    "Documentation": "up down left right",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "distance",
+                    "Type": "number",
+                    "Documentation": "Distance to move",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "speed",
+                    "Type": "number",
+                    "Documentation": "Speed to move, default 0.25",
+                    "IsParamsArray": false,
+                    "DefaultValue": "0.25"                    
+                },
+                {
+                    "Name": "eventName",
+                    "Type": "String",
+                    "Documentation": "If called without specifying eventName, assumes calling entity",
+                    "IsParamsArray": false,
+                    "DefaultValue": "this"
+                }
+            ]
+        },
         {
-          "Name": "value",
-          "Type": "Any",
-          "Documentation": "",
-          "IsParamsArray": false
+            "YarnName": "PlayMusic",
+            "DefinitionName": "PlayMusic",
+            "Documentation": "Play Music (use default unless specified)",
+            "Signature": "PlayMusic musicName",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "musicName",
+                    "Type": "String",
+                    "Documentation": "Name of music, defaults to what WAS playing",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "PlaySound",
+            "DefinitionName": "PlaySound",
+            "Documentation": "Plays a sound effect at X volume (0-100).",
+            "Signature": "SetBackground name volume",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "name",
+                    "Type": "String",
+                    "Documentation": "The name of the sound effect, without the extension",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "volume",
+                    "Type": "Number",
+                    "Documentation": "The volume to play the SFX, from 0 to 100",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "RemoveGold",
+            "DefinitionName": "RemoveGold",
+            "Documentation": "Removes X amount of gold from the player",
+            "Signature": "RemoveGold amount",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "amount",
+                    "Type": "Number",
+                    "Documentation": "Any number, including negative, but then you should just use AddGold",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "RemoveItem",
+            "DefinitionName": "RemoveItem",
+            "Documentation": "Removes x number of a given item from player.",
+            "Signature": "RemoveItem itemName quantity",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "itemName",
+                    "Type": "String",
+                    "Documentation": "ID of the item to remove",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "quantity",
+                    "Type": "Number",
+                    "Documentation": "quantity",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "SetBackground",
+            "DefinitionName": "SetBackground",
+            "Documentation": "Set the message box background transparency level.",
+            "Signature": "SetBackground bgType",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "bgType",
+                    "Type": "Number",
+                    "Documentation": "You can specify 0, 1, or 2.",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "SetFacing",
+            "DefinitionName": "SetFacing",
+            "Documentation": "Changes the direction the provided entity name is facing, or if just a direction is passed, assumes you meant the calling entity.",
+            "Signature": "SetFacing direction entityName",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "direction",
+                    "Type": "String",
+                    "Documentation": "up down left right",
+                    "IsParamsArray": false
+                },
+                {
+                    "Name": "entityName",
+                    "Type": "String",
+                    "Documentation": "You can optionally NOT provide this parameter, and we will assume you meant the calling entity",
+                    "IsParamsArray": false,
+                    "DefaultValue": "this"
+                }
+                
+            ]
+        },
+        {
+            "YarnName": "ShowEntity",
+            "DefinitionName": "ShowEntity",
+            "Documentation": "Shows the entity (via passed in name).  If no entity specified, shows the calling entity",
+            "Signature": "ShowEntity entityName",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "entityName",
+                    "Type": "String",
+                    "Documentation": "If unspecified, assumes you meant the calling entity",
+                    "IsParamsArray": false,
+                    "DefaultValue": "this"
+                }
+            ]
+        },
+        {
+            "YarnName": "StopMusic",
+            "DefinitionName": "StopMusic",
+            "Documentation": "Stop music with optional fadeout",
+            "Signature": "FadeToBlackAndBack interval",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "interval",
+                    "Type": "Number",
+                    "Documentation": "Length of time to fade in seconds",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "Wait",
+            "DefinitionName": "Wait",
+            "Documentation": "Wait the given number of ms",
+            "Signature": "Wait time",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "time",
+                    "Type": "Number",
+                    "Documentation": "Time in milliseconds",
+                    "IsParamsArray": false
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ],
+    "Functions": [
+        {
+            "YarnName": "string",
+            "DefinitionName": "string",
+            "Documentation": "Converts value to string type.",
+            "Signature": "string(value)",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "value",
+                    "Type": "Any",
+                    "Documentation": "",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "number",
+            "DefinitionName": "number",
+            "Documentation": "Converts value to number type.",
+            "Signature": "number(value)",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "value",
+                    "Type": "Any",
+                    "Documentation": "",
+                    "IsParamsArray": false
+                }
+            ]
+        },
+        {
+            "YarnName": "bool",
+            "DefinitionName": "bool",
+            "Documentation": "Converts value to boolean type.",
+            "Signature": "bool(value)",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "value",
+                    "Type": "Any",
+                    "Documentation": "",
+                    "IsParamsArray": false
+                }
+            ]
+        }
+    ]
 }

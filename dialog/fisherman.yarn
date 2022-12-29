@@ -1,5 +1,15 @@
 title: Greeting
 ---
+<<FlashScreen>>
+<<Wait 1000>>
+<<FlashScreen 8 155 255 255>>
+<<Wait 120>>
+<<FlashScreen 8 255 155 255>>
+<<Wait 120>>
+<<FlashScreen 8 255 255 155>>
+<<Wait 120>>
+<<FlashScreen 8 155 155 155>>
+<<Wait 120>>
 Lets fade out
 <<FadeOut 30>>
 <<Wait 1000>>

@@ -3254,12 +3254,14 @@
   }
 
   // src/commands/hideEntity.ts
-  function hideEntity(args) {
-    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
-    gameEvent.setOpacity(0);
+  function hideEntity(args, _callingEventId) {
+    var _a;
     if (args.length > 1) {
       throw new Error("Invalid number of arguments");
     }
+    const targetEventId = (_a = getEventIdByName(args[0])) != null ? _a : _callingEventId;
+    const gameEvent = $gameMap.event(targetEventId);
+    gameEvent.setOpacity(0);
   }
 
   // src/commands/enums.ts
@@ -3272,18 +3274,19 @@
   })(DIRECTION || {});
 
   // src/commands/moveEvent.ts
-  function moveEvent(args) {
-    if (args.length != 4) {
+  function moveEvent(args, _callingEventId) {
+    if (args.length < 3 || args.length > 4) {
       throw new Error("Invalid number of arguments");
     }
-    const eventName = args[0];
-    const direction = DIRECTION[args[1].toUpperCase()];
-    const distance = parseInt(args[2]);
-    const event = $gameMap._events[getEventIdByName(eventName)];
+    const [directionName, distanceAsStr, speed, eventName = null] = args;
+    const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
+    const event = $gameMap._events[targetEventId];
+    const distance = parseInt(distanceAsStr);
+    const direction = DIRECTION[directionName.toUpperCase()];
     event.setThrough(true);
     if (event.isMoving()) {
       setTimeout(() => {
-        moveEvent(args);
+        moveEvent(args, _callingEventId);
       }, 60);
     } else {
       event.moveStraight(direction);
@@ -3291,7 +3294,7 @@
       setTimeout(() => {
         event.setThrough(false);
         if (distanceRemaining > 0) {
-          moveEvent([args[0], args[1], distanceRemaining.toString(), args[3]]);
+          moveEvent([args[0], distanceRemaining.toString(), speed, args[3]], _callingEventId);
         }
       }, 60);
     }
@@ -3359,11 +3362,12 @@
 
   // src/commands/setFacing.ts
   function setFacing(args, _callingEventId) {
-    if (args.length != 1) {
+    if (args.length < 1 || args.length > 2) {
       throw new Error("Invalid number of arguments");
     }
+    const targetEventId = args[1] ? getEventIdByName(args[1]) : _callingEventId;
     const direction = DIRECTION[args[0].toUpperCase()];
-    $gameMap._events[_callingEventId].setDirection(direction);
+    $gameMap._events[targetEventId].setDirection(direction);
   }
 
   // src/commands/showEntity.ts
@@ -3376,7 +3380,6 @@
       opacity = parseFloat(args[1]);
     }
     const gameEvent = $gameMap.event(getEventIdByName(args[0]));
-    console.log(args);
     if (opacity > 1) {
       throw new Error("Opacity greater than 1, please use a value between 0 and 1");
     }
@@ -3384,7 +3387,6 @@
       throw new Error("Opacity less than 0, please use a value between 0 and 1");
     }
     const opacityInHexFormat = opacity * 255;
-    console.log(opacity);
     gameEvent.setOpacity(opacityInHexFormat);
   }
 
@@ -3396,12 +3398,22 @@
     await new Promise((r) => setTimeout(r, parseInt(args[0])));
   }
 
+  // src/commands/flashScreen.ts
+  function flashScreen(args) {
+    if (args.length > 6) {
+      throw new Error("Invalid number of arguments");
+    }
+    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
+    $gameScreen.startFlash([red, green, blue, intensity], duration);
+  }
+
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
     AddGold: addGold,
     FadeOut: fadeOut,
     FadeIn: fadeIn,
+    FlashScreen: flashScreen,
     HideEntity: hideEntity,
     MoveEvent: moveEvent,
     PlayMusic: playMusic,

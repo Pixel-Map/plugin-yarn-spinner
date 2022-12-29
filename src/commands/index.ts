@@ -15,21 +15,21 @@ import { showEntity } from './showEntity';
 import { wait } from './wait';
 
 export const commands = {
-  AddItem: addItem,
-  AddGold: addGold,
-  FadeOut: fadeOut,
-  FadeIn: fadeIn,
-  FlashScreen: flashScreen,
-  HideEntity: hideEntity,
-  MoveEvent: moveEvent,
-  PlayMusic: playMusic,
-  PlaySound: playSound,
-  RemoveItem: removeItem,
-  RemoveGold: removeGold,
-  SetFacing: setFacing,
-  ShowEntity: showEntity,
-  Wait: wait,
-  SetBackground: setBackground,
+  add_item: addItem,
+  add_gold: addGold,
+  fade_out: fadeOut,
+  fade_in: fadeIn,
+  flash_screen: flashScreen,
+  hide_entity: hideEntity,
+  move_event: moveEvent,
+  play_music: playMusic,
+  play_sound: playSound,
+  remove_item: removeItem,
+  remove_gold: removeGold,
+  set_facing: setFacing,
+  show_entity: showEntity,
+  wait: wait,
+  set_background: setBackground,
 };
 
 export function getCommand(command: keyof typeof commands, args: any, callingEventId: number) {

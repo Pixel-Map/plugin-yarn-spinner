@@ -1,12 +1,12 @@
 title: AddStuff
 ---
 Enjoy more 30 gold!
-<<AddGold 30>>
+<<add_gold 30>>
 Minus 15 gold!
-<<RemoveGold 15>>
+<<remove_gold 15>>
 Equals 15 gold!
 
 Enjoy 1 full potion and 2 magic waters!
-<<AddItem "Full Potion">>
-<<AddItem "Magic Water" 2>>
+<<add_item "Full Potion">>
+<<add_item "Magic Water" 2>>
 ===

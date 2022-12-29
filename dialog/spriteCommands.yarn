@@ -1,38 +1,38 @@
 title: SpriteCommands
 ---
-<<SetFacing left>>
-<<Wait 200>>
-<<SetFacing right>>
-<<Wait 200>>
-<<SetFacing up>>
-<<Wait 200>>
-<<SetFacing down>>
+<<set_facing left>>
+<<wait 200>>
+<<set_facing right>>
+<<wait 200>>
+<<set_facing up>>
+<<wait 200>>
+<<set_facing down>>
 
-<<SetFacing left Monster1>>
-<<Wait 200>>
-<<SetFacing right Monster1>>
-<<Wait 200>>
-<<SetFacing up Monster1>>
-<<Wait 200>>
-<<SetFacing down Monster1>>
+<<set_facing left Monster1>>
+<<wait 200>>
+<<set_facing right Monster1>>
+<<wait 200>>
+<<set_facing up Monster1>>
+<<wait 200>>
+<<set_facing down Monster1>>
 
-<<Wait 200>>
-<<ShowEntity MovementMan 0.8>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.6>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.4>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.2>>
-<<HideEntity MovementMan>>
-<<Wait 1000>>
-<<ShowEntity MovementMan 0.2>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.4>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.6>>
-<<Wait 50>>
-<<ShowEntity MovementMan 0.8>>
-<<Wait 50>>
-<<ShowEntity MovementMan>>
+<<wait 200>>
+<<show_entity MovementMan 0.8>>
+<<wait 50>>
+<<show_entity MovementMan 0.6>>
+<<wait 50>>
+<<show_entity MovementMan 0.4>>
+<<wait 50>>
+<<show_entity MovementMan 0.2>>
+<<hide_entity MovementMan>>
+<<wait 1000>>
+<<show_entity MovementMan 0.2>>
+<<wait 50>>
+<<show_entity MovementMan 0.4>>
+<<wait 50>>
+<<show_entity MovementMan 0.6>>
+<<wait 50>>
+<<show_entity MovementMan 0.8>>
+<<wait 50>>
+<<show_entity MovementMan>>
 ===

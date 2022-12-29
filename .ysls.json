@@ -1,25 +1,25 @@
 {
     "Commands": [
         {
-            "YarnName": "AddGold",
-            "DefinitionName": "AddGold",
+            "YarnName": "add_gold",
+            "DefinitionName": "add_gold",
             "Documentation": "Adds X amount of gold to the player",
-            "Signature": "AddGold amount",
+            "Signature": "add_gold amount",
             "Language": "text",
             "Parameters": [
                 {
                     "Name": "amount",
                     "Type": "Number",
-                    "Documentation": "Any number, including negative, but then you should probably just use RemoveGold",
+                    "Documentation": "Any number, including negative, but then you should probably just use remove_gold",
                     "IsParamsArray": false
                 }
             ]
         },
         {
-            "YarnName": "AddItem",
-            "DefinitionName": "AddItem",
+            "YarnName": "add_item",
+            "DefinitionName": "add_item",
             "Documentation": "Gives the player x number of a given item.",
-            "Signature": "AddItem itemName quantity",
+            "Signature": "add_item itemName quantity",
             "Language": "text",
             "Parameters": [
                 {
@@ -38,10 +38,10 @@
             ]
         },
         {
-            "YarnName": "FadeIn",
-            "DefinitionName": "FadeIn",
-            "Documentation": "FadeIn to normal (from black screen or tint)",
-            "Signature": "FadeIn numberOfFrames",
+            "YarnName": "fade_in",
+            "DefinitionName": "fade_in",
+            "Documentation": "fade_in to normal (from black screen or tint)",
+            "Signature": "fade_in numberOfFrames",
             "Language": "text",
             "Parameters": [
                 {
@@ -54,10 +54,10 @@
             ]
         },
         {
-            "YarnName": "FadeOut",
-            "DefinitionName": "FadeOut",
-            "Documentation": "FadeOut to black screen (or tinted)",
-            "Signature": "FadeOut duration red green blue grey alpha",
+            "YarnName": "fade_out",
+            "DefinitionName": "fade_out",
+            "Documentation": "fade_out to black screen (or tinted)",
+            "Signature": "fade_out duration red green blue grey alpha",
             "Language": "text",
             "Parameters": [
                 {
@@ -105,10 +105,10 @@
             ]
         },
         {
-            "YarnName": "FlashScreen",
-            "DefinitionName": "FlashScreen",
-            "Documentation": "FlashScreen (optionally tinted)",
-            "Signature": "FlashScreen duration red green blue intensity",
+            "YarnName": "flash_screen",
+            "DefinitionName": "flash_screen",
+            "Documentation": "flash_screen (optionally tinted)",
+            "Signature": "flash_screen duration red green blue intensity",
             "Language": "text",
             "Parameters": [
                 {
@@ -149,10 +149,10 @@
             ]
         },
         {
-            "YarnName": "HideEntity",
-            "DefinitionName": "HideEntity",
+            "YarnName": "hide_entity",
+            "DefinitionName": "hide_entity",
             "Documentation": "Hides the entity (via passed in name).  If no entity specified, hides the calling entity",
-            "Signature": "HideEntity entityName",
+            "Signature": "hide_entity entityName",
             "Language": "text",
             "Parameters": [
                 {
@@ -165,10 +165,10 @@
             ]
         },
         {
-            "YarnName": "MoveEvent",
-            "DefinitionName": "MoveEvent",
+            "YarnName": "move_event",
+            "DefinitionName": "move_event",
             "Documentation": "Moves an Event",
-            "Signature": "MoveEvent direction distance speed eventName",
+            "Signature": "move_event direction distance speed eventName",
             "Language": "text",
             "Parameters": [
                 
@@ -201,10 +201,10 @@
             ]
         },
         {
-            "YarnName": "PlayMusic",
-            "DefinitionName": "PlayMusic",
+            "YarnName": "play_music",
+            "DefinitionName": "play_music",
             "Documentation": "Play Music (use default unless specified)",
-            "Signature": "PlayMusic musicName",
+            "Signature": "play_music musicName",
             "Language": "text",
             "Parameters": [
                 {
@@ -216,10 +216,10 @@
             ]
         },
         {
-            "YarnName": "PlaySound",
-            "DefinitionName": "PlaySound",
+            "YarnName": "play_sound",
+            "DefinitionName": "play_sound",
             "Documentation": "Plays a sound effect at X volume (0-100).",
-            "Signature": "SetBackground name volume",
+            "Signature": "play_sound name volume",
             "Language": "text",
             "Parameters": [
                 {
@@ -237,10 +237,10 @@
             ]
         },
         {
-            "YarnName": "RemoveGold",
-            "DefinitionName": "RemoveGold",
+            "YarnName": "remove_gold",
+            "DefinitionName": "remove_gold",
             "Documentation": "Removes X amount of gold from the player",
-            "Signature": "RemoveGold amount",
+            "Signature": "remove_gold amount",
             "Language": "text",
             "Parameters": [
                 {
@@ -252,10 +252,10 @@
             ]
         },
         {
-            "YarnName": "RemoveItem",
-            "DefinitionName": "RemoveItem",
+            "YarnName": "remove_item",
+            "DefinitionName": "remove_item",
             "Documentation": "Removes x number of a given item from player.",
-            "Signature": "RemoveItem itemName quantity",
+            "Signature": "remove_item itemName quantity",
             "Language": "text",
             "Parameters": [
                 {
@@ -273,10 +273,10 @@
             ]
         },
         {
-            "YarnName": "SetBackground",
-            "DefinitionName": "SetBackground",
+            "YarnName": "set_background",
+            "DefinitionName": "set_background",
             "Documentation": "Set the message box background transparency level.",
-            "Signature": "SetBackground bgType",
+            "Signature": "set_background bgType",
             "Language": "text",
             "Parameters": [
                 {
@@ -288,10 +288,10 @@
             ]
         },
         {
-            "YarnName": "SetFacing",
-            "DefinitionName": "SetFacing",
+            "YarnName": "set_facing",
+            "DefinitionName": "set_facing",
             "Documentation": "Changes the direction the provided entity name is facing, or if just a direction is passed, assumes you meant the calling entity.",
-            "Signature": "SetFacing direction entityName",
+            "Signature": "set_facing direction entityName",
             "Language": "text",
             "Parameters": [
                 {
@@ -311,10 +311,10 @@
             ]
         },
         {
-            "YarnName": "ShowEntity",
-            "DefinitionName": "ShowEntity",
+            "YarnName": "show_entity",
+            "DefinitionName": "show_entity",
             "Documentation": "Shows the entity (via passed in name).  If no entity specified, shows the calling entity",
-            "Signature": "ShowEntity entityName",
+            "Signature": "show_entity entityName",
             "Language": "text",
             "Parameters": [
                 {
@@ -327,10 +327,10 @@
             ]
         },
         {
-            "YarnName": "StopMusic",
-            "DefinitionName": "StopMusic",
+            "YarnName": "stop_music",
+            "DefinitionName": "stop_music",
             "Documentation": "Stop music with optional fadeout",
-            "Signature": "FadeToBlackAndBack interval",
+            "Signature": "stop_music interval",
             "Language": "text",
             "Parameters": [
                 {
@@ -342,8 +342,8 @@
             ]
         },
         {
-            "YarnName": "Wait",
-            "DefinitionName": "Wait",
+            "YarnName": "wait",
+            "DefinitionName": "wait",
             "Documentation": "Wait the given number of ms",
             "Signature": "Wait time",
             "Language": "text",
@@ -359,10 +359,10 @@
     ],
     "Functions": [
         {
-            "YarnName": "HasItem",
-            "DefinitionName": "HasItem",
+            "YarnName": "has_item",
+            "DefinitionName": "has_item",
             "Documentation": "If player has the named item",
-            "Signature": "HasItem(itemName)",
+            "Signature": "has_item(itemName)",
             "Language": "text",
             "Parameters": [
                 {

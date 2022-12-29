@@ -68,7 +68,7 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride(
       name: 'Release',
       uses: 'softprops/action-gh-release@v1',
       with: {
-        files: ['dist/pixelmapYarnSpinner.js', 'dist/pixelmapYarnSpinner.js.map'],
+        files: 'dist/pixelmapYarnSpinner.js\ndist/pixelmapYarnSpinner.js.map',
         body_path: '${{ github.workspace }}/dist/changelog.md',
         tag_name: '${{ env.TAG }}',
       },

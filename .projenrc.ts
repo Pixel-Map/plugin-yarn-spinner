@@ -3,6 +3,7 @@ import { typescript } from 'projen';
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'rmmz-game',
+  artifactsDirectory: 'dist',
   projenrcTs: true,
   deps: ['yarn-bound'],
   entrypoint: 'index.html',

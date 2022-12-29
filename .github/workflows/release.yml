@@ -55,7 +55,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
-          name: build
+          name: build-artifact
           path: dist
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl

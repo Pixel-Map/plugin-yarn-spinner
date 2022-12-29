@@ -55,7 +55,11 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride(
   'jobs.release_github.steps',
   [
     { uses: 'actions/setup-node@v3', with: { 'node-version': '14.x' } },
-    { name: 'Download build artifacts', uses: 'actions/download-artifact@v3', with: { name: 'build', path: 'dist' } },
+    {
+      name: 'Download build artifacts',
+      uses: 'actions/download-artifact@v3',
+      with: { name: 'build-artifact', path: 'dist' },
+    },
     {
       // eslint-disable-next-line
       name: 'Restore build artifact permissions',

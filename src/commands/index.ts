@@ -2,6 +2,7 @@ import { addGold } from './addGold';
 import { addItem } from './addItem';
 import { fadeIn } from './fadeIn';
 import { fadeOut } from './fadeOut';
+import { flashScreen } from './flashScreen';
 import { hideEntity } from './hideEntity';
 import { moveEvent } from './moveEvent';
 import { playMusic } from './playMusic';
@@ -12,7 +13,6 @@ import { setBackground } from './setBackground';
 import { setFacing } from './setFacing';
 import { showEntity } from './showEntity';
 import { wait } from './wait';
-import { flashScreen } from './flashScreen';
 
 export const commands = {
   AddItem: addItem,

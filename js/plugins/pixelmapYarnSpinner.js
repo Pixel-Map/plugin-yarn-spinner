@@ -3094,7 +3094,7 @@
                   let {
                     dialogue,
                     variableStorage,
-                    functions,
+                    functions: functions2,
                     handleCommand,
                     combineTextAndOptionsResults,
                     locale,
@@ -3114,8 +3114,8 @@
                     variableStorage.display = variableStorage.display || variableStorage.get;
                     this.runner.setVariableStorage(variableStorage);
                   }
-                  if (functions) {
-                    Object.entries(functions).forEach((entry) => {
+                  if (functions2) {
+                    Object.entries(functions2).forEach((entry) => {
                       this.registerFunction(...entry);
                     });
                   }
@@ -3224,10 +3224,11 @@
 
   // src/commands/addItem.ts
   function addItem(args) {
-    if (args.length != 2) {
+    if (args.length < 1 || args.length > 2) {
       throw new Error("Invalid number of arguments");
     }
-    $gameParty.gainItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+    const [itemName, quantity = "1"] = args;
+    $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], parseInt(quantity), false);
   }
 
   // src/commands/fadeIn.ts
@@ -3251,6 +3252,15 @@
     } else {
       $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
     }
+  }
+
+  // src/commands/flashScreen.ts
+  function flashScreen(args) {
+    if (args.length > 6) {
+      throw new Error("Invalid number of arguments");
+    }
+    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
+    $gameScreen.startFlash([red, green, blue, intensity], duration);
   }
 
   // src/commands/hideEntity.ts
@@ -3398,15 +3408,6 @@
     await new Promise((r) => setTimeout(r, parseInt(args[0])));
   }
 
-  // src/commands/flashScreen.ts
-  function flashScreen(args) {
-    if (args.length > 6) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
-    $gameScreen.startFlash([red, green, blue, intensity], duration);
-  }
-
   // src/commands/index.ts
   var commands = {
     AddItem: addItem,
@@ -3441,6 +3442,22 @@
     }
     return false;
   }
+
+  // src/functions/hasItem.ts
+  function hasItem(itemName) {
+    return playerHasItemByName(itemName);
+  }
+
+  // src/functions/randomRange.ts
+  function randomRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  // src/functions/index.ts
+  var functions = {
+    HasItem: hasItem,
+    RandomRange: randomRange
+  };
 
   // src/split-spaces-exclude-quotes.ts
   function splitSpacesExcludeQuotes(input) {
@@ -3528,14 +3545,7 @@
     const runner = new import_yarn_bound.default({
       dialogue,
       startAt,
-      functions: {
-        random_range: (min, max) => {
-          return Math.floor(Math.random() * (max - min + 1) + min);
-        },
-        playerHasItem: (value) => {
-          return playerHasItemByName(value);
-        }
-      },
+      functions,
       variableStorage
     });
     await processYarnDialog(runner, callingEventId);

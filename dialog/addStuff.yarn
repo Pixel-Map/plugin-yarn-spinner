@@ -5,4 +5,8 @@ Enjoy more 30 gold!
 Minus 15 gold!
 <<RemoveGold 15>>
 Equals 15 gold!
+
+Enjoy 1 full potion and 2 magic waters!
+<<AddItem "Full Potion">>
+<<AddItem "Magic Water" 2>>
 ===

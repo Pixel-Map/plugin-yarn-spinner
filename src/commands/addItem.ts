@@ -1,8 +1,9 @@
 import { getItemIdFromName } from './utils';
 
 export function addItem(args: Array<string>) {
-  if (args.length != 2) {
+  if (args.length < 1 || args.length > 2) {
     throw new Error('Invalid number of arguments');
   }
-  $gameParty.gainItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+  const [itemName, quantity = '1'] = args;
+  $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], parseInt(quantity), false);
 }

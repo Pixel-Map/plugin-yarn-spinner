@@ -25,14 +25,15 @@
                 {
                     "Name": "itemName",
                     "Type": "String",
-                    "Documentation": "ID of the item to give",
+                    "Documentation": "Name of the item to give",
                     "IsParamsArray": false
                 },
                 {
                     "Name": "quantity",
                     "Type": "Number",
                     "Documentation": "quantity",
-                    "IsParamsArray": false
+                    "IsParamsArray": false,
+                    "DefaultValue": "1"
                 }
             ]
         },
@@ -357,6 +358,21 @@
         }
     ],
     "Functions": [
+        {
+            "YarnName": "HasItem",
+            "DefinitionName": "HasItem",
+            "Documentation": "If player has the named item",
+            "Signature": "HasItem(itemName)",
+            "Language": "text",
+            "Parameters": [
+                {
+                    "Name": "itemName",
+                    "Type": "String",
+                    "Documentation": "Name of the Item (NOT the Item ID!)",
+                    "IsParamsArray": false
+                }
+            ]
+        },
         {
             "YarnName": "string",
             "DefinitionName": "string",

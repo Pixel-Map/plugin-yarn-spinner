@@ -1,0 +1,9 @@
+title: Hello
+---
+<<if HasItem("Full Potion") is true>>
+Good day sir, nice potion you have.
+<<else>>
+Bet you wish you had a potion
+<<endif>>
+Right?
+===

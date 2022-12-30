@@ -1,11 +1,17 @@
 import fs from 'fs';
 import { DocComment, ParserContext, TSDocParser } from '@microsoft/tsdoc';
-import { YarnCommandInterface } from './yarnCommand.interface';
 import { capitalizeFirstLetter } from './capitalizeFirstLetter';
 import { YarnParameterInterface } from './yarnParameter.interface';
 import { getParamTypesFromTS } from './getParamTypesFromTS';
 
-export function parseMethodIntoDocs(filename: string, type: 'function' | 'command'): YarnCommandInterface {
+interface ParseMethodIntoDocsInterface {
+  commandName: string;
+  documentation: string;
+  signature: string;
+  parameters: YarnParameterInterface[];
+  category: string;
+}
+export function parseMethodIntoDocs(filename: string, type: 'function' | 'command'): ParseMethodIntoDocsInterface {
   console.log('-----------------------------------------------------------');
   console.log('Processing: ' + filename);
   console.log('-----------------------------------------------------------');
@@ -73,12 +79,14 @@ export function parseMethodIntoDocs(filename: string, type: 'function' | 'comman
     signature += paramNames.at(-1) + ')';
   }
 
+  const category = // @ts-ignore
+    parserContext.docComment.remarksBlock?.content.getChildNodes()[0].getChildNodes()[0]._text.trim() ??
+    'Uncategorized';
   return {
-    YarnName: commandName,
-    DefinitionName: commandName,
-    Documentation: parserContext.lines[0]?.toString(),
-    Signature: signature,
-    Language: 'text',
-    Parameters: parameters,
+    commandName: commandName,
+    documentation: parserContext.lines[0]?.toString(),
+    signature: signature,
+    parameters: parameters,
+    category: category,
   };
 }

@@ -3,6 +3,7 @@ import { typescript } from 'projen';
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'rmmz-game',
+
   artifactsDirectory: 'dist',
   projenrcTs: true,
   deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc'],
@@ -20,8 +21,9 @@ const project = new typescript.TypeScriptProject({
   tsconfig: {
     exclude: ['src/lunalite-pixi.mz.d.ts'],
     compilerOptions: {
+      target: 'ES2022',
       skipLibCheck: true,
-      lib: ['DOM'],
+      lib: ['ES2022', 'DOM'],
     },
     include: ['.projenrc.ts'],
   },

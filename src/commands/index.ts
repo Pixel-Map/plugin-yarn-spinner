@@ -20,14 +20,14 @@ export const commands = {
   fade_out: fade_out,
   fade_in: fade_in,
   flash_screen: flash_screen,
-  hide_entity: hide_event,
+  hide_event: hide_event,
   move_event: move_event,
   play_music: play_music,
   play_sound: play_sound,
   remove_item: remove_item,
   remove_gold: remove_gold,
   set_facing: set_facing,
-  show_entity: show_event,
+  show_event: show_event,
   wait: wait,
   set_background: set_background,
 };
@@ -46,5 +46,5 @@ export function getCommand(command: keyof typeof commands, args: any, callingEve
     // @ts-ignore
     return commands[command](callingEventId, ...args) as unknown as Function;
   }
-  throw new Error('Invalid command');
+  throw new Error('Invalid command, cannot find: ' + command);
 }

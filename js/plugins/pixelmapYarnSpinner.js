@@ -3212,7 +3212,7 @@
   }
   function getEventIdByName(name) {
     for (const event of $dataMap.events) {
-      if ((event == null ? void 0 : event.name) == name) {
+      if (event?.name == name) {
         return event.id;
       }
     }
@@ -3358,14 +3358,14 @@
     fade_out,
     fade_in,
     flash_screen,
-    hide_entity: hide_event,
+    hide_event,
     move_event,
     play_music,
     play_sound,
     remove_item,
     remove_gold,
     set_facing,
-    show_entity: show_event,
+    show_event,
     wait,
     set_background
   };
@@ -3381,7 +3381,7 @@
       }
       return commands[command](callingEventId, ...args);
     }
-    throw new Error("Invalid command");
+    throw new Error("Invalid command, cannot find: " + command);
   }
 
   // src/playerHasItemByName.ts
@@ -3394,20 +3394,20 @@
     return false;
   }
 
-  // src/functions/hasItem.ts
-  function hasItem(itemName) {
+  // src/functions/has_item.ts
+  function has_item(itemName) {
     return playerHasItemByName(itemName);
   }
 
-  // src/functions/randomRange.ts
-  function randomRange(min, max) {
+  // src/functions/random_range.ts
+  function random_range(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   // src/functions/index.ts
   var functions = {
-    has_item: hasItem,
-    random_range: randomRange
+    has_item,
+    random_range
   };
 
   // src/split-spaces-exclude-quotes.ts
@@ -3599,6 +3599,8 @@
     await getCommand(cmd, splitCmd.slice(1), callingEventId);
   }
   var VariableStorage = class {
+    storage;
+    prefix;
     constructor(prefix) {
       this.storage = /* @__PURE__ */ new Map();
       this.prefix = prefix;

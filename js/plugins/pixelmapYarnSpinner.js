@@ -3197,11 +3197,8 @@
   var import_yarn_bound = __toESM(require_yarn_bound());
 
   // src/commands/addGold.ts
-  function addGold(args) {
-    if (args.length != 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    $gameParty.gainGold(parseInt(args[0]));
+  function addGold(_callingEventId, amount) {
+    $gameParty.gainGold(amount);
   }
 
   // src/commands/utils.ts
@@ -3223,31 +3220,19 @@
   }
 
   // src/commands/addItem.ts
-  function addItem(args) {
-    if (args.length < 1 || args.length > 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [itemName, quantity = "1"] = args;
-    $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], parseInt(quantity), false);
+  function addItem(_callingEventId, itemName, quantity = 1) {
+    $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], quantity, false);
   }
 
   // src/commands/fadeIn.ts
-  function fadeIn(args) {
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [duration = 24] = args;
+  function fadeIn(_callingEventId, duration = 24) {
     $gameScreen.startTint([0, 0, 0, 0], duration);
     $gameScreen.startFadeIn(duration);
   }
 
   // src/commands/fadeOut.ts
-  function fadeOut(args) {
-    if (args.length > 6) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1] = args;
-    if (args.length <= 1) {
+  function fadeOut(_callingEventId, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
+    if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
       $gameScreen.startFadeOut(duration);
     } else {
       $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
@@ -3255,21 +3240,13 @@
   }
 
   // src/commands/flashScreen.ts
-  function flashScreen(args) {
-    if (args.length > 6) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [duration = 8, red = 0, green = 0, blue = 0, intensity = 255] = args;
+  function flashScreen(_callingEventId, duration = 8, red = 0, green = 0, blue = 0, intensity = 255) {
     $gameScreen.startFlash([red, green, blue, intensity], duration);
   }
 
   // src/commands/hideEntity.ts
-  function hideEntity(args, _callingEventId) {
-    var _a;
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    const targetEventId = (_a = getEventIdByName(args[0])) != null ? _a : _callingEventId;
+  function hideEntity(_callingEventId, entityName) {
+    const targetEventId = entityName != void 0 ? getEventIdByName(entityName) : _callingEventId;
     const gameEvent = $gameMap.event(targetEventId);
     gameEvent.setOpacity(0);
   }
@@ -3284,19 +3261,14 @@
   })(DIRECTION || {});
 
   // src/commands/moveEvent.ts
-  function moveEvent(args, _callingEventId) {
-    if (args.length < 3 || args.length > 4) {
-      throw new Error("Invalid number of arguments");
-    }
-    const [directionName, distanceAsStr, speed, eventName = null] = args;
+  function moveEvent(_callingEventId, directionName, distance, speed = 0.25, eventName) {
     const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
     const event = $gameMap._events[targetEventId];
-    const distance = parseInt(distanceAsStr);
     const direction = DIRECTION[directionName.toUpperCase()];
     event.setThrough(true);
     if (event.isMoving()) {
       setTimeout(() => {
-        moveEvent(args, _callingEventId);
+        moveEvent(_callingEventId, directionName, distance, speed, eventName);
       }, 60);
     } else {
       event.moveStraight(direction);
@@ -3304,19 +3276,14 @@
       setTimeout(() => {
         event.setThrough(false);
         if (distanceRemaining > 0) {
-          moveEvent([args[0], distanceRemaining.toString(), speed, args[3]], _callingEventId);
+          moveEvent(_callingEventId, directionName, distanceRemaining, speed, eventName);
         }
       }, 60);
     }
   }
 
   // src/commands/playMusic.ts
-  function playMusic(args) {
-    if (args.length < 1 || args.length > 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const musicName = args[0];
-    const volume = args[1] ? parseInt(args[1]) : 100;
+  function playMusic(_callingEventId, musicName, volume = 100) {
     AudioManager.playBgm({
       name: musicName,
       pos: 0,
@@ -3327,12 +3294,7 @@
   }
 
   // src/commands/playSound.ts
-  function playSound(args) {
-    if (args.length != 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const soundName = args[0];
-    const volume = parseInt(args[1]);
+  function playSound(_callingEventId, soundName, volume = 100) {
     AudioManager.playSe({
       name: soundName,
       pan: 0,
@@ -3343,27 +3305,17 @@
   }
 
   // src/commands/removeGold.ts
-  function removeGold(args) {
-    if (args.length != 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    $gameParty.loseGold(parseInt(args[0]));
+  function removeGold(_callingEventId, amount) {
+    $gameParty.loseGold(amount);
   }
 
   // src/commands/removeItem.ts
-  function removeItem(args) {
-    if (args.length != 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    $gameParty.loseItem($dataItems[getItemIdFromName(args[0])], parseInt(args[1]), false);
+  function removeItem(_callingEventId, itemName, amount = 1) {
+    $gameParty.loseItem($dataItems[getItemIdFromName(itemName)], amount, false);
   }
 
   // src/commands/setBackground.ts
-  function setBackground(args) {
-    if (args.length != 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    const opacity = parseInt(args[0]);
+  function setBackground(_callingEventId, opacity = 0) {
     if (opacity < 0 || opacity > 2) {
       throw new Error("Invalid opacity level, must be between 0 and two");
     }
@@ -3371,25 +3323,19 @@
   }
 
   // src/commands/setFacing.ts
-  function setFacing(args, _callingEventId) {
-    if (args.length < 1 || args.length > 2) {
-      throw new Error("Invalid number of arguments");
-    }
-    const targetEventId = args[1] ? getEventIdByName(args[1]) : _callingEventId;
-    const direction = DIRECTION[args[0].toUpperCase()];
-    $gameMap._events[targetEventId].setDirection(direction);
+  function setFacing(_callingEventId, direction, eventName) {
+    const targetEventId = eventName != void 0 ? getEventIdByName(eventName) : _callingEventId;
+    const parsedDirection = DIRECTION[direction.toUpperCase()];
+    $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
   // src/commands/showEntity.ts
-  function showEntity(args) {
-    if (args.length > 2) {
-      throw new Error("Invalid number of arguments");
+  function showEntity(_callingEventId, entityName, opacity = 1) {
+    if (arguments.length > 1) {
+      opacity = parseFloat(opacity);
     }
-    let opacity = 1;
-    if (args.length > 1) {
-      opacity = parseFloat(args[1]);
-    }
-    const gameEvent = $gameMap.event(getEventIdByName(args[0]));
+    const targetEventId = entityName != void 0 ? getEventIdByName(entityName) : _callingEventId;
+    const gameEvent = $gameMap.event(targetEventId);
     if (opacity > 1) {
       throw new Error("Opacity greater than 1, please use a value between 0 and 1");
     }
@@ -3401,11 +3347,8 @@
   }
 
   // src/commands/wait.ts
-  async function wait(args) {
-    if (args.length > 1) {
-      throw new Error("Invalid number of arguments");
-    }
-    await new Promise((r) => setTimeout(r, parseInt(args[0])));
+  async function wait(_callingEventId, duration) {
+    await new Promise((r) => setTimeout(r, duration));
   }
 
   // src/commands/index.ts
@@ -3426,9 +3369,17 @@
     wait,
     set_background: setBackground
   };
+  function isNum(value) {
+    return /^\d+$/.test(value);
+  }
   function getCommand(command, args, callingEventId) {
     if (commands[command]) {
-      return commands[command](args, callingEventId);
+      for (let i = 0; i < args.length; i++) {
+        if (isNum(args[i])) {
+          args[i] = parseInt(args[i]);
+        }
+      }
+      return commands[command](callingEventId, ...args);
     }
     throw new Error("Invalid command");
   }

@@ -1,11 +1,4 @@
-export function playSound(args: Array<string>) {
-  if (args.length != 2) {
-    throw new Error('Invalid number of arguments');
-  }
-
-  const soundName = args[0];
-  const volume = parseInt(args[1]);
-
+export function playSound(_callingEventId: number, soundName: string, volume = 100) {
   AudioManager.playSe({
     name: soundName,
     pan: 0,

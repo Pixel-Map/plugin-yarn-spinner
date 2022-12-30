@@ -1,15 +1,12 @@
 import { getEventIdByName } from './utils';
 
-export function showEntity(args: Array<string>) {
-  if (args.length > 2) {
-    throw new Error('Invalid number of arguments');
+export function showEntity(_callingEventId: number, entityName: string, opacity = 1.0) {
+  if (arguments.length > 1) {
+    // @ts-ignore
+    opacity = parseFloat(opacity);
   }
-
-  let opacity = 1;
-  if (args.length > 1) {
-    opacity = parseFloat(args[1]);
-  }
-  const gameEvent = $gameMap.event(getEventIdByName(args[0]));
+  const targetEventId = entityName != undefined ? getEventIdByName(entityName) : _callingEventId;
+  const gameEvent = $gameMap.event(targetEventId);
 
   if (opacity > 1) {
     throw new Error('Opacity greater than 1, please use a value between 0 and 1');

@@ -32,9 +32,19 @@ export const commands = {
   set_background: setBackground,
 };
 
+function isNum(value: string) {
+  return /^\d+$/.test(value);
+}
+
 export function getCommand(command: keyof typeof commands, args: any, callingEventId: number) {
   if (commands[command]) {
-    return commands[command](args, callingEventId) as unknown as Function;
+    for (let i = 0; i < args.length; i++) {
+      if (isNum(args[i])) {
+        args[i] = parseInt(args[i]);
+      }
+    }
+    // @ts-ignore
+    return commands[command](callingEventId, ...args) as unknown as Function;
   }
   throw new Error('Invalid command');
 }

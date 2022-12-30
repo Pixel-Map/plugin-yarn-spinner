@@ -1,16 +1,17 @@
 title: MoveTest
 ---
 <<move_event up 2 0.25>>
+<<wait 3000>>
 <<move_event down 2 0.25>>
 
 <<move_event right 4 0.25 Monster1>>
 <<move_event right 4 0.25 Monster2>>
 <<move_event right 4 0.25 Monster3>>
-
+<<wait 3000>>
 <<move_event down 4 0.25 Monster1>>
 <<move_event down 4 0.25 Monster2>>
 <<move_event down 4 0.25 Monster3>>
-
+<<wait 3000>>
 <<move_event left 4 0.25 Monster1>>
 <<move_event left 4 0.25 Monster2>>
 <<move_event left 4 0.25 Monster3>>
@@ -21,4 +22,9 @@ title: MoveTest
 <<move_event up 4 0.25 Monster2>>
 <<move_event up 4 0.25 Monster3>>
 
+<<wait 3000>>
+
+<<set_facing down Monster1>>
+<<set_facing down Monster2 >>
+<<set_facing down Monster3>>
 ===

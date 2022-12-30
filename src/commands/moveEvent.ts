@@ -5,16 +5,16 @@ import { getEventIdByName } from './utils';
  * Move an event
  * @example <<MoveEvent MovementMan down 4 0.25>>
  */
-export function moveEvent(args: Array<string>, _callingEventId: number) {
-  if (args.length < 3 || args.length > 4) {
-    throw new Error('Invalid number of arguments');
-  }
-
-  const [directionName, distanceAsStr, speed, eventName = null] = args;
+export function moveEvent(
+  _callingEventId: number,
+  directionName: string,
+  distance: number,
+  speed = 0.25,
+  eventName: string,
+) {
   const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
   const event = $gameMap._events[targetEventId];
 
-  const distance = parseInt(distanceAsStr);
   const direction: DIRECTION = DIRECTION[directionName.toUpperCase() as keyof typeof DIRECTION];
 
   // Force through other events, otherwise it's really inconsistent
@@ -22,7 +22,7 @@ export function moveEvent(args: Array<string>, _callingEventId: number) {
 
   if (event.isMoving()) {
     setTimeout(() => {
-      moveEvent(args, _callingEventId);
+      moveEvent(_callingEventId, directionName, distance, speed, eventName);
     }, 60);
   } else {
     event.moveStraight(direction);
@@ -30,7 +30,7 @@ export function moveEvent(args: Array<string>, _callingEventId: number) {
     setTimeout(() => {
       event.setThrough(false);
       if (distanceRemaining > 0) {
-        moveEvent([args[0], distanceRemaining.toString(), speed, args[3]], _callingEventId);
+        moveEvent(_callingEventId, directionName, distanceRemaining, speed, eventName);
       }
     }, 60);
   }

@@ -188,7 +188,6 @@ async function processYarnDialog(runner: YarnBound, callingEventId: number) {
 async function commandHandler(cmdResult: YarnBound.CommandResult, callingEventId: number) {
   // This matcher splits by spaces, but ignores spaces within quotes
   const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
-
   const cmd = splitCmd[0];
   await getCommand(cmd, splitCmd.slice(1), callingEventId);
 

@@ -1,6 +1,5 @@
 /**
- * addGold
- * description: Adds gold to the player
+ * Adds X amount of gold to the player
  * @param amount - The amount of gold to add
  */
 export function add_gold(_callingEventId: number, amount: number) {

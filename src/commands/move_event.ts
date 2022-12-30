@@ -1,28 +1,29 @@
-import { DIRECTION } from './enums';
-import { getEventIdByName } from './utils';
-
 /**
  * Move an event
  * @example <<MoveEvent MovementMan down 4 0.25>>
+ * @param direction_name - The direction to move the event in.  Can be up, down, left, right
+ * @param distance - The number of tiles to move the event
+ * @param speed - The speed to move the event at.  Default of 0.25
+ * @param eventName - The Name of the event to move (not ID!).  If not provided, defaults to the calling event
  */
 export function move_event(
   _callingEventId: number,
-  directionName: string,
+  direction_name: string,
   distance: number,
-  speed = 0.25,
+  speed: number = 0.25,
   eventName: string,
 ) {
   const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
   const event = $gameMap._events[targetEventId];
 
-  const direction: DIRECTION = DIRECTION[directionName.toUpperCase() as keyof typeof DIRECTION];
+  const direction: DIRECTION = DIRECTION[direction_name.toUpperCase() as keyof typeof DIRECTION];
 
   // Force through other events, otherwise it's really inconsistent
   event.setThrough(true);
 
   if (event.isMoving()) {
     setTimeout(() => {
-      move_event(_callingEventId, directionName, distance, speed, eventName);
+      move_event(_callingEventId, direction_name, distance, speed, eventName);
     }, 60);
   } else {
     event.moveStraight(direction);
@@ -30,8 +31,12 @@ export function move_event(
     setTimeout(() => {
       event.setThrough(false);
       if (distanceRemaining > 0) {
-        move_event(_callingEventId, directionName, distanceRemaining, speed, eventName);
+        move_event(_callingEventId, direction_name, distanceRemaining, speed, eventName);
       }
     }, 60);
   }
 }
+
+// Imports have to be on bottom because of ridiculous TSDoc bug https://github.com/TypeStrong/typedoc/issues/603
+import { DIRECTION } from '../enums';
+import { getEventIdByName } from '../utils';

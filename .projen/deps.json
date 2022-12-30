@@ -97,6 +97,14 @@
       "type": "build"
     },
     {
+      "name": "@microsoft/tsdoc",
+      "type": "runtime"
+    },
+    {
+      "name": "typescript",
+      "type": "runtime"
+    },
+    {
       "name": "yarn-bound",
       "type": "runtime"
     }

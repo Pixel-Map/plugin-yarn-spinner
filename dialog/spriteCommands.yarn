@@ -17,22 +17,22 @@ title: SpriteCommands
 <<set_facing down Monster1>>
 
 <<wait 200>>
-<<show_entity MovementMan 0.8>>
+<<show_event MovementMan 0.8>>
 <<wait 50>>
-<<show_entity MovementMan 0.6>>
+<<show_event MovementMan 0.6>>
 <<wait 50>>
-<<show_entity MovementMan 0.4>>
+<<show_event MovementMan 0.4>>
 <<wait 50>>
-<<show_entity MovementMan 0.2>>
-<<hide_entity MovementMan>>
+<<show_event MovementMan 0.2>>
+<<hide_event MovementMan>>
 <<wait 1000>>
-<<show_entity MovementMan 0.2>>
+<<show_event MovementMan 0.2>>
 <<wait 50>>
-<<show_entity MovementMan 0.4>>
+<<show_event MovementMan 0.4>>
 <<wait 50>>
-<<show_entity MovementMan 0.6>>
+<<show_event MovementMan 0.6>>
 <<wait 50>>
-<<show_entity MovementMan 0.8>>
+<<show_event MovementMan 0.8>>
 <<wait 50>>
-<<show_entity MovementMan>>
+<<show_event MovementMan>>
 ===

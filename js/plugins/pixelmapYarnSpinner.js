@@ -3201,7 +3201,7 @@
     $gameParty.gainGold(amount);
   }
 
-  // src/commands/utils.ts
+  // src/utils.ts
   function getItemIdFromName(itemName) {
     for (const item of $dataItems) {
       if (item && item.name === itemName) {
@@ -3220,8 +3220,8 @@
   }
 
   // src/commands/add_item.ts
-  function add_item(_callingEventId, itemName, quantity = 1) {
-    $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], quantity, false);
+  function add_item(_callingEventId, item_name, quantity = 1) {
+    $gameParty.gainItem($dataItems[getItemIdFromName(item_name)], quantity, false);
   }
 
   // src/commands/fade_in.ts
@@ -3244,14 +3244,14 @@
     $gameScreen.startFlash([red, green, blue, intensity], duration);
   }
 
-  // src/commands/hide_entity.ts
-  function hide_entity(_callingEventId, entityName) {
-    const targetEventId = entityName != void 0 ? getEventIdByName(entityName) : _callingEventId;
+  // src/commands/hide_event.ts
+  function hide_event(_callingEventId, entity_name) {
+    const targetEventId = entity_name != void 0 ? getEventIdByName(entity_name) : _callingEventId;
     const gameEvent = $gameMap.event(targetEventId);
     gameEvent.setOpacity(0);
   }
 
-  // src/commands/enums.ts
+  // src/enums.ts
   var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
     DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
     DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
@@ -3261,14 +3261,14 @@
   })(DIRECTION || {});
 
   // src/commands/move_event.ts
-  function move_event(_callingEventId, directionName, distance, speed = 0.25, eventName) {
+  function move_event(_callingEventId, direction_name, distance, speed = 0.25, eventName) {
     const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
     const event = $gameMap._events[targetEventId];
-    const direction = DIRECTION[directionName.toUpperCase()];
+    const direction = DIRECTION[direction_name.toUpperCase()];
     event.setThrough(true);
     if (event.isMoving()) {
       setTimeout(() => {
-        move_event(_callingEventId, directionName, distance, speed, eventName);
+        move_event(_callingEventId, direction_name, distance, speed, eventName);
       }, 60);
     } else {
       event.moveStraight(direction);
@@ -3276,16 +3276,16 @@
       setTimeout(() => {
         event.setThrough(false);
         if (distanceRemaining > 0) {
-          move_event(_callingEventId, directionName, distanceRemaining, speed, eventName);
+          move_event(_callingEventId, direction_name, distanceRemaining, speed, eventName);
         }
       }, 60);
     }
   }
 
   // src/commands/play_music.ts
-  function play_music(_callingEventId, musicName, volume = 100) {
+  function play_music(_callingEventId, music_name, volume = 100) {
     AudioManager.playBgm({
-      name: musicName,
+      name: music_name,
       pos: 0,
       pan: 0,
       pitch: 100,
@@ -3294,9 +3294,9 @@
   }
 
   // src/commands/play_sound.ts
-  function play_sound(_callingEventId, soundName, volume = 100) {
+  function play_sound(_callingEventId, sound_name, volume = 100) {
     AudioManager.playSe({
-      name: soundName,
+      name: sound_name,
       pan: 0,
       pitch: 100,
       volume,
@@ -3310,8 +3310,8 @@
   }
 
   // src/commands/remove_item.ts
-  function remove_item(_callingEventId, itemName, amount = 1) {
-    $gameParty.loseItem($dataItems[getItemIdFromName(itemName)], amount, false);
+  function remove_item(_callingEventId, item_name, quantity = 1) {
+    $gameParty.loseItem($dataItems[getItemIdFromName(item_name)], quantity, false);
   }
 
   // src/commands/set_background.ts
@@ -3323,18 +3323,18 @@
   }
 
   // src/commands/set_facing.ts
-  function set_facing(_callingEventId, direction, eventName) {
-    const targetEventId = eventName != void 0 ? getEventIdByName(eventName) : _callingEventId;
+  function set_facing(_callingEventId, direction, event_name) {
+    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
     const parsedDirection = DIRECTION[direction.toUpperCase()];
     $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
-  // src/commands/show_entity.ts
-  function show_entity(_callingEventId, entityName, opacity = 1) {
+  // src/commands/show_event.ts
+  function show_event(_callingEventId, event_name, opacity = 1) {
     if (arguments.length > 1) {
       opacity = parseFloat(opacity);
     }
-    const targetEventId = entityName != void 0 ? getEventIdByName(entityName) : _callingEventId;
+    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
     const gameEvent = $gameMap.event(targetEventId);
     if (opacity > 1) {
       throw new Error("Opacity greater than 1, please use a value between 0 and 1");
@@ -3358,14 +3358,14 @@
     fade_out,
     fade_in,
     flash_screen,
-    hide_entity,
+    hide_entity: hide_event,
     move_event,
     play_music,
     play_sound,
     remove_item,
     remove_gold,
     set_facing,
-    show_entity,
+    show_entity: show_event,
     wait,
     set_background
   };

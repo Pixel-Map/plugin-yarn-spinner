@@ -1,6 +1,6 @@
 import { getEventIdByName } from './utils';
 
-export function showEntity(_callingEventId: number, entityName: string, opacity = 1.0) {
+export function show_entity(_callingEventId: number, entityName: string, opacity = 1.0) {
   if (arguments.length > 1) {
     // @ts-ignore
     opacity = parseFloat(opacity);

@@ -1,4 +1,4 @@
-export function playMusic(_callingEventId: number, musicName: string, volume = 100) {
+export function play_music(_callingEventId: number, musicName: string, volume = 100) {
   AudioManager.playBgm({
     name: musicName,
     pos: 0,

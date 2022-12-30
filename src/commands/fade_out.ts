@@ -1,4 +1,4 @@
-export function fadeOut(_callingEventId: number, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
+export function fade_out(_callingEventId: number, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
   if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
     $gameScreen.startFadeOut(duration);
   } else {

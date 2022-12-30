@@ -5,7 +5,7 @@ import { getEventIdByName } from './utils';
  * Move an event
  * @example <<MoveEvent MovementMan down 4 0.25>>
  */
-export function moveEvent(
+export function move_event(
   _callingEventId: number,
   directionName: string,
   distance: number,
@@ -22,7 +22,7 @@ export function moveEvent(
 
   if (event.isMoving()) {
     setTimeout(() => {
-      moveEvent(_callingEventId, directionName, distance, speed, eventName);
+      move_event(_callingEventId, directionName, distance, speed, eventName);
     }, 60);
   } else {
     event.moveStraight(direction);
@@ -30,7 +30,7 @@ export function moveEvent(
     setTimeout(() => {
       event.setThrough(false);
       if (distanceRemaining > 0) {
-        moveEvent(_callingEventId, directionName, distanceRemaining, speed, eventName);
+        move_event(_callingEventId, directionName, distanceRemaining, speed, eventName);
       }
     }, 60);
   }

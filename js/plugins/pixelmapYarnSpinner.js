@@ -3196,8 +3196,8 @@
   // src/index.ts
   var import_yarn_bound = __toESM(require_yarn_bound());
 
-  // src/commands/addGold.ts
-  function addGold(_callingEventId, amount) {
+  // src/commands/add_gold.ts
+  function add_gold(_callingEventId, amount) {
     $gameParty.gainGold(amount);
   }
 
@@ -3219,19 +3219,19 @@
     throw new Error("Could not locate an event with name: " + name);
   }
 
-  // src/commands/addItem.ts
-  function addItem(_callingEventId, itemName, quantity = 1) {
+  // src/commands/add_item.ts
+  function add_item(_callingEventId, itemName, quantity = 1) {
     $gameParty.gainItem($dataItems[getItemIdFromName(itemName)], quantity, false);
   }
 
-  // src/commands/fadeIn.ts
-  function fadeIn(_callingEventId, duration = 24) {
+  // src/commands/fade_in.ts
+  function fade_in(_callingEventId, duration = 24) {
     $gameScreen.startTint([0, 0, 0, 0], duration);
     $gameScreen.startFadeIn(duration);
   }
 
-  // src/commands/fadeOut.ts
-  function fadeOut(_callingEventId, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
+  // src/commands/fade_out.ts
+  function fade_out(_callingEventId, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
     if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
       $gameScreen.startFadeOut(duration);
     } else {
@@ -3239,13 +3239,13 @@
     }
   }
 
-  // src/commands/flashScreen.ts
-  function flashScreen(_callingEventId, duration = 8, red = 0, green = 0, blue = 0, intensity = 255) {
+  // src/commands/flash_screen.ts
+  function flash_screen(_callingEventId, duration = 8, red = 0, green = 0, blue = 0, intensity = 255) {
     $gameScreen.startFlash([red, green, blue, intensity], duration);
   }
 
-  // src/commands/hideEntity.ts
-  function hideEntity(_callingEventId, entityName) {
+  // src/commands/hide_entity.ts
+  function hide_entity(_callingEventId, entityName) {
     const targetEventId = entityName != void 0 ? getEventIdByName(entityName) : _callingEventId;
     const gameEvent = $gameMap.event(targetEventId);
     gameEvent.setOpacity(0);
@@ -3260,15 +3260,15 @@
     return DIRECTION2;
   })(DIRECTION || {});
 
-  // src/commands/moveEvent.ts
-  function moveEvent(_callingEventId, directionName, distance, speed = 0.25, eventName) {
+  // src/commands/move_event.ts
+  function move_event(_callingEventId, directionName, distance, speed = 0.25, eventName) {
     const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
     const event = $gameMap._events[targetEventId];
     const direction = DIRECTION[directionName.toUpperCase()];
     event.setThrough(true);
     if (event.isMoving()) {
       setTimeout(() => {
-        moveEvent(_callingEventId, directionName, distance, speed, eventName);
+        move_event(_callingEventId, directionName, distance, speed, eventName);
       }, 60);
     } else {
       event.moveStraight(direction);
@@ -3276,14 +3276,14 @@
       setTimeout(() => {
         event.setThrough(false);
         if (distanceRemaining > 0) {
-          moveEvent(_callingEventId, directionName, distanceRemaining, speed, eventName);
+          move_event(_callingEventId, directionName, distanceRemaining, speed, eventName);
         }
       }, 60);
     }
   }
 
-  // src/commands/playMusic.ts
-  function playMusic(_callingEventId, musicName, volume = 100) {
+  // src/commands/play_music.ts
+  function play_music(_callingEventId, musicName, volume = 100) {
     AudioManager.playBgm({
       name: musicName,
       pos: 0,
@@ -3293,8 +3293,8 @@
     });
   }
 
-  // src/commands/playSound.ts
-  function playSound(_callingEventId, soundName, volume = 100) {
+  // src/commands/play_sound.ts
+  function play_sound(_callingEventId, soundName, volume = 100) {
     AudioManager.playSe({
       name: soundName,
       pan: 0,
@@ -3304,33 +3304,33 @@
     });
   }
 
-  // src/commands/removeGold.ts
-  function removeGold(_callingEventId, amount) {
+  // src/commands/remove_gold.ts
+  function remove_gold(_callingEventId, amount) {
     $gameParty.loseGold(amount);
   }
 
-  // src/commands/removeItem.ts
-  function removeItem(_callingEventId, itemName, amount = 1) {
+  // src/commands/remove_item.ts
+  function remove_item(_callingEventId, itemName, amount = 1) {
     $gameParty.loseItem($dataItems[getItemIdFromName(itemName)], amount, false);
   }
 
-  // src/commands/setBackground.ts
-  function setBackground(_callingEventId, opacity = 0) {
+  // src/commands/set_background.ts
+  function set_background(_callingEventId, opacity = 0) {
     if (opacity < 0 || opacity > 2) {
       throw new Error("Invalid opacity level, must be between 0 and two");
     }
     $gameMessage.setBackground(opacity);
   }
 
-  // src/commands/setFacing.ts
-  function setFacing(_callingEventId, direction, eventName) {
+  // src/commands/set_facing.ts
+  function set_facing(_callingEventId, direction, eventName) {
     const targetEventId = eventName != void 0 ? getEventIdByName(eventName) : _callingEventId;
     const parsedDirection = DIRECTION[direction.toUpperCase()];
     $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
-  // src/commands/showEntity.ts
-  function showEntity(_callingEventId, entityName, opacity = 1) {
+  // src/commands/show_entity.ts
+  function show_entity(_callingEventId, entityName, opacity = 1) {
     if (arguments.length > 1) {
       opacity = parseFloat(opacity);
     }
@@ -3353,21 +3353,21 @@
 
   // src/commands/index.ts
   var commands = {
-    add_item: addItem,
-    add_gold: addGold,
-    fade_out: fadeOut,
-    fade_in: fadeIn,
-    flash_screen: flashScreen,
-    hide_entity: hideEntity,
-    move_event: moveEvent,
-    play_music: playMusic,
-    play_sound: playSound,
-    remove_item: removeItem,
-    remove_gold: removeGold,
-    set_facing: setFacing,
-    show_entity: showEntity,
+    add_item,
+    add_gold,
+    fade_out,
+    fade_in,
+    flash_screen,
+    hide_entity,
+    move_event,
+    play_music,
+    play_sound,
+    remove_item,
+    remove_gold,
+    set_facing,
+    show_entity,
     wait,
-    set_background: setBackground
+    set_background
   };
   function isNum(value) {
     return /^\d+$/.test(value);

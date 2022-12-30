@@ -1,35 +1,35 @@
-import { addGold } from './addGold';
-import { addItem } from './addItem';
-import { fadeIn } from './fadeIn';
-import { fadeOut } from './fadeOut';
-import { flashScreen } from './flashScreen';
-import { hideEntity } from './hideEntity';
-import { moveEvent } from './moveEvent';
-import { playMusic } from './playMusic';
-import { playSound } from './playSound';
-import { removeGold } from './removeGold';
-import { removeItem } from './removeItem';
-import { setBackground } from './setBackground';
-import { setFacing } from './setFacing';
-import { showEntity } from './showEntity';
+import { add_gold } from './add_gold';
+import { add_item } from './add_item';
+import { fade_in } from './fade_in';
+import { fade_out } from './fade_out';
+import { flash_screen } from './flash_screen';
+import { hide_entity } from './hide_entity';
+import { move_event } from './move_event';
+import { play_music } from './play_music';
+import { play_sound } from './play_sound';
+import { remove_gold } from './remove_gold';
+import { remove_item } from './remove_item';
+import { set_background } from './set_background';
+import { set_facing } from './set_facing';
+import { show_entity } from './show_entity';
 import { wait } from './wait';
 
 export const commands = {
-  add_item: addItem,
-  add_gold: addGold,
-  fade_out: fadeOut,
-  fade_in: fadeIn,
-  flash_screen: flashScreen,
-  hide_entity: hideEntity,
-  move_event: moveEvent,
-  play_music: playMusic,
-  play_sound: playSound,
-  remove_item: removeItem,
-  remove_gold: removeGold,
-  set_facing: setFacing,
-  show_entity: showEntity,
+  add_item: add_item,
+  add_gold: add_gold,
+  fade_out: fade_out,
+  fade_in: fade_in,
+  flash_screen: flash_screen,
+  hide_entity: hide_entity,
+  move_event: move_event,
+  play_music: play_music,
+  play_sound: play_sound,
+  remove_item: remove_item,
+  remove_gold: remove_gold,
+  set_facing: set_facing,
+  show_entity: show_entity,
   wait: wait,
-  set_background: setBackground,
+  set_background: set_background,
 };
 
 function isNum(value: string) {

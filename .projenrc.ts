@@ -3,7 +3,7 @@ import { typescript } from 'projen';
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'rmmz-game',
-
+  license: 'GPL-3.0-or-later',
   artifactsDirectory: 'dist',
   projenrcTs: true,
   deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0'],

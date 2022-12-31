@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { DocComment, ParserContext, TSDocParser } from '@microsoft/tsdoc';
 import { capitalizeFirstLetter } from './capitalizeFirstLetter';
-import { YarnParameterInterface } from './yarnParameter.interface';
 import { getParamTypesFromTS } from './getParamTypesFromTS';
+import { YarnParameterInterface } from './yarnParameter.interface';
 
 interface ParseMethodIntoDocsInterface {
   commandName: string;

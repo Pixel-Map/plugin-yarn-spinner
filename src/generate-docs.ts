@@ -1,7 +1,7 @@
 import * as fs from 'fs';
+import path from 'path';
 import { parseMethodIntoDocs } from './docUtils/parseMethodIntoDocs';
 import { YarnCommandInterface } from './docUtils/yarnCommand.interface';
-import path from 'path';
 import { YarnParameterInterface } from './docUtils/yarnParameter.interface';
 
 const output = {

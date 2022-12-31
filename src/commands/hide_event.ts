@@ -1,6 +1,7 @@
 /**
  * Hides the entity with the given name.  If no entity provided, hides the calling entity
  * @param entity_name - Name of the event to hide.  NOT the ID!
+ * @remarks Event
  */
 export function hide_event(_callingEventId: number, entity_name: string) {
   // If no entity passed in, default to the entity that called hideEntity

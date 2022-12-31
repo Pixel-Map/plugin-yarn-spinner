@@ -2,6 +2,7 @@
  * Shows the event (if it's hidden).  If no event name provided, defaults to calling event.
  * @param event_name - The name of the event to show (not ID!).  If not provided, defaults to the calling event
  * @param opacity - The opacity to show the event at.  Defaults to 1 (fully visible)
+ * @remarks Event
  */
 export function show_event(_callingEventId: number, event_name: string, opacity: number = 1.0) {
   if (arguments.length > 1) {

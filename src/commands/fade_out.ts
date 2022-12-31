@@ -6,6 +6,7 @@
  * @param blue - Blue value of the color to fade to, default of 0 (0-255 range)
  * @param grey - Greyness, default of 0 (0-100 range), 100 is fully black & white.
  * @param alpha - Alpha value of the color to fade to, default of 1 (0-1 range, 0.5 is half transparent)
+ * @remarks Camera
  */
 export function fade_out(
   _callingEventId: number,

@@ -5,6 +5,7 @@
  * @param green - Green value of the color to fade to, default of 0 (0-255 range)
  * @param blue - Blue value of the color to fade to, default of 0 (0-255 range)
  * @param intensity - How intense should the flash be?  Default of 255, which is maximum intensity.
+ * @remarks Camera
  */
 export function flash_screen(
   _callingEventId: number,

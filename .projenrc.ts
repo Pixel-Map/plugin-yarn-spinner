@@ -6,7 +6,7 @@ const project = new typescript.TypeScriptProject({
 
   artifactsDirectory: 'dist',
   projenrcTs: true,
-  deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc'],
+  deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0'],
   entrypoint: 'index.html',
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [

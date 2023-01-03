@@ -4,8 +4,8 @@
 ![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
-* 16+ Commands!
-* 2+ Functions!
+* 21 Commands!
+* 3 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
 
@@ -22,20 +22,23 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 
 ### Camera
 
-| Name         | Signature                                      | Documentation                                            |
-| ------------ | ---------------------------------------------- | -------------------------------------------------------- |
-| fade_in      | fade_in duration                               | Fade in the screen back to normal                        |
-| fade_out     | fade_out duration red green blue grey alpha    | Fade out the screen (to black, or optionally to a color) |
-| flash_screen | flash_screen duration red green blue intensity | Flash the screen (to white, or optionally to a color)    |
+| Name           | Signature                                      | Documentation                                                                                                |
+| -------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| change_weather | change_weather weather_type intensity duration | Changes the weather to the specified weather type, with optional intensity and number of frames to blend in. |
+| fade_in        | fade_in duration                               | Fade in the screen back to normal                                                                            |
+| fade_out       | fade_out duration red green blue grey alpha    | Fade out the screen (to black, or optionally to a color)                                                     |
+| flash_screen   | flash_screen duration red green blue intensity | Flash the screen (to white, or optionally to a color)                                                        |
 
 ### Event
 
-| Name       | Signature                                          | Documentation                                                                                                          |
-| ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| hide_event | hide_event entity_name                             | Hides the entity with the given name.  If no entity provided, hides the calling entity                                 |
-| move_event | move_event direction_name distance speed eventName | Move an event                                                                                                          |
-| set_facing | set_facing direction event_name                    | Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event. |
-| show_event | show_event event_name opacity                      | Shows the event (if it's hidden).  If no event name provided, defaults to calling event.                               |
+| Name            | Signature                                                | Documentation                                                                                                                                                    |
+| --------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hide_event      | hide_event entity_name                                   | Hides the entity with the given name.  If no entity provided, hides the calling entity                                                                           |
+| move_event      | move_event direction_name distance speed event_name      | Move an event                                                                                                                                                    |
+| set_facing      | set_facing direction event_name                          | Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event.                                           |
+| show_balloon    | show_balloon balloon_type event_name                     | Shows a balloon icon above an event.  Defaults to the calling event.  Can optionally pass in "player"for event_name if you'd like it to appear above the player. |
+| show_event      | show_event event_name opacity                            | Shows the event (if it's hidden).  If no event name provided, defaults to calling event.                                                                         |
+| sync_move_event | sync_move_event direction_name distance speed event_name | Move an event (Same as move_event, except blocks script execution until movement is complete)                                                                    |
 
 ### Message
 
@@ -58,10 +61,25 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 | ----- | ------------- | --------------------------------- |
 | wait  | wait duration | Waits for a given amount of time. |
 
+### Teleport
+
+| Name           | Signature                                  | Documentation                                                                                            |
+| -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| set_level      | set_level map_name x y direction fade_type | Teleports the player to the specified map name, at a specific x and y.                                   |
+| teleport_event | teleport_event x y event_name              | Teleports an event to the specified x and y.  If no event name specified, defaults to the calling event. |
+
 ## Functions
 Functions are units of code that Yarn scripts can call to receive a value.
 
 | Name         | Signature              | Documentation                                             |
 | ------------ | ---------------------- | --------------------------------------------------------- |
 | has_item     | has_item(itemName)     | Returns true if the player has the specified item.        |
+| item_count   | item_count(itemName)   | Returns the number of the given item the player has.      |
 | random_range | random_range(min, max) | Given a min and max, return a random number between them. |
+
+
+## Credits
+
+* [Yarn Spinner](https://yarnspinner.dev/) - The Yarn Spinner engine
+* [Yarn Bound](https://github.com/mnbroatch/yarn-bound) - Yarn 2.0 wrapper around bondage.js by mnbroatch.
+* [Plugin Metadata](https://github.com/comuns-rpgmaker/plugin-metadata) - The plugin metadata generator by Comuns

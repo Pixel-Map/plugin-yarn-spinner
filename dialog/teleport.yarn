@@ -1,0 +1,22 @@
+title: SetLevelTest
+---
+Teleporting you to "InsideMap" at 12,12 (x,y)!
+<<set_level InsideMap 12 12 >>
+===
+
+title: TeleportObject
+---
+Teleporting the teleporter a bit...
+<<teleport_event 19 3>>
+<<wait 1500>>
+<<teleport_event 21 3>>
+<<wait 1500>>
+<<teleport_event 20 3>>
+
+Now teleporting someone else...
+<<teleport_event 19 3 Monster1>>
+<<wait 1500>>
+<<teleport_event 21 3 Monster1 >>
+<<wait 1500>>
+<<teleport_event 6 1 Monster1>>
+===

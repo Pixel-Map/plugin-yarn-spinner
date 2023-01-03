@@ -65,7 +65,8 @@ fs.readdirSync('src/functions').forEach((filename) => {
     documentation: parsedMethod.documentation,
   });
 });
-// console.log(JSON.stringify(output, null, 2));
+
+fs.writeFileSync('.ysls.json', JSON.stringify(output, null, 2));
 function groupBy(xs: any, f: any) {
   // @ts-ignore
   return xs.reduce((r: any, v: any, i: any, a: any, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
@@ -81,8 +82,12 @@ let readme =
   'It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! \n' +
   'Here are some of the features:\n' +
   '\n' +
-  '* 16+ Commands!\n' +
-  '* 2+ Functions!\n' +
+  '* ' +
+  allCommands.length +
+  ' Commands!\n' +
+  '* ' +
+  allFunctions.length +
+  ' Functions!\n' +
   '* Stardew Valley mode (See guide for more information)\n' +
   '* Sample Dialog!\n\n## Commands\n';
 readme += "Commands allow Yarn Spinner to control parts of the game that you've built.\n";
@@ -105,8 +110,12 @@ readme += 'Functions are units of code that Yarn scripts can call to receive a v
 readme += tablemark(allFunctions);
 
 // Credits
-readme += '\n\n## Credits';
-readme += '';
+readme +=
+  '\n\n## Credits\n' +
+  '\n' +
+  '* [Yarn Spinner](https://yarnspinner.dev/) - The Yarn Spinner engine\n' +
+  '* [Yarn Bound](https://github.com/mnbroatch/yarn-bound) - Yarn 2.0 wrapper around bondage.js by mnbroatch.\n' +
+  '* [Plugin Metadata](https://github.com/comuns-rpgmaker/plugin-metadata) - The plugin metadata generator by Comuns\n';
 console.log(readme);
 fs.writeFileSync('README.md', readme);
 // console.log(tablemark(allMethods));

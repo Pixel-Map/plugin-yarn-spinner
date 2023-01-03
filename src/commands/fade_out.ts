@@ -11,15 +11,17 @@
 export function fade_out(
   _callingEventId: number,
   duration: number = 24,
-  red: number = 0,
-  green: number = 0,
-  blue: number = 0,
+  red: number = -255,
+  green: number = -255,
+  blue: number = -255,
   grey: number = 0,
   alpha: number = 1,
 ) {
-  if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
-    $gameScreen.startFadeOut(duration);
-  } else {
-    $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
-  }
+  red = red ?? -255;
+  green = green ?? -255;
+  blue = blue ?? -255;
+  grey = grey ?? -255;
+  alpha = alpha ?? 1;
+
+  $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
 }

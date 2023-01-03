@@ -1,0 +1,62 @@
+title: Demo
+---
+<<show_balloon question player>>
+<<play_sound Item1>>
+<<wait 1000>>
+
+/// Dragon questions life
+<<show_balloon question>>
+<<play_sound Item1>>
+<<wait 1000>>
+
+/// Dragon realizes something
+<<show_balloon exclamation>>
+<<play_sound Item2>>
+<<wait 1000>>
+
+/// Fade to Black
+<<play_sound Bell1>>
+<<stop_music 2>>
+<<fade_out 100>>
+<<wait 2000>>
+<<teleport_event 999 999>>
+
+<<jump RainyScene>>
+===
+
+title: RainyScene
+---
+<<play_music Ship1>>
+<<fade_out 200 -68 -68 0 68 1>>
+<<change_weather storm 9 300>>
+
+/// Monsters run out!
+
+<<wait 4000>>
+<<play_sound Door1>>
+<<hide_event Door>>
+<<wait 400>>
+<<teleport_event 15 14 Monster1>>
+<<wait 200>>
+<<sync_move_event down 4 4 Monster1>>
+
+<<teleport_event 15 14 Monster2>>
+<<wait 200>>
+<<move_event down 2 4 Monster2>>
+<<wait 100>>
+<<teleport_event 15 14 Monster3>>
+<<sync_move_event left 2 4 Monster2>>
+<<play_sound Move1>>
+
+<<move_event down 2 4 Monster3>>
+<<play_sound Move1>>
+
+<<move_event right 2 4 Monster3>>
+<<play_sound Move1>>
+
+<<wait 2000>>
+<<set_facing up Monster1>>
+<<set_facing right Monster2>>
+<<set_facing left Monster3>>
+
+===

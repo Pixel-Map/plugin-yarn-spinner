@@ -1,28 +1,28 @@
 title: MoveTest
 ---
-<<move_event up 2 0.25>>
-<<wait 3000>>
-<<move_event down 2 0.25>>
+<<sync_move_event down 2 3>>
+<<sync_move_event up 2 3>>
+<<set_facing down>>
 
-<<move_event right 4 0.25 Monster1>>
-<<move_event right 4 0.25 Monster2>>
-<<move_event right 4 0.25 Monster3>>
-<<wait 3000>>
-<<move_event down 4 0.25 Monster1>>
-<<move_event down 4 0.25 Monster2>>
-<<move_event down 4 0.25 Monster3>>
-<<wait 3000>>
-<<move_event left 4 0.25 Monster1>>
-<<move_event left 4 0.25 Monster2>>
-<<move_event left 4 0.25 Monster3>>
+<<move_event right 4 3 Monster1>>
+<<move_event right 4 3 Monster2>>
+<<move_event right 4 3 Monster3>>
+<<wait 2200>>
 
-<<wait 3000>>
+<<move_event down 4 3 Monster1>>
+<<move_event down 4 3 Monster2>>
+<<move_event down 4 3 Monster3>>
+<<wait 2200>>
 
-<<move_event up 4 0.25 Monster1>>
-<<move_event up 4 0.25 Monster2>>
-<<move_event up 4 0.25 Monster3>>
+<<move_event left 4 3 Monster1>>
+<<move_event left 4 3 Monster2>>
+<<move_event left 4 3 Monster3>>
+<<wait 2200>>
 
-<<wait 3000>>
+<<move_event up 4 3 Monster1>>
+<<move_event up 4 3 Monster2>>
+<<move_event up 4 3 Monster3>>
+<<wait 2200>>
 
 <<set_facing down Monster1>>
 <<set_facing down Monster2 >>

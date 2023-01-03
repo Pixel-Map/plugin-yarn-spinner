@@ -3201,6 +3201,34 @@
     $gameParty.gainGold(amount);
   }
 
+  // src/enums.ts
+  var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
+    DIRECTION2[DIRECTION2["up"] = 8] = "up";
+    DIRECTION2[DIRECTION2["down"] = 2] = "down";
+    DIRECTION2[DIRECTION2["left"] = 4] = "left";
+    DIRECTION2[DIRECTION2["right"] = 6] = "right";
+    return DIRECTION2;
+  })(DIRECTION || {});
+  var FADE_TYPE = /* @__PURE__ */ ((FADE_TYPE2) => {
+    FADE_TYPE2[FADE_TYPE2["fade_black"] = 0] = "fade_black";
+    FADE_TYPE2[FADE_TYPE2["fade_white"] = 1] = "fade_white";
+    FADE_TYPE2[FADE_TYPE2["no_fade"] = 2] = "no_fade";
+    return FADE_TYPE2;
+  })(FADE_TYPE || {});
+  var BALLOON_TYPE = /* @__PURE__ */ ((BALLOON_TYPE2) => {
+    BALLOON_TYPE2[BALLOON_TYPE2["exclamation"] = 1] = "exclamation";
+    BALLOON_TYPE2[BALLOON_TYPE2["question"] = 2] = "question";
+    BALLOON_TYPE2[BALLOON_TYPE2["music_note"] = 3] = "music_note";
+    BALLOON_TYPE2[BALLOON_TYPE2["heart"] = 4] = "heart";
+    BALLOON_TYPE2[BALLOON_TYPE2["anger"] = 5] = "anger";
+    BALLOON_TYPE2[BALLOON_TYPE2["sweat"] = 6] = "sweat";
+    BALLOON_TYPE2[BALLOON_TYPE2["frustration"] = 7] = "frustration";
+    BALLOON_TYPE2[BALLOON_TYPE2["silence"] = 8] = "silence";
+    BALLOON_TYPE2[BALLOON_TYPE2["light_bulb"] = 9] = "light_bulb";
+    BALLOON_TYPE2[BALLOON_TYPE2["zzz"] = 10] = "zzz";
+    return BALLOON_TYPE2;
+  })(BALLOON_TYPE || {});
+
   // src/utils.ts
   function getItemIdFromName(itemName) {
     for (const item of $dataItems) {
@@ -3218,6 +3246,57 @@
     }
     throw new Error("Could not locate an event with name: " + name);
   }
+  function getMapIdByName(name) {
+    for (const map of $dataMapInfos) {
+      if (map?.name == name) {
+        return map.id;
+      }
+    }
+    throw new Error("Could not locate a map with name: " + name);
+  }
+  function getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter((x) => myEnum[x] == enumValue);
+    return keys.length > 0 ? keys[0] : "";
+  }
+  async function moveEntity(_callingEventId, direction_name, distance, speed, event_name, synchronous) {
+    return new Promise(async (finalResolve) => {
+      if (!synchronous) {
+        finalResolve();
+      }
+      let distanceTraveled = 0;
+      while (distanceTraveled < distance) {
+        await new Promise(async function(resolve, _reject) {
+          const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
+          const event = $gameMap._events[targetEventId];
+          const direction = DIRECTION[direction_name];
+          await waitUntilNotMoving(event);
+          event.setThrough(true);
+          event.setMoveSpeed(speed);
+          event.moveStraight(direction);
+          await new Promise((r) => setTimeout(r, 60));
+          await waitUntilNotMoving(event);
+          event.setThrough(false);
+          resolve();
+        });
+        distanceTraveled++;
+      }
+      finalResolve();
+    });
+  }
+  function waitUntilNotMoving(event) {
+    return new Promise(function(resolve, _reject) {
+      if (event.isMoving()) {
+        const interval = setInterval(function() {
+          if (!event.isMoving()) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 60);
+      } else {
+        resolve();
+      }
+    });
+  }
 
   // src/commands/add_item.ts
   function add_item(_callingEventId, item_name, quantity = 1) {
@@ -3231,12 +3310,13 @@
   }
 
   // src/commands/fade_out.ts
-  function fade_out(_callingEventId, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
-    if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
-      $gameScreen.startFadeOut(duration);
-    } else {
-      $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
-    }
+  function fade_out(_callingEventId, duration = 24, red = -255, green = -255, blue = -255, grey = 0, alpha = 1) {
+    red = red ?? -255;
+    green = green ?? -255;
+    blue = blue ?? -255;
+    grey = grey ?? -255;
+    alpha = alpha ?? 1;
+    $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
   }
 
   // src/commands/flash_screen.ts
@@ -3251,35 +3331,9 @@
     gameEvent.setOpacity(0);
   }
 
-  // src/enums.ts
-  var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
-    DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
-    DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
-    DIRECTION2[DIRECTION2["LEFT"] = 4] = "LEFT";
-    DIRECTION2[DIRECTION2["RIGHT"] = 6] = "RIGHT";
-    return DIRECTION2;
-  })(DIRECTION || {});
-
   // src/commands/move_event.ts
-  function move_event(_callingEventId, direction_name, distance, speed = 0.25, eventName) {
-    const targetEventId = eventName ? getEventIdByName(eventName) : _callingEventId;
-    const event = $gameMap._events[targetEventId];
-    const direction = DIRECTION[direction_name.toUpperCase()];
-    event.setThrough(true);
-    if (event.isMoving()) {
-      setTimeout(() => {
-        move_event(_callingEventId, direction_name, distance, speed, eventName);
-      }, 60);
-    } else {
-      event.moveStraight(direction);
-      const distanceRemaining = distance - 1;
-      setTimeout(() => {
-        event.setThrough(false);
-        if (distanceRemaining > 0) {
-          move_event(_callingEventId, direction_name, distanceRemaining, speed, eventName);
-        }
-      }, 60);
-    }
+  async function move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
+    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, false);
   }
 
   // src/commands/play_music.ts
@@ -3325,8 +3379,35 @@
   // src/commands/set_facing.ts
   function set_facing(_callingEventId, direction, event_name) {
     const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
-    const parsedDirection = DIRECTION[direction.toUpperCase()];
+    const parsedDirection = DIRECTION[direction];
     $gameMap._events[targetEventId].setDirection(parsedDirection);
+  }
+
+  // src/commands/set_level.ts
+  function set_level(_callingEventId, map_name, x, y, direction = getEnumKeyByEnumValue(DIRECTION, $gamePlayer.direction()), fade_type = "no_fade") {
+    const parsedDirection = DIRECTION[direction];
+    $gamePlayer.reserveTransfer(
+      getMapIdByName(map_name),
+      x,
+      y,
+      parsedDirection,
+      FADE_TYPE[fade_type]
+    );
+  }
+
+  // src/commands/show_balloon.ts
+  function show_balloon(_callingEventId, balloon_type, event_name) {
+    if (event_name == "player") {
+      $gameTemp.requestBalloon($gamePlayer, BALLOON_TYPE[balloon_type]);
+    } else if (event_name == void 0) {
+      $gameTemp.requestBalloon(
+        $gameMap._events[_callingEventId],
+        BALLOON_TYPE[balloon_type]
+      );
+    } else {
+      const targetEventId = getEventIdByName(event_name);
+      $gameTemp.requestBalloon($gameMap._events[targetEventId], BALLOON_TYPE[balloon_type]);
+    }
   }
 
   // src/commands/show_event.ts
@@ -3346,15 +3427,39 @@
     gameEvent.setOpacity(opacityInHexFormat);
   }
 
+  // src/commands/stop_music.ts
+  function stop_music(_callingEventId, duration = 0) {
+    $gameSystem.saveBgm();
+    AudioManager.fadeOutBgm(duration);
+  }
+
+  // src/commands/sync_move_event.ts
+  async function sync_move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
+    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, true);
+  }
+
+  // src/commands/teleport_event.ts
+  function teleport_event(_callingEventId, x, y, event_name) {
+    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
+    const event = $gameMap._events[targetEventId];
+    event.setPosition(x, y);
+  }
+
   // src/commands/wait.ts
   async function wait(_callingEventId, duration) {
     await new Promise((r) => setTimeout(r, duration));
+  }
+
+  // src/commands/change_weather.ts
+  function change_weather(_callingEventId, weather_type, intensity = 4, duration = 24) {
+    $gameScreen.changeWeather(weather_type, intensity, duration);
   }
 
   // src/commands/index.ts
   var commands = {
     add_item,
     add_gold,
+    change_weather,
     fade_out,
     fade_in,
     flash_screen,
@@ -3365,21 +3470,26 @@
     remove_item,
     remove_gold,
     set_facing,
+    set_level,
+    show_balloon,
     show_event,
+    stop_music,
+    teleport_event,
     wait,
-    set_background
+    set_background,
+    sync_move_event
   };
   function isNum(value) {
     return /^\d+$/.test(value);
   }
-  function getCommand(command, args, callingEventId) {
+  async function getCommand(command, args, callingEventId) {
     if (commands[command]) {
       for (let i = 0; i < args.length; i++) {
         if (isNum(args[i])) {
           args[i] = parseInt(args[i]);
         }
       }
-      return commands[command](callingEventId, ...args);
+      return await commands[command](callingEventId, ...args);
     }
     throw new Error("Invalid command, cannot find: " + command);
   }
@@ -3399,6 +3509,12 @@
     return playerHasItemByName(itemName);
   }
 
+  // src/functions/item_count.ts
+  function item_count(itemName) {
+    const itemId = getItemIdFromName(itemName);
+    return $gameParty.numItems($dataItems[itemId]);
+  }
+
   // src/functions/random_range.ts
   function random_range(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -3407,6 +3523,7 @@
   // src/functions/index.ts
   var functions = {
     has_item,
+    item_count,
     random_range
   };
 

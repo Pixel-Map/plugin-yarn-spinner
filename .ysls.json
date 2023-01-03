@@ -393,6 +393,33 @@
       ]
     },
     {
+      "YarnName": "teleport_event",
+      "DefinitionName": "teleport_event",
+      "Language": "text",
+      "Signature": "teleport_event x y event_name",
+      "Documentation": "Teleports an event to the specified x and y.  If no event name specified, defaults to the calling event.",
+      "Parameters": [
+        {
+          "Name": "x",
+          "Type": "Number",
+          "Documentation": "The x coordinate to teleport the event to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "y",
+          "Type": "Number",
+          "Documentation": "The y coordinate to teleport the event to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "Name (NOT id!) of the event to teleport.  Defaults to calling event.",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
       "YarnName": "wait",
       "DefinitionName": "wait",
       "Language": "text",

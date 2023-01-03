@@ -14,6 +14,7 @@ import { set_facing } from './set_facing';
 import { show_event } from './show_event';
 import { wait } from './wait';
 import { set_level } from './set_level';
+import { teleport_event } from './teleport_event';
 
 export const commands = {
   add_item: add_item,
@@ -30,6 +31,7 @@ export const commands = {
   set_facing: set_facing,
   set_level: set_level,
   show_event: show_event,
+  teleport_event: teleport_event,
   wait: wait,
   set_background: set_background,
 };

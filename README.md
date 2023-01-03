@@ -4,7 +4,7 @@
 ![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
-* 17 Commands!
+* 18 Commands!
 * 2 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
@@ -60,9 +60,10 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 
 ### Teleport
 
-| Name      | Signature                                  | Documentation                                                          |
-| --------- | ------------------------------------------ | ---------------------------------------------------------------------- |
-| set_level | set_level map_name x y direction fade_type | Teleports the player to the specified map name, at a specific x and y. |
+| Name           | Signature                                  | Documentation                                                                                            |
+| -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| set_level      | set_level map_name x y direction fade_type | Teleports the player to the specified map name, at a specific x and y.                                   |
+| teleport_event | teleport_event x y event_name              | Teleports an event to the specified x and y.  If no event name specified, defaults to the calling event. |
 
 ## Functions
 Functions are units of code that Yarn scripts can call to receive a value.

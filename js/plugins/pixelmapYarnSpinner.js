@@ -3381,6 +3381,13 @@
     );
   }
 
+  // src/commands/teleport_event.ts
+  function teleport_event(_callingEventId, x, y, event_name) {
+    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
+    const event = $gameMap._events[targetEventId];
+    event.setPosition(x, y);
+  }
+
   // src/commands/index.ts
   var commands = {
     add_item,
@@ -3397,6 +3404,7 @@
     set_facing,
     set_level,
     show_event,
+    teleport_event,
     wait,
     set_background
   };

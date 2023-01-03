@@ -1,7 +1,7 @@
 # RPGMaker MZ Yarn Spinner Plugin
 
 [Yarn Spinner](https://yarnspinner.dev/) is a fantastic tool designed to make writing game dialogue easier.
-It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
+![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
 * 16+ Commands!

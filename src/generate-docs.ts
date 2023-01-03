@@ -77,6 +77,7 @@ const sortedAsc = new Map([...newmap].sort());
 let readme =
   '# RPGMaker MZ Yarn Spinner Plugin\n\n' +
   '[Yarn Spinner](https://yarnspinner.dev/) is a fantastic tool designed to make writing game dialogue easier.\n' +
+  '![banner](plugin-yarn-spinner.png)' +
   'It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! \n' +
   'Here are some of the features:\n' +
   '\n' +
@@ -102,6 +103,10 @@ sortedAsc.forEach((value: any, key: any) => {
 readme += '\n## Functions\n';
 readme += 'Functions are units of code that Yarn scripts can call to receive a value.\n\n';
 readme += tablemark(allFunctions);
+
+// Credits
+readme += '\n\n## Credits';
+readme += '';
 console.log(readme);
 fs.writeFileSync('README.md', readme);
 // console.log(tablemark(allMethods));

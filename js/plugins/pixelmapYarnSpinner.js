@@ -3218,6 +3218,18 @@
     }
     throw new Error("Could not locate an event with name: " + name);
   }
+  function getMapIdByName(name) {
+    for (const map of $dataMapInfos) {
+      if (map?.name == name) {
+        return map.id;
+      }
+    }
+    throw new Error("Could not locate a map with name: " + name);
+  }
+  function getEnumKeyByEnumValue(myEnum, enumValue) {
+    let keys = Object.keys(myEnum).filter((x) => myEnum[x] == enumValue);
+    return keys.length > 0 ? keys[0] : "";
+  }
 
   // src/commands/add_item.ts
   function add_item(_callingEventId, item_name, quantity = 1) {
@@ -3253,12 +3265,18 @@
 
   // src/enums.ts
   var DIRECTION = /* @__PURE__ */ ((DIRECTION2) => {
-    DIRECTION2[DIRECTION2["UP"] = 8] = "UP";
-    DIRECTION2[DIRECTION2["DOWN"] = 2] = "DOWN";
-    DIRECTION2[DIRECTION2["LEFT"] = 4] = "LEFT";
-    DIRECTION2[DIRECTION2["RIGHT"] = 6] = "RIGHT";
+    DIRECTION2[DIRECTION2["up"] = 8] = "up";
+    DIRECTION2[DIRECTION2["down"] = 2] = "down";
+    DIRECTION2[DIRECTION2["left"] = 4] = "left";
+    DIRECTION2[DIRECTION2["right"] = 6] = "right";
     return DIRECTION2;
   })(DIRECTION || {});
+  var FADE_TYPE = /* @__PURE__ */ ((FADE_TYPE2) => {
+    FADE_TYPE2[FADE_TYPE2["fade_black"] = 0] = "fade_black";
+    FADE_TYPE2[FADE_TYPE2["fade_white"] = 1] = "fade_white";
+    FADE_TYPE2[FADE_TYPE2["no_fade"] = 2] = "no_fade";
+    return FADE_TYPE2;
+  })(FADE_TYPE || {});
 
   // src/commands/move_event.ts
   function move_event(_callingEventId, direction_name, distance, speed = 0.25, eventName) {
@@ -3325,7 +3343,7 @@
   // src/commands/set_facing.ts
   function set_facing(_callingEventId, direction, event_name) {
     const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
-    const parsedDirection = DIRECTION[direction.toUpperCase()];
+    const parsedDirection = DIRECTION[direction];
     $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
@@ -3351,6 +3369,18 @@
     await new Promise((r) => setTimeout(r, duration));
   }
 
+  // src/commands/set_level.ts
+  function set_level(_callingEventId, map_name, x, y, direction = getEnumKeyByEnumValue(DIRECTION, $gamePlayer.direction()), fade_type = "no_fade") {
+    const parsedDirection = DIRECTION[direction];
+    $gamePlayer.reserveTransfer(
+      getMapIdByName(map_name),
+      x,
+      y,
+      parsedDirection,
+      FADE_TYPE[fade_type]
+    );
+  }
+
   // src/commands/index.ts
   var commands = {
     add_item,
@@ -3365,6 +3395,7 @@
     remove_item,
     remove_gold,
     set_facing,
+    set_level,
     show_event,
     wait,
     set_background

@@ -4,8 +4,8 @@
 ![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
-* 16+ Commands!
-* 2+ Functions!
+* 17 Commands!
+* 2 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
 
@@ -58,6 +58,12 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 | ----- | ------------- | --------------------------------- |
 | wait  | wait duration | Waits for a given amount of time. |
 
+### Teleport
+
+| Name      | Signature                                  | Documentation                                                          |
+| --------- | ------------------------------------------ | ---------------------------------------------------------------------- |
+| set_level | set_level map_name x y direction fade_type | Teleports the player to the specified map name, at a specific x and y. |
+
 ## Functions
 Functions are units of code that Yarn scripts can call to receive a value.
 
@@ -65,3 +71,10 @@ Functions are units of code that Yarn scripts can call to receive a value.
 | ------------ | ---------------------- | --------------------------------------------------------- |
 | has_item     | has_item(itemName)     | Returns true if the player has the specified item.        |
 | random_range | random_range(min, max) | Given a min and max, return a random number between them. |
+
+
+## Credits
+
+* [Yarn Spinner](https://yarnspinner.dev/) - The Yarn Spinner engine
+* [Yarn Bound](https://github.com/mnbroatch/yarn-bound) - Yarn 2.0 wrapper around bondage.js by mnbroatch.
+* [Plugin Metadata](https://github.com/comuns-rpgmaker/plugin-metadata) - The plugin metadata generator by Comuns

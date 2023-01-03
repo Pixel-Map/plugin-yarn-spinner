@@ -1,7 +1,7 @@
 /**
  * Move an event
  * @example <<MoveEvent MovementMan down 4 0.25>>
- * @param direction_name - The direction to move the event in.  Can be up, down, left, right
+ * @param direction_name - The direction to move the event in.  (up, down, left, right)
  * @param distance - The number of tiles to move the event
  * @param speed - The speed to move the event at.  Default of 0.25
  * @param eventName - The Name of the event to move (not ID!).  If not provided, defaults to the calling event

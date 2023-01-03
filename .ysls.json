@@ -1,410 +1,449 @@
 {
-    "Commands": [
-      {
-        "YarnName": "add_gold",
-        "DefinitionName": "add_gold",
-        "Documentation": "Adds X amount of gold to the player",
-        "Signature": "add_gold amount",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "amount",
-            "Type": "Number",
-            "Documentation": "The amount of gold to add",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "add_item",
-        "DefinitionName": "add_item",
-        "Documentation": "Adds an item with the provided name to the player's inventory, with an optional quantity.",
-        "Signature": "add_item item_name quantity",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "item_name",
-            "Type": "String",
-            "Documentation": "Name of the item to add (NOT id!)",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "quantity",
-            "Type": "Number",
-            "Documentation": "The quantity of the item to add, default of 1.",
-            "IsParamsArray": false,
-            "DefaultValue": "1"
-          }
-        ]
-      },
-      {
-        "YarnName": "fade_in",
-        "DefinitionName": "fade_in",
-        "Documentation": "Fade in the screen back to normal",
-        "Signature": "fade_in duration",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "duration",
-            "Type": "Number",
-            "Documentation": "Length of time for fade-in duration, default of 24 frames",
-            "IsParamsArray": false,
-            "DefaultValue": "24"
-          }
-        ]
-      },
-      {
-        "YarnName": "fade_out",
-        "DefinitionName": "fade_out",
-        "Documentation": "Fade out the screen (to black, or optionally to a color)",
-        "Signature": "fade_out duration red green blue grey alpha",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "duration",
-            "Type": "Number",
-            "Documentation": "Length of time for fade-out duration, default of 24 frames",
-            "IsParamsArray": false,
-            "DefaultValue": "24"
-          },
-          {
-            "Name": "red",
-            "Type": "Number",
-            "Documentation": "Red value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "green",
-            "Type": "Number",
-            "Documentation": "Green value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "blue",
-            "Type": "Number",
-            "Documentation": "Blue value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "grey",
-            "Type": "Number",
-            "Documentation": "Greyness, default of 0 (0-100 range), 100 is fully black & white.",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "alpha",
-            "Type": "Number",
-            "Documentation": "Alpha value of the color to fade to, default of 1 (0-1 range, 0.5 is half transparent)",
-            "IsParamsArray": false,
-            "DefaultValue": "1"
-          }
-        ]
-      },
-      {
-        "YarnName": "flash_screen",
-        "DefinitionName": "flash_screen",
-        "Documentation": "Flash the screen (to white, or optionally to a color)",
-        "Signature": "flash_screen duration red green blue intensity",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "duration",
-            "Type": "Number",
-            "Documentation": "Length of time for fade-out duration, default of 24 frames",
-            "IsParamsArray": false,
-            "DefaultValue": "8"
-          },
-          {
-            "Name": "red",
-            "Type": "Number",
-            "Documentation": "Red value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "green",
-            "Type": "Number",
-            "Documentation": "Green value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "blue",
-            "Type": "Number",
-            "Documentation": "Blue value of the color to fade to, default of 0 (0-255 range)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          },
-          {
-            "Name": "intensity",
-            "Type": "Number",
-            "Documentation": "How intense should the flash be?  Default of 255, which is maximum intensity.",
-            "IsParamsArray": false,
-            "DefaultValue": "255"
-          }
-        ]
-      },
-      {
-        "YarnName": "hide_event",
-        "DefinitionName": "hide_event",
-        "Documentation": "Hides the entity with the given name.  If no entity provided, hides the calling entity",
-        "Signature": "hide_event entity_name",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "entity_name",
-            "Type": "String",
-            "Documentation": "Name of the event to hide.  NOT the ID!",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "move_event",
-        "DefinitionName": "move_event",
-        "Documentation": "Move an event",
-        "Signature": "move_event direction_name distance speed eventName",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "direction_name",
-            "Type": "String",
-            "Documentation": "The direction to move the event in.  Can be up, down, left, right",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "distance",
-            "Type": "Number",
-            "Documentation": "The number of tiles to move the event",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "speed",
-            "Type": "Number",
-            "Documentation": "The speed to move the event at.  Default of 0.25",
-            "IsParamsArray": false,
-            "DefaultValue": "0.25"
-          },
-          {
-            "Name": "eventName",
-            "Type": "String",
-            "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "play_music",
-        "DefinitionName": "play_music",
-        "Documentation": "Plays a music file",
-        "Signature": "play_music music_name volume",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "music_name",
-            "Type": "String",
-            "Documentation": "Name of the music file to play",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "volume",
-            "Type": "Number",
-            "Documentation": "Volume to play it at, defaults to full volume (100)",
-            "IsParamsArray": false,
-            "DefaultValue": "100"
-          }
-        ]
-      },
-      {
-        "YarnName": "play_sound",
-        "DefinitionName": "play_sound",
-        "Documentation": "Plays a sound file",
-        "Signature": "play_sound sound_name volume",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "sound_name",
-            "Type": "String",
-            "Documentation": "Name of the sound file to play",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "volume",
-            "Type": "Number",
-            "Documentation": "Volume to play it at, defaults to full volume (100)",
-            "IsParamsArray": false,
-            "DefaultValue": "100"
-          }
-        ]
-      },
-      {
-        "YarnName": "remove_gold",
-        "DefinitionName": "remove_gold",
-        "Documentation": "Remove X amount of gold to the player",
-        "Signature": "remove_gold amount",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "amount",
-            "Type": "Number",
-            "Documentation": "The amount of gold to remove",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "remove_item",
-        "DefinitionName": "remove_item",
-        "Documentation": "Adds an item with the provided name to the player's inventory, with an optional quantity.",
-        "Signature": "remove_item item_name quantity",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "item_name",
-            "Type": "String",
-            "Documentation": "Name of the item to add (NOT id!)",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "quantity",
-            "Type": "Number",
-            "Documentation": "The quantity of the item to add, default of 1.",
-            "IsParamsArray": false,
-            "DefaultValue": "1"
-          }
-        ]
-      },
-      {
-        "YarnName": "set_background",
-        "DefinitionName": "set_background",
-        "Documentation": "Sets the background of the message window; options are 0 (fully opaque), 1 (transparent), 2 (invisible background). The default is 0.",
-        "Signature": "set_background opacity",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "opacity",
-            "Type": "Number",
-            "Documentation": "The opacity of the background, 0, 1, or 2.",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          }
-        ]
-      },
-      {
-        "YarnName": "set_facing",
-        "DefinitionName": "set_facing",
-        "Documentation": "Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event.",
-        "Signature": "set_facing direction event_name",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "direction",
-            "Type": "String",
-            "Documentation": "The direction to face (up, down, left, right)",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "event_name",
-            "Type": "String",
-            "Documentation": "The name of the event to face (not ID!).  If not provided, defaults to the calling event",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "show_event",
-        "DefinitionName": "show_event",
-        "Documentation": "Shows the event (if it's hidden).  If no event name provided, defaults to calling event.",
-        "Signature": "show_event event_name opacity",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "event_name",
-            "Type": "String",
-            "Documentation": "The name of the event to show (not ID!).  If not provided, defaults to the calling event",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "opacity",
-            "Type": "Number",
-            "Documentation": "The opacity to show the event at.  Defaults to 1 (fully visible)",
-            "IsParamsArray": false,
-            "DefaultValue": "1"
-          }
-        ]
-      },
-      {
-        "YarnName": "stop_music",
-        "DefinitionName": "stop_music",
-        "Documentation": "Stops the playing music.",
-        "Signature": "stop_music duration",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "duration",
-            "Type": "Number",
-            "Documentation": "Fadeout time, defaults to 0 (no fadeout)",
-            "IsParamsArray": false,
-            "DefaultValue": "0"
-          }
-        ]
-      },
-      {
-        "YarnName": "wait",
-        "DefinitionName": "wait",
-        "Documentation": "Waits for a given amount of time.",
-        "Signature": "wait duration",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "duration",
-            "Type": "Number",
-            "Documentation": "The amount of time to wait in frames",
-            "IsParamsArray": false
-          }
-        ]
-      }
-    ],
-    "Functions": [
-      {
-        "YarnName": "has_item",
-        "DefinitionName": "has_item",
-        "Documentation": "Returns true if the player has the specified item.",
-        "Signature": "has_item(itemName)",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "itemName",
-            "Type": "String",
-            "Documentation": "The name of the item to check for (NOT ID!)",
-            "IsParamsArray": false
-          }
-        ]
-      },
-      {
-        "YarnName": "random_range",
-        "DefinitionName": "random_range",
-        "Documentation": "Given a min and max, return a random number between them.",
-        "Signature": "random_range(min, max)",
-        "Language": "text",
-        "Parameters": [
-          {
-            "Name": "min",
-            "Type": "Number",
-            "Documentation": "The minimum number to return.",
-            "IsParamsArray": false
-          },
-          {
-            "Name": "max",
-            "Type": "Number",
-            "Documentation": "The maximum number to return.",
-            "IsParamsArray": false
-          }
-        ]
-      }
-    ]
-  }
+  "Commands": [
+    {
+      "YarnName": "add_gold",
+      "DefinitionName": "add_gold",
+      "Language": "text",
+      "Signature": "add_gold amount",
+      "Documentation": "Adds X amount of gold to the player",
+      "Parameters": [
+        {
+          "Name": "amount",
+          "Type": "Number",
+          "Documentation": "The amount of gold to add",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "add_item",
+      "DefinitionName": "add_item",
+      "Language": "text",
+      "Signature": "add_item item_name quantity",
+      "Documentation": "Adds an item with the provided name to the player's inventory, with an optional quantity.",
+      "Parameters": [
+        {
+          "Name": "item_name",
+          "Type": "String",
+          "Documentation": "Name of the item to add (NOT id!)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "quantity",
+          "Type": "Number",
+          "Documentation": "The quantity of the item to add, default of 1.",
+          "IsParamsArray": false,
+          "DefaultValue": "1"
+        }
+      ]
+    },
+    {
+      "YarnName": "fade_in",
+      "DefinitionName": "fade_in",
+      "Language": "text",
+      "Signature": "fade_in duration",
+      "Documentation": "Fade in the screen back to normal",
+      "Parameters": [
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "Length of time for fade-in duration, default of 24 frames",
+          "IsParamsArray": false,
+          "DefaultValue": "24"
+        }
+      ]
+    },
+    {
+      "YarnName": "fade_out",
+      "DefinitionName": "fade_out",
+      "Language": "text",
+      "Signature": "fade_out duration red green blue grey alpha",
+      "Documentation": "Fade out the screen (to black, or optionally to a color)",
+      "Parameters": [
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "Length of time for fade-out duration, default of 24 frames",
+          "IsParamsArray": false,
+          "DefaultValue": "24"
+        },
+        {
+          "Name": "red",
+          "Type": "Number",
+          "Documentation": "Red value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "green",
+          "Type": "Number",
+          "Documentation": "Green value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "blue",
+          "Type": "Number",
+          "Documentation": "Blue value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "grey",
+          "Type": "Number",
+          "Documentation": "Greyness, default of 0 (0-100 range), 100 is fully black & white.",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "alpha",
+          "Type": "Number",
+          "Documentation": "Alpha value of the color to fade to, default of 1 (0-1 range, 0.5 is half transparent)",
+          "IsParamsArray": false,
+          "DefaultValue": "1"
+        }
+      ]
+    },
+    {
+      "YarnName": "flash_screen",
+      "DefinitionName": "flash_screen",
+      "Language": "text",
+      "Signature": "flash_screen duration red green blue intensity",
+      "Documentation": "Flash the screen (to white, or optionally to a color)",
+      "Parameters": [
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "Length of time for fade-out duration, default of 24 frames",
+          "IsParamsArray": false,
+          "DefaultValue": "8"
+        },
+        {
+          "Name": "red",
+          "Type": "Number",
+          "Documentation": "Red value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "green",
+          "Type": "Number",
+          "Documentation": "Green value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "blue",
+          "Type": "Number",
+          "Documentation": "Blue value of the color to fade to, default of 0 (0-255 range)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        },
+        {
+          "Name": "intensity",
+          "Type": "Number",
+          "Documentation": "How intense should the flash be?  Default of 255, which is maximum intensity.",
+          "IsParamsArray": false,
+          "DefaultValue": "255"
+        }
+      ]
+    },
+    {
+      "YarnName": "hide_event",
+      "DefinitionName": "hide_event",
+      "Language": "text",
+      "Signature": "hide_event entity_name",
+      "Documentation": "Hides the entity with the given name.  If no entity provided, hides the calling entity",
+      "Parameters": [
+        {
+          "Name": "entity_name",
+          "Type": "String",
+          "Documentation": "Name of the event to hide.  NOT the ID!",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "move_event",
+      "DefinitionName": "move_event",
+      "Language": "text",
+      "Signature": "move_event direction_name distance speed eventName",
+      "Documentation": "Move an event",
+      "Parameters": [
+        {
+          "Name": "direction_name",
+          "Type": "String",
+          "Documentation": "The direction to move the event in.  (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "distance",
+          "Type": "Number",
+          "Documentation": "The number of tiles to move the event",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "speed",
+          "Type": "Number",
+          "Documentation": "The speed to move the event at.  Default of 0.25",
+          "IsParamsArray": false,
+          "DefaultValue": "0.25"
+        },
+        {
+          "Name": "eventName",
+          "Type": "String",
+          "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "play_music",
+      "DefinitionName": "play_music",
+      "Language": "text",
+      "Signature": "play_music music_name volume",
+      "Documentation": "Plays a music file",
+      "Parameters": [
+        {
+          "Name": "music_name",
+          "Type": "String",
+          "Documentation": "Name of the music file to play",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "volume",
+          "Type": "Number",
+          "Documentation": "Volume to play it at, defaults to full volume (100)",
+          "IsParamsArray": false,
+          "DefaultValue": "100"
+        }
+      ]
+    },
+    {
+      "YarnName": "play_sound",
+      "DefinitionName": "play_sound",
+      "Language": "text",
+      "Signature": "play_sound sound_name volume",
+      "Documentation": "Plays a sound file",
+      "Parameters": [
+        {
+          "Name": "sound_name",
+          "Type": "String",
+          "Documentation": "Name of the sound file to play",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "volume",
+          "Type": "Number",
+          "Documentation": "Volume to play it at, defaults to full volume (100)",
+          "IsParamsArray": false,
+          "DefaultValue": "100"
+        }
+      ]
+    },
+    {
+      "YarnName": "remove_gold",
+      "DefinitionName": "remove_gold",
+      "Language": "text",
+      "Signature": "remove_gold amount",
+      "Documentation": "Remove X amount of gold to the player",
+      "Parameters": [
+        {
+          "Name": "amount",
+          "Type": "Number",
+          "Documentation": "The amount of gold to remove",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "remove_item",
+      "DefinitionName": "remove_item",
+      "Language": "text",
+      "Signature": "remove_item item_name quantity",
+      "Documentation": "Adds an item with the provided name to the player's inventory, with an optional quantity.",
+      "Parameters": [
+        {
+          "Name": "item_name",
+          "Type": "String",
+          "Documentation": "Name of the item to add (NOT id!)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "quantity",
+          "Type": "Number",
+          "Documentation": "The quantity of the item to add, default of 1.",
+          "IsParamsArray": false,
+          "DefaultValue": "1"
+        }
+      ]
+    },
+    {
+      "YarnName": "set_background",
+      "DefinitionName": "set_background",
+      "Language": "text",
+      "Signature": "set_background opacity",
+      "Documentation": "Sets the background of the message window; options are 0 (fully opaque), 1 (transparent), 2 (invisible background). The default is 0.",
+      "Parameters": [
+        {
+          "Name": "opacity",
+          "Type": "Number",
+          "Documentation": "The opacity of the background, 0, 1, or 2.",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        }
+      ]
+    },
+    {
+      "YarnName": "set_facing",
+      "DefinitionName": "set_facing",
+      "Language": "text",
+      "Signature": "set_facing direction event_name",
+      "Documentation": "Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event.",
+      "Parameters": [
+        {
+          "Name": "direction",
+          "Type": "String",
+          "Documentation": "The direction to face (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "The name of the event to face (not ID!).  If not provided, defaults to the calling event",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "set_level",
+      "DefinitionName": "set_level",
+      "Language": "text",
+      "Signature": "set_level map_name x y direction fade_type",
+      "Documentation": "Teleports the player to the specified map name, at a specific x and y.",
+      "Parameters": [
+        {
+          "Name": "map_name",
+          "Type": "String",
+          "Documentation": "Name (NOT id!) of the map to teleport the player to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "x",
+          "Type": "Number",
+          "Documentation": "The x coordinate to teleport the player to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "y",
+          "Type": "Number",
+          "Documentation": "The y coordinate to teleport the player to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "direction",
+          "Type": "String",
+          "Documentation": "The direction the player should face after teleporting, defaults to current player direction (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "fade_type",
+          "Type": "String",
+          "Documentation": "The type of fade to use when teleporting, defaults to no_fade. (fade_black, fade_white, no_fade)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "show_event",
+      "DefinitionName": "show_event",
+      "Language": "text",
+      "Signature": "show_event event_name opacity",
+      "Documentation": "Shows the event (if it's hidden).  If no event name provided, defaults to calling event.",
+      "Parameters": [
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "The name of the event to show (not ID!).  If not provided, defaults to the calling event",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "opacity",
+          "Type": "Number",
+          "Documentation": "The opacity to show the event at.  Defaults to 1 (fully visible)",
+          "IsParamsArray": false,
+          "DefaultValue": "1"
+        }
+      ]
+    },
+    {
+      "YarnName": "stop_music",
+      "DefinitionName": "stop_music",
+      "Language": "text",
+      "Signature": "stop_music duration",
+      "Documentation": "Stops the playing music.",
+      "Parameters": [
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "Fadeout time, defaults to 0 (no fadeout)",
+          "IsParamsArray": false,
+          "DefaultValue": "0"
+        }
+      ]
+    },
+    {
+      "YarnName": "wait",
+      "DefinitionName": "wait",
+      "Language": "text",
+      "Signature": "wait duration",
+      "Documentation": "Waits for a given amount of time.",
+      "Parameters": [
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "The amount of time to wait in frames",
+          "IsParamsArray": false
+        }
+      ]
+    }
+  ],
+  "Functions": [
+    {
+      "YarnName": "has_item",
+      "DefinitionName": "has_item",
+      "Language": "text",
+      "Signature": "has_item(itemName)",
+      "Documentation": "Returns true if the player has the specified item.",
+      "Parameters": [
+        {
+          "Name": "itemName",
+          "Type": "String",
+          "Documentation": "The name of the item to check for (NOT ID!)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "random_range",
+      "DefinitionName": "random_range",
+      "Language": "text",
+      "Signature": "random_range(min, max)",
+      "Documentation": "Given a min and max, return a random number between them.",
+      "Parameters": [
+        {
+          "Name": "min",
+          "Type": "Number",
+          "Documentation": "The minimum number to return.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "max",
+          "Type": "Number",
+          "Documentation": "The maximum number to return.",
+          "IsParamsArray": false
+        }
+      ]
+    }
+  ]
+}

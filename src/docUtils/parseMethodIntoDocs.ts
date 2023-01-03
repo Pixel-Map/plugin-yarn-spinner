@@ -45,7 +45,7 @@ export function parseMethodIntoDocs(filename: string, type: 'function' | 'comman
 
     // @ts-ignore
     const documentation = paramBlock.content.getChildNodes()[0].getChildNodes()[0]._text;
-    const parameterFromTS = parameterTypes.find(
+    let parameterFromTS = parameterTypes.find(
       (x: { parameterName: string }) => x.parameterName === paramBlock.parameterName,
     );
     if (!parameterFromTS!.parameterType) {
@@ -54,6 +54,9 @@ export function parseMethodIntoDocs(filename: string, type: 'function' | 'comman
         paramBlock.parameterName +
         ', perhaps you set default = something, and did not specify a type?'
       );
+    }
+    if (parameterFromTS!.parameterType.startsWith('keyof')) {
+      parameterFromTS!.parameterType = 'string';
     }
     const parameter = {
       Name: paramBlock.parameterName,

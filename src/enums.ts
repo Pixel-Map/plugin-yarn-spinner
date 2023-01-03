@@ -1,6 +1,12 @@
 export enum DIRECTION {
-  UP = 8,
-  DOWN = 2,
-  LEFT = 4,
-  RIGHT = 6,
+  up = 8,
+  down = 2,
+  left = 4,
+  right = 6,
+}
+
+export enum FADE_TYPE {
+  fade_black = 0,
+  fade_white = 1,
+  no_fade = 2,
 }

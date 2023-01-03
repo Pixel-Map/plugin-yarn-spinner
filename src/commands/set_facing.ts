@@ -4,9 +4,9 @@
  * @param event_name - The name of the event to face (not ID!).  If not provided, defaults to the calling event
  * @remarks Event
  */
-export function set_facing(_callingEventId: number, direction: string, event_name: string) {
+export function set_facing(_callingEventId: number, direction: keyof DIRECTION, event_name: string) {
   const targetEventId = event_name != undefined ? getEventIdByName(event_name) : _callingEventId;
-  const parsedDirection: DIRECTION = DIRECTION[direction.toUpperCase() as keyof typeof DIRECTION];
+  const parsedDirection: DIRECTION = DIRECTION[direction as keyof typeof DIRECTION];
   $gameMap._events[targetEventId].setDirection(parsedDirection);
 }
 

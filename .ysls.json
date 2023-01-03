@@ -452,6 +452,21 @@
       ]
     },
     {
+      "YarnName": "item_count",
+      "DefinitionName": "item_count",
+      "Language": "text",
+      "Signature": "item_count(itemName)",
+      "Documentation": "Returns the number of the given item the player has.",
+      "Parameters": [
+        {
+          "Name": "itemName",
+          "Type": "String",
+          "Documentation": "The name of the item to check for (NOT ID!)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
       "YarnName": "random_range",
       "DefinitionName": "random_range",
       "Language": "text",

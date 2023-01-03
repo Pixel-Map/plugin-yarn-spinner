@@ -3443,9 +3443,16 @@
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  // src/functions/item_count.ts
+  function item_count(itemName) {
+    const itemId = getItemIdFromName(itemName);
+    return $gameParty.numItems($dataItems[itemId]);
+  }
+
   // src/functions/index.ts
   var functions = {
     has_item,
+    item_count,
     random_range
   };
 

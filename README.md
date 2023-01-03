@@ -5,7 +5,7 @@
 Here are some of the features:
 
 * 18 Commands!
-* 2 Functions!
+* 3 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
 
@@ -71,6 +71,7 @@ Functions are units of code that Yarn scripts can call to receive a value.
 | Name         | Signature              | Documentation                                             |
 | ------------ | ---------------------- | --------------------------------------------------------- |
 | has_item     | has_item(itemName)     | Returns true if the player has the specified item.        |
+| item_count   | item_count(itemName)   | Returns the number of the given item the player has.      |
 | random_range | random_range(min, max) | Given a min and max, return a random number between them. |
 
 

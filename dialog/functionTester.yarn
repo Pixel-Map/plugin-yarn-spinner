@@ -1,9 +1,9 @@
 title: Hello
 ---
 <<if has_item("Full Potion") is true>>
-Good day sir, nice potion you have.
+Good day sir, nice potion you have.  Also, I see that you have {item_count("Magic Water")} Magic Waters.  I'll take those off your hands for 100 gold.
 <<else>>
 Bet you wish you had a potion
 <<endif>>
-Right?
+Cool?
 ===

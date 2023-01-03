@@ -11,10 +11,10 @@ import { remove_gold } from './remove_gold';
 import { remove_item } from './remove_item';
 import { set_background } from './set_background';
 import { set_facing } from './set_facing';
-import { show_event } from './show_event';
-import { wait } from './wait';
 import { set_level } from './set_level';
+import { show_event } from './show_event';
 import { teleport_event } from './teleport_event';
+import { wait } from './wait';
 
 export const commands = {
   add_item: add_item,

@@ -167,7 +167,7 @@
       "YarnName": "move_event",
       "DefinitionName": "move_event",
       "Language": "text",
-      "Signature": "move_event direction_name distance speed eventName",
+      "Signature": "move_event direction_name distance speed event_name",
       "Documentation": "Move an event",
       "Parameters": [
         {
@@ -190,7 +190,7 @@
           "DefaultValue": "0.25"
         },
         {
-          "Name": "eventName",
+          "Name": "event_name",
           "Type": "String",
           "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
           "IsParamsArray": false
@@ -389,6 +389,40 @@
           "Documentation": "Fadeout time, defaults to 0 (no fadeout)",
           "IsParamsArray": false,
           "DefaultValue": "0"
+        }
+      ]
+    },
+    {
+      "YarnName": "sync_move_event",
+      "DefinitionName": "sync_move_event",
+      "Language": "text",
+      "Signature": "sync_move_event direction_name distance speed event_name",
+      "Documentation": "Move an event (Same as move_event, except blocks script execution until movement is complete)",
+      "Parameters": [
+        {
+          "Name": "direction_name",
+          "Type": "String",
+          "Documentation": "The direction to move the event in.  (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "distance",
+          "Type": "Number",
+          "Documentation": "The number of tiles to move the event",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "speed",
+          "Type": "Number",
+          "Documentation": "The speed to move the event at.  Default of 0.25",
+          "IsParamsArray": false,
+          "DefaultValue": "0.25"
+        },
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
+          "IsParamsArray": false
         }
       ]
     },

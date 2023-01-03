@@ -13,6 +13,7 @@ import { set_background } from './set_background';
 import { set_facing } from './set_facing';
 import { set_level } from './set_level';
 import { show_event } from './show_event';
+import { sync_move_event } from './sync_move_event';
 import { teleport_event } from './teleport_event';
 import { wait } from './wait';
 
@@ -34,13 +35,14 @@ export const commands = {
   teleport_event: teleport_event,
   wait: wait,
   set_background: set_background,
+  sync_move_event: sync_move_event,
 };
 
 function isNum(value: string) {
   return /^\d+$/.test(value);
 }
 
-export function getCommand(command: keyof typeof commands, args: any, callingEventId: number) {
+export async function getCommand(command: keyof typeof commands, args: any, callingEventId: number) {
   if (commands[command]) {
     for (let i = 0; i < args.length; i++) {
       if (isNum(args[i])) {
@@ -48,7 +50,7 @@ export function getCommand(command: keyof typeof commands, args: any, callingEve
       }
     }
     // @ts-ignore
-    return commands[command](callingEventId, ...args) as unknown as Function;
+    return (await commands[command](callingEventId, ...args)) as unknown as Function;
   }
   throw new Error('Invalid command, cannot find: ' + command);
 }

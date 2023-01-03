@@ -4,7 +4,7 @@
 ![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
-* 20 Commands!
+* 21 Commands!
 * 3 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
@@ -22,11 +22,12 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 
 ### Camera
 
-| Name         | Signature                                      | Documentation                                            |
-| ------------ | ---------------------------------------------- | -------------------------------------------------------- |
-| fade_in      | fade_in duration                               | Fade in the screen back to normal                        |
-| fade_out     | fade_out duration red green blue grey alpha    | Fade out the screen (to black, or optionally to a color) |
-| flash_screen | flash_screen duration red green blue intensity | Flash the screen (to white, or optionally to a color)    |
+| Name           | Signature                                      | Documentation                                                                                                |
+| -------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| change_weather | change_weather weather_type intensity duration | Changes the weather to the specified weather type, with optional intensity and number of frames to blend in. |
+| fade_in        | fade_in duration                               | Fade in the screen back to normal                                                                            |
+| fade_out       | fade_out duration red green blue grey alpha    | Fade out the screen (to black, or optionally to a color)                                                     |
+| flash_screen   | flash_screen duration red green blue intensity | Flash the screen (to white, or optionally to a color)                                                        |
 
 ### Event
 

@@ -38,6 +38,35 @@
       ]
     },
     {
+      "YarnName": "change_weather",
+      "DefinitionName": "change_weather",
+      "Language": "text",
+      "Signature": "change_weather weather_type intensity duration",
+      "Documentation": "Changes the weather to the specified weather type, with optional intensity and number of frames to blend in.",
+      "Parameters": [
+        {
+          "Name": "weather_type",
+          "Type": "String",
+          "Documentation": "The type of weather.  (none, rain, storm, snow)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "intensity",
+          "Type": "Number",
+          "Documentation": "On a scale of 1-9, defaults to 4",
+          "IsParamsArray": false,
+          "DefaultValue": "4"
+        },
+        {
+          "Name": "duration",
+          "Type": "Number",
+          "Documentation": "Number of frames to blend in, defaults to 24",
+          "IsParamsArray": false,
+          "DefaultValue": "24"
+        }
+      ]
+    },
+    {
       "YarnName": "fade_in",
       "DefinitionName": "fade_in",
       "Language": "text",
@@ -71,22 +100,19 @@
           "Name": "red",
           "Type": "Number",
           "Documentation": "Red value of the color to fade to, default of 0 (0-255 range)",
-          "IsParamsArray": false,
-          "DefaultValue": "0"
+          "IsParamsArray": false
         },
         {
           "Name": "green",
           "Type": "Number",
           "Documentation": "Green value of the color to fade to, default of 0 (0-255 range)",
-          "IsParamsArray": false,
-          "DefaultValue": "0"
+          "IsParamsArray": false
         },
         {
           "Name": "blue",
           "Type": "Number",
           "Documentation": "Blue value of the color to fade to, default of 0 (0-255 range)",
-          "IsParamsArray": false,
-          "DefaultValue": "0"
+          "IsParamsArray": false
         },
         {
           "Name": "grey",

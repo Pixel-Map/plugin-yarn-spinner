@@ -1,5 +1,6 @@
 import { add_gold } from './add_gold';
 import { add_item } from './add_item';
+import { change_weather } from './change_weather';
 import { fade_in } from './fade_in';
 import { fade_out } from './fade_out';
 import { flash_screen } from './flash_screen';
@@ -22,6 +23,7 @@ import { wait } from './wait';
 export const commands = {
   add_item: add_item,
   add_gold: add_gold,
+  change_weather: change_weather,
   fade_out: fade_out,
   fade_in: fade_in,
   flash_screen: flash_screen,

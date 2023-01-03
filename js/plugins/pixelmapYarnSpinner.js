@@ -3450,10 +3450,16 @@
     await new Promise((r) => setTimeout(r, duration));
   }
 
+  // src/commands/change_weather.ts
+  function change_weather(_callingEventId, weather_type, intensity = 4, duration = 24) {
+    $gameScreen.changeWeather(weather_type, intensity, duration);
+  }
+
   // src/commands/index.ts
   var commands = {
     add_item,
     add_gold,
+    change_weather,
     fade_out,
     fade_in,
     flash_screen,

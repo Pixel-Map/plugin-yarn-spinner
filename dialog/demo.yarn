@@ -1,0 +1,24 @@
+title: Demo
+---
+
+<<show_balloon question player>>
+<<play_sound Item1>>
+<<wait 1000>>
+
+<<show_balloon question>>
+<<play_sound Item1>>
+<<wait 1000>>
+
+<<show_balloon exclamation>>
+<<play_sound Item2>>
+<<wait 1000>>
+
+<<play_sound Bell1>>
+<<stop_music 2>>
+<<fade_out 100>>
+<<wait 2000>>
+<<teleport_event 999 999>>
+
+<<fade_out 200 -68 -68 0 68 1>>
+
+===

@@ -4,7 +4,7 @@
 ![banner](plugin-yarn-spinner.png)It was created by the makers of "Night in the Woods", and now you can finally use it within your [RPGMaker MZ](https://www.rpgmakerweb.com/products/rpg-maker-mz) games! 
 Here are some of the features:
 
-* 19 Commands!
+* 20 Commands!
 * 3 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
@@ -30,13 +30,14 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 
 ### Event
 
-| Name            | Signature                                                | Documentation                                                                                                          |
-| --------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| hide_event      | hide_event entity_name                                   | Hides the entity with the given name.  If no entity provided, hides the calling entity                                 |
-| move_event      | move_event direction_name distance speed event_name      | Move an event                                                                                                          |
-| set_facing      | set_facing direction event_name                          | Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event. |
-| show_event      | show_event event_name opacity                            | Shows the event (if it's hidden).  If no event name provided, defaults to calling event.                               |
-| sync_move_event | sync_move_event direction_name distance speed event_name | Move an event (Same as move_event, except blocks script execution until movement is complete)                          |
+| Name            | Signature                                                | Documentation                                                                                                                                                    |
+| --------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hide_event      | hide_event entity_name                                   | Hides the entity with the given name.  If no entity provided, hides the calling entity                                                                           |
+| move_event      | move_event direction_name distance speed event_name      | Move an event                                                                                                                                                    |
+| set_facing      | set_facing direction event_name                          | Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event.                                           |
+| show_balloon    | show_balloon balloon_type event_name                     | Shows a balloon icon above an event.  Defaults to the calling event.  Can optionally pass in "player"for event_name if you'd like it to appear above the player. |
+| show_event      | show_event event_name opacity                            | Shows the event (if it's hidden).  If no event name provided, defaults to calling event.                                                                         |
+| sync_move_event | sync_move_event direction_name distance speed event_name | Move an event (Same as move_event, except blocks script execution until movement is complete)                                                                    |
 
 ### Message
 

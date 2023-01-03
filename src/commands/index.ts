@@ -12,7 +12,9 @@ import { remove_item } from './remove_item';
 import { set_background } from './set_background';
 import { set_facing } from './set_facing';
 import { set_level } from './set_level';
+import { show_balloon } from './show_balloon';
 import { show_event } from './show_event';
+import { stop_music } from './stop_music';
 import { sync_move_event } from './sync_move_event';
 import { teleport_event } from './teleport_event';
 import { wait } from './wait';
@@ -31,7 +33,9 @@ export const commands = {
   remove_gold: remove_gold,
   set_facing: set_facing,
   set_level: set_level,
+  show_balloon: show_balloon,
   show_event: show_event,
+  stop_music: stop_music,
   teleport_event: teleport_event,
   wait: wait,
   set_background: set_background,

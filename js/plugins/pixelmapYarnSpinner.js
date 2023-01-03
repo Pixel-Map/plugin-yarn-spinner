@@ -3215,6 +3215,19 @@
     FADE_TYPE2[FADE_TYPE2["no_fade"] = 2] = "no_fade";
     return FADE_TYPE2;
   })(FADE_TYPE || {});
+  var BALLOON_TYPE = /* @__PURE__ */ ((BALLOON_TYPE2) => {
+    BALLOON_TYPE2[BALLOON_TYPE2["exclamation"] = 1] = "exclamation";
+    BALLOON_TYPE2[BALLOON_TYPE2["question"] = 2] = "question";
+    BALLOON_TYPE2[BALLOON_TYPE2["music_note"] = 3] = "music_note";
+    BALLOON_TYPE2[BALLOON_TYPE2["heart"] = 4] = "heart";
+    BALLOON_TYPE2[BALLOON_TYPE2["anger"] = 5] = "anger";
+    BALLOON_TYPE2[BALLOON_TYPE2["sweat"] = 6] = "sweat";
+    BALLOON_TYPE2[BALLOON_TYPE2["frustration"] = 7] = "frustration";
+    BALLOON_TYPE2[BALLOON_TYPE2["silence"] = 8] = "silence";
+    BALLOON_TYPE2[BALLOON_TYPE2["light_bulb"] = 9] = "light_bulb";
+    BALLOON_TYPE2[BALLOON_TYPE2["zzz"] = 10] = "zzz";
+    return BALLOON_TYPE2;
+  })(BALLOON_TYPE || {});
 
   // src/utils.ts
   function getItemIdFromName(itemName) {
@@ -3257,14 +3270,11 @@
           const event = $gameMap._events[targetEventId];
           const direction = DIRECTION[direction_name];
           await waitUntilNotMoving(event);
-          console.log("did I make it");
           event.setThrough(true);
           event.setMoveSpeed(speed);
           event.moveStraight(direction);
-          console.log("yes sir");
           await new Promise((r) => setTimeout(r, 60));
           await waitUntilNotMoving(event);
-          console.log("no sir");
           event.setThrough(false);
           resolve();
         });
@@ -3300,12 +3310,13 @@
   }
 
   // src/commands/fade_out.ts
-  function fade_out(_callingEventId, duration = 24, red = 0, green = 0, blue = 0, grey = 0, alpha = 1) {
-    if (red === 0 && green === 0 && blue === 0 && grey === 0 && alpha === 1) {
-      $gameScreen.startFadeOut(duration);
-    } else {
-      $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
-    }
+  function fade_out(_callingEventId, duration = 24, red = -255, green = -255, blue = -255, grey = 0, alpha = 1) {
+    red = red ?? -255;
+    green = green ?? -255;
+    blue = blue ?? -255;
+    grey = grey ?? -255;
+    alpha = alpha ?? 1;
+    $gameScreen.startTint([red * alpha, green * alpha, blue * alpha, grey * alpha], duration);
   }
 
   // src/commands/flash_screen.ts
@@ -3384,6 +3395,21 @@
     );
   }
 
+  // src/commands/show_balloon.ts
+  function show_balloon(_callingEventId, balloon_type, event_name) {
+    if (event_name == "player") {
+      $gameTemp.requestBalloon($gamePlayer, BALLOON_TYPE[balloon_type]);
+    } else if (event_name == void 0) {
+      $gameTemp.requestBalloon(
+        $gameMap._events[_callingEventId],
+        BALLOON_TYPE[balloon_type]
+      );
+    } else {
+      const targetEventId = getEventIdByName(event_name);
+      $gameTemp.requestBalloon($gameMap._events[targetEventId], BALLOON_TYPE[balloon_type]);
+    }
+  }
+
   // src/commands/show_event.ts
   function show_event(_callingEventId, event_name, opacity = 1) {
     if (arguments.length > 1) {
@@ -3401,6 +3427,17 @@
     gameEvent.setOpacity(opacityInHexFormat);
   }
 
+  // src/commands/stop_music.ts
+  function stop_music(_callingEventId, duration = 0) {
+    $gameSystem.saveBgm();
+    AudioManager.fadeOutBgm(duration);
+  }
+
+  // src/commands/sync_move_event.ts
+  async function sync_move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
+    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, true);
+  }
+
   // src/commands/teleport_event.ts
   function teleport_event(_callingEventId, x, y, event_name) {
     const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
@@ -3411,11 +3448,6 @@
   // src/commands/wait.ts
   async function wait(_callingEventId, duration) {
     await new Promise((r) => setTimeout(r, duration));
-  }
-
-  // src/commands/sync_move_event.ts
-  async function sync_move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
-    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, true);
   }
 
   // src/commands/index.ts
@@ -3433,7 +3465,9 @@
     remove_gold,
     set_facing,
     set_level,
+    show_balloon,
     show_event,
+    stop_music,
     teleport_event,
     wait,
     set_background,

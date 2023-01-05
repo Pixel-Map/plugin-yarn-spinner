@@ -10,6 +10,10 @@ Here are some of the features:
 * Sample Dialog!
 
 ## Commands
+
+## Demo
+[![Plugin Demo](https://img.youtube.com/vi/xRlhuiQvHjE/0.jpg)](https://www.youtube.com/watch?v=xRlhuiQvHjE)
+
 Commands allow Yarn Spinner to control parts of the game that you've built.
 
 ### Audio

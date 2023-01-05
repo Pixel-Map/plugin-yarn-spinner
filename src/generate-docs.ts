@@ -90,6 +90,9 @@ let readme =
   ' Functions!\n' +
   '* Stardew Valley mode (See guide for more information)\n' +
   '* Sample Dialog!\n\n## Commands\n';
+readme += '\n' +
+  '## Demo\n' +
+  '[![Plugin Demo](https://img.youtube.com/vi/xRlhuiQvHjE/0.jpg)](https://www.youtube.com/watch?v=xRlhuiQvHjE)\n\n';
 readme += "Commands allow Yarn Spinner to control parts of the game that you've built.\n";
 
 sortedAsc.forEach((value: any, key: any) => {

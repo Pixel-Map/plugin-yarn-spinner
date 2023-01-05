@@ -2573,11 +2573,11 @@
                   this.handleDeclarations(nodes);
                   _parser.default.yy.areDeclarationsHandled = true;
                 }
-                setVariableStorage(storage) {
-                  if (typeof storage.set !== "function" || typeof storage.get !== "function") {
+                setVariableStorage(storage2) {
+                  if (typeof storage2.set !== "function" || typeof storage2.get !== "function") {
                     throw new Error('Variable Storage object must contain both a "set" and "get" function');
                   }
-                  this.variables = storage;
+                  this.variables = storage2;
                 }
                 handleDeclarations(nodes) {
                   const exampleValues = {
@@ -3578,6 +3578,16 @@
     }
   }
 
+  // src/processor/updateCharacterPortrait.ts
+  function updateCharacterPortrait(currentResult) {
+    const character = currentResult.markup.find((markup) => {
+      return markup.name === "character";
+    });
+    if (character) {
+      $gameMessage.setFaceImage(character.properties.name, 0);
+    }
+  }
+
   // src/wrap.ts
   function wrap(str, options) {
     options = options || {};
@@ -3609,7 +3619,7 @@
     return str;
   }
 
-  // src/index.ts
+  // src/processor/addFormattedGameMessage.ts
   var callBackAfterMessageClose = () => {
   };
   Window_Base.prototype.updateClose = function() {
@@ -3620,9 +3630,30 @@
       }
       if (!this._closing)
         callBackAfterMessageClose();
-      ;
     }
   };
+  async function addFormattedGameMessage(currentResult) {
+    return new Promise((resolve) => {
+      updateCharacterPortrait(currentResult);
+      if (currentResult.text.trim().length > 0) {
+        let text = currentResult.text;
+        const special = currentResult.markup.find((markup) => {
+          return markup.name === "special";
+        });
+        if (special) {
+          text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
+        }
+        callBackAfterMessageClose = () => {
+          callBackAfterMessageClose = () => {
+          };
+          resolve();
+        };
+        $gameMessage.add(wrap(text, { width: 58 }));
+      }
+    });
+  }
+
+  // src/index.ts
   function initializeVariableStorage() {
     Game_System.prototype.variableStorage = function() {
       if (!this._variableStorage) {
@@ -3691,38 +3722,10 @@
     });
     return filtered[Math.floor(Math.random() * filtered.length)][0];
   }
-  function updateCharacterPortrait(currentResult) {
-    const character = currentResult.markup.find((markup) => {
-      return markup.name === "character";
-    });
-    if (character) {
-      $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
-    }
-  }
-  function addFormattedGameMessage(currentResult) {
-    return new Promise((resolve) => {
-      if (currentResult.text.trim().length > 0) {
-        let text = currentResult.text;
-        const special = currentResult.markup.find((markup) => {
-          return markup.name === "special";
-        });
-        if (special) {
-          text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
-        }
-        callBackAfterMessageClose = () => {
-          resolve();
-          callBackAfterMessageClose = () => {
-          };
-        };
-        $gameMessage.add(wrap(text, { width: 58 }));
-      }
-    });
-  }
   async function processYarnDialog(runner, callingEventId) {
     const currentResult = runner.currentResult;
     switch (currentResult.constructor) {
       case import_yarn_bound.default.TextResult:
-        updateCharacterPortrait(currentResult);
         await addFormattedGameMessage(currentResult);
         if (!currentResult.isDialogueEnd) {
           if (currentResult.text.trim().length > 0) {
@@ -3766,11 +3769,12 @@
     const cmd = splitCmd[0];
     await getCommand(cmd, splitCmd.slice(1), callingEventId);
   }
+  var storage = /* @__PURE__ */ new Map();
   var VariableStorage = class {
     storage;
     prefix;
     constructor(prefix) {
-      this.storage = /* @__PURE__ */ new Map();
+      this.storage = storage;
       this.prefix = prefix;
     }
     getExhaustion() {
@@ -3781,7 +3785,7 @@
         return getDynamicValue(key.replace("dynamic_", ""));
       }
       const retrievalKey = key.startsWith("global_") ? key : this.prefix + "_" + key;
-      return this.storage.get(retrievalKey);
+      return this.storage.get(retrievalKey) ?? "unknown";
     }
     set(key, value) {
       const retrievalKey = key.startsWith("global_") ? key : this.prefix + "_" + key;
@@ -3792,23 +3796,5 @@
     console.log(variableName);
     return true;
   }
-  Window_ChoiceList.prototype.callOkHandler = function() {
-    const callback = $gameMessage._choiceCallback;
-    const index = this.index();
-    this._messageWindow.terminateMessage();
-    this.close();
-    if (callback) {
-      callback(index);
-    }
-  };
-  Window_ChoiceList.prototype.callCancelHandler = function() {
-    const callback = $gameMessage._choiceCallback;
-    const index = $gameMessage.choiceCancelType();
-    this._messageWindow.terminateMessage();
-    this.close();
-    if (callback) {
-      callback(index);
-    }
-  };
 })();
 //# sourceMappingURL=pixelmapYarnSpinner.js.map

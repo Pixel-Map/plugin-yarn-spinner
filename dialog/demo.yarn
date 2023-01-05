@@ -1,11 +1,12 @@
 title: Demo
 ---
-Who are you?
+Actor1: Who are you?
 <<show_balloon question player>>
 <<play_sound Item1>>
 <<wait 1000>>
 
 /// Dragon questions life
+Dragon: Who am I?
 <<show_balloon question>>
 <<play_sound Item1>>
 <<wait 1000>>

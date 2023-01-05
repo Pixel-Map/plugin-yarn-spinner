@@ -3258,7 +3258,7 @@
     let keys = Object.keys(myEnum).filter((x) => myEnum[x] == enumValue);
     return keys.length > 0 ? keys[0] : "";
   }
-  async function moveEntity(_callingEventId, direction_name, distance, speed, event_name, synchronous) {
+  async function moveEntity(_callingEventId, direction_name, distance, speed, event, synchronous) {
     return new Promise(async (finalResolve) => {
       if (!synchronous) {
         finalResolve();
@@ -3266,8 +3266,6 @@
       let distanceTraveled = 0;
       while (distanceTraveled < distance) {
         await new Promise(async function(resolve, _reject) {
-          const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
-          const event = $gameMap._events[targetEventId];
           const direction = DIRECTION[direction_name];
           await waitUntilNotMoving(event);
           event.setThrough(true);
@@ -3303,6 +3301,11 @@
     $gameParty.gainItem($dataItems[getItemIdFromName(item_name)], quantity, false);
   }
 
+  // src/commands/change_weather.ts
+  function change_weather(_callingEventId, weather_type, intensity = 4, duration = 24) {
+    $gameScreen.changeWeather(weather_type, intensity, duration);
+  }
+
   // src/commands/fade_in.ts
   function fade_in(_callingEventId, duration = 24) {
     $gameScreen.startTint([0, 0, 0, 0], duration);
@@ -3332,8 +3335,10 @@
   }
 
   // src/commands/move_event.ts
-  async function move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
-    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, false);
+  async function move_event(_callingEventId, event_name, direction_name, distance, speed = 0.25) {
+    const targetEventId = getEventIdByName(event_name);
+    const event = $gameMap._events[targetEventId];
+    return moveEntity(_callingEventId, direction_name, distance, speed, event, false);
   }
 
   // src/commands/play_music.ts
@@ -3376,11 +3381,10 @@
     $gameMessage.setBackground(opacity);
   }
 
-  // src/commands/set_facing.ts
-  function set_facing(_callingEventId, direction, event_name) {
-    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
+  // src/commands/set_self_facing.ts
+  function set_self_facing(_callingEventId, direction) {
     const parsedDirection = DIRECTION[direction];
-    $gameMap._events[targetEventId].setDirection(parsedDirection);
+    $gameMap._events[_callingEventId].setDirection(parsedDirection);
   }
 
   // src/commands/set_level.ts
@@ -3434,13 +3438,15 @@
   }
 
   // src/commands/sync_move_event.ts
-  async function sync_move_event(_callingEventId, direction_name, distance, speed = 0.25, event_name) {
-    return moveEntity(_callingEventId, direction_name, distance, speed, event_name, true);
+  async function sync_move_event(_callingEventId, event_name, direction_name, distance, speed = 0.25) {
+    const targetEventId = getEventIdByName(event_name);
+    const event = $gameMap._events[targetEventId];
+    return moveEntity(_callingEventId, direction_name, distance, speed, event, true);
   }
 
   // src/commands/teleport_event.ts
-  function teleport_event(_callingEventId, x, y, event_name) {
-    const targetEventId = event_name != void 0 ? getEventIdByName(event_name) : _callingEventId;
+  function teleport_event(_callingEventId, event_name, x, y) {
+    const targetEventId = getEventIdByName(event_name);
     const event = $gameMap._events[targetEventId];
     event.setPosition(x, y);
   }
@@ -3450,9 +3456,30 @@
     await new Promise((r) => setTimeout(r, duration));
   }
 
-  // src/commands/change_weather.ts
-  function change_weather(_callingEventId, weather_type, intensity = 4, duration = 24) {
-    $gameScreen.changeWeather(weather_type, intensity, duration);
+  // src/commands/sync_move_self.ts
+  async function sync_move_self(_callingEventId, direction_name, distance, speed = 0.25) {
+    const event = $gameMap._events[_callingEventId];
+    return moveEntity(_callingEventId, direction_name, distance, speed, event, true);
+  }
+
+  // src/commands/move_self.ts
+  async function move_self(_callingEventId, direction_name, distance, speed = 0.25) {
+    const event = $gameMap._events[_callingEventId];
+    return moveEntity(_callingEventId, direction_name, distance, speed, event, false);
+  }
+
+  // src/commands/teleport_self.ts
+  function teleport_self(_callingEventId, x, y) {
+    const targetEventId = _callingEventId;
+    const event = $gameMap._events[targetEventId];
+    event.setPosition(x, y);
+  }
+
+  // src/commands/set_facing.ts
+  function set_facing(_callingEventId, event_name, direction) {
+    const targetEventId = getEventIdByName(event_name);
+    const parsedDirection = DIRECTION[direction];
+    $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
   // src/commands/index.ts
@@ -3465,6 +3492,7 @@
     flash_screen,
     hide_event,
     move_event,
+    move_self,
     play_music,
     play_sound,
     remove_item,
@@ -3475,9 +3503,12 @@
     show_event,
     stop_music,
     teleport_event,
-    wait,
+    teleport_self,
     set_background,
-    sync_move_event
+    set_self_facing,
+    sync_move_event,
+    sync_move_self,
+    wait
   };
   function isNum(value) {
     return /^\d+$/.test(value);

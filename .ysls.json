@@ -193,8 +193,42 @@
       "YarnName": "move_event",
       "DefinitionName": "move_event",
       "Language": "text",
-      "Signature": "move_event direction_name distance speed event_name",
+      "Signature": "move_event event_name direction_name distance speed",
       "Documentation": "Move an event",
+      "Parameters": [
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "The Name of the event to move (not ID!).",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "direction_name",
+          "Type": "String",
+          "Documentation": "The direction to move the event in.  (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "distance",
+          "Type": "Number",
+          "Documentation": "The number of tiles to move the event",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "speed",
+          "Type": "Number",
+          "Documentation": "The speed to move the event at.  Default of 0.25",
+          "IsParamsArray": false,
+          "DefaultValue": "0.25"
+        }
+      ]
+    },
+    {
+      "YarnName": "move_self",
+      "DefinitionName": "move_self",
+      "Language": "text",
+      "Signature": "move_self direction_name distance speed",
+      "Documentation": "Move calling event",
       "Parameters": [
         {
           "Name": "direction_name",
@@ -214,12 +248,6 @@
           "Documentation": "The speed to move the event at.  Default of 0.25",
           "IsParamsArray": false,
           "DefaultValue": "0.25"
-        },
-        {
-          "Name": "event_name",
-          "Type": "String",
-          "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
-          "IsParamsArray": false
         }
       ]
     },
@@ -325,7 +353,7 @@
       "DefinitionName": "set_facing",
       "Language": "text",
       "Signature": "set_facing direction event_name",
-      "Documentation": "Changes the direction the provided event name is facing.  If no event name is provided, defaults to the calling event.",
+      "Documentation": "Changes the direction the provided event name is facing.",
       "Parameters": [
         {
           "Name": "direction",
@@ -376,6 +404,21 @@
           "Name": "fade_type",
           "Type": "String",
           "Documentation": "The type of fade to use when teleporting, defaults to no_fade. (fade_black, fade_white, no_fade)",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "set_self_facing",
+      "DefinitionName": "set_self_facing",
+      "Language": "text",
+      "Signature": "set_self_facing direction",
+      "Documentation": "Changes the direction the calling event is facing.",
+      "Parameters": [
+        {
+          "Name": "direction",
+          "Type": "String",
+          "Documentation": "The direction to face (up, down, left, right)",
           "IsParamsArray": false
         }
       ]
@@ -443,8 +486,42 @@
       "YarnName": "sync_move_event",
       "DefinitionName": "sync_move_event",
       "Language": "text",
-      "Signature": "sync_move_event direction_name distance speed event_name",
+      "Signature": "sync_move_event event_name direction_name distance speed",
       "Documentation": "Move an event (Same as move_event, except blocks script execution until movement is complete)",
+      "Parameters": [
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "The Name of the event to move (not ID!).",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "direction_name",
+          "Type": "String",
+          "Documentation": "The direction to move the event in.  (up, down, left, right)",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "distance",
+          "Type": "Number",
+          "Documentation": "The number of tiles to move the event",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "speed",
+          "Type": "Number",
+          "Documentation": "The speed to move the event at.  Default of 0.25",
+          "IsParamsArray": false,
+          "DefaultValue": "0.25"
+        }
+      ]
+    },
+    {
+      "YarnName": "sync_move_self",
+      "DefinitionName": "sync_move_self",
+      "Language": "text",
+      "Signature": "sync_move_self direction_name distance speed",
+      "Documentation": "Move calling event (Same as move_self, except blocks script execution until movement is complete)",
       "Parameters": [
         {
           "Name": "direction_name",
@@ -464,12 +541,6 @@
           "Documentation": "The speed to move the event at.  Default of 0.25",
           "IsParamsArray": false,
           "DefaultValue": "0.25"
-        },
-        {
-          "Name": "event_name",
-          "Type": "String",
-          "Documentation": "The Name of the event to move (not ID!).  If not provided, defaults to the calling event",
-          "IsParamsArray": false
         }
       ]
     },
@@ -477,7 +548,34 @@
       "YarnName": "teleport_event",
       "DefinitionName": "teleport_event",
       "Language": "text",
-      "Signature": "teleport_event x y event_name",
+      "Signature": "teleport_event event_name x y",
+      "Documentation": "Teleports an event to the specified x and y.  If no event name specified, defaults to the calling event.",
+      "Parameters": [
+        {
+          "Name": "event_name",
+          "Type": "String",
+          "Documentation": "Name (NOT id!) of the event to teleport.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "x",
+          "Type": "Number",
+          "Documentation": "The x coordinate to teleport the event to.",
+          "IsParamsArray": false
+        },
+        {
+          "Name": "y",
+          "Type": "Number",
+          "Documentation": "The y coordinate to teleport the event to.",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
+      "YarnName": "teleport_self",
+      "DefinitionName": "teleport_self",
+      "Language": "text",
+      "Signature": "teleport_self x y",
       "Documentation": "Teleports an event to the specified x and y.  If no event name specified, defaults to the calling event.",
       "Parameters": [
         {
@@ -490,12 +588,6 @@
           "Name": "y",
           "Type": "Number",
           "Documentation": "The y coordinate to teleport the event to.",
-          "IsParamsArray": false
-        },
-        {
-          "Name": "event_name",
-          "Type": "String",
-          "Documentation": "Name (NOT id!) of the event to teleport.  Defaults to calling event.",
           "IsParamsArray": false
         }
       ]

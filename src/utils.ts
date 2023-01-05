@@ -38,7 +38,7 @@ export async function moveEntity(
   direction_name: keyof DIRECTION,
   distance: number,
   speed: number,
-  event_name: string,
+  event: Game_Event,
   synchronous: boolean,
 ) {
   return new Promise<void>(async (finalResolve) => {
@@ -48,9 +48,6 @@ export async function moveEntity(
     let distanceTraveled = 0;
     while (distanceTraveled < distance) {
       await new Promise<void>(async function (resolve, _reject): Promise<void> {
-        const targetEventId = event_name != undefined ? getEventIdByName(event_name) : _callingEventId;
-        const event = $gameMap._events[targetEventId];
-
         const direction: DIRECTION = DIRECTION[direction_name as keyof typeof DIRECTION];
 
         // Don't start unless not moving

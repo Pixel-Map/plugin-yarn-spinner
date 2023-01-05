@@ -19,7 +19,7 @@ title: Demo
 <<stop_music 2>>
 <<fade_out 100>>
 <<wait 2000>>
-<<teleport_event 999 999>>
+<<teleport_self 999 999>>
 
 <<jump RainyScene>>
 ===
@@ -36,27 +36,27 @@ title: RainyScene
 <<play_sound Door1>>
 <<hide_event Door>>
 <<wait 400>>
-<<teleport_event 15 14 Monster1>>
+<<teleport_event Monster1 15 14>>
 <<wait 200>>
-<<sync_move_event down 4 4 Monster1>>
+<<sync_move_event Monster1 down 4 4>>
 
-<<teleport_event 15 14 Monster2>>
+<<teleport_event Monster2 15 14>>
 <<wait 200>>
-<<move_event down 2 4 Monster2>>
+<<move_event Monster2 down 2 4>>
 <<wait 100>>
-<<teleport_event 15 14 Monster3>>
-<<sync_move_event left 2 4 Monster2>>
+<<teleport_event Monster3 15 14>>
+<<sync_move_event Monster2 left 2 4>>
 <<play_sound Move1>>
 
-<<move_event down 2 4 Monster3>>
+<<move_event Monster3 down 2 4>>
 <<play_sound Move1>>
 
-<<move_event right 2 4 Monster3>>
+<<move_event Monster3 right 2 4>>
 <<play_sound Move1>>
 
 <<wait 2000>>
-<<set_facing up Monster1>>
-<<set_facing right Monster2>>
-<<set_facing left Monster3>>
+<<set_facing Monster1 up>>
+<<set_facing Monster2 right>>
+<<set_facing Monster3 left>>
 
 ===

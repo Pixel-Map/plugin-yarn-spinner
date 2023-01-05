@@ -8,13 +8,13 @@ title: SpriteCommands
 <<wait 200>>
 <<set_facing down>>
 
-<<set_facing left Monster1>>
+<<set_facing Monster1 left>>
 <<wait 200>>
-<<set_facing right Monster1>>
+<<set_facing Monster1 right>>
 <<wait 200>>
-<<set_facing up Monster1>>
+<<set_facing Monster1 up>>
 <<wait 200>>
-<<set_facing down Monster1>>
+<<set_facing Monster1 down>>
 
 <<wait 200>>
 <<show_event MovementMan 0.8>>

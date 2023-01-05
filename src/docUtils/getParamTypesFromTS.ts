@@ -7,7 +7,6 @@ export function getParamTypesFromTS(
   const compilerOptions: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES5,
   };
-  console.log(inputFilename);
   const program: ts.Program = ts.createProgram([inputFilename], compilerOptions);
 
   const parameters = [] as { parameterName: string; parameterType: string; default: any }[];

@@ -2,9 +2,9 @@
 import YarnBound from 'yarn-bound';
 import { getCommand } from './commands';
 import { functions } from './functions';
+import { addFormattedGameMessage } from './processor/addFormattedGameMessage';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
-import { wrap } from './wrap';
 
 declare global {
   interface Game_System {
@@ -42,6 +42,7 @@ function invokeYarn(this: any, args: any) {
     });
   });
 }
+
 
 export async function yarnSpinnerProcesser(prefix: string, dialogue: string, startAt: string, callingEventId: number) {
   const variableStorage = new VariableStorage(prefix);
@@ -101,48 +102,14 @@ function getRandomNodeOfType(type: YarnNodeType, dialogue: string) {
   return filtered[Math.floor(Math.random() * filtered.length)][0];
 }
 
-/**
- * Updates the character's face image within gameMessage if available.
- * @param currentResult
- */
-function updateCharacterPortrait(currentResult: any) {
-  const character = currentResult.markup.find((markup: { name: string }) => {
-    return markup.name === 'character';
-  });
-  if (character) {
-    $gameMessage.setFaceImage(character.properties.name.toLowerCase(), 0);
-  }
-}
-
-function addFormattedGameMessage(currentResult: any) {
-  if (currentResult.text.trim().length > 0) {
-    let text = currentResult.text;
-
-    // Add Special Color
-    const special = currentResult.markup.find((markup: { name: string }) => {
-      return markup.name === 'special';
-    });
-    if (special) {
-      text =
-        currentResult.text.slice(0, special.position) +
-        '\\C[1]' +
-        currentResult.text.slice(special.position, special.position + special.length) +
-        '\\C[0]' +
-        currentResult.text.slice(special.position + special.length);
-    }
-    $gameMessage.add(wrap(text, { width: 58 }));
-  }
-}
-
 async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   const currentResult = runner.currentResult;
   switch (currentResult.constructor) {
     case YarnBound.TextResult:
-      updateCharacterPortrait(currentResult);
-      addFormattedGameMessage(currentResult);
-
+      await addFormattedGameMessage(currentResult);
       if (!currentResult.isDialogueEnd) {
         if (currentResult.text.trim().length > 0) {
+          // console.log("Noodles")
           // $gameMessage.newPage();
         }
         runner.advance();
@@ -166,7 +133,6 @@ async function processYarnDialog(runner: YarnBound, callingEventId: number) {
       }
 
       $gameMessage.setChoices(choices, 0, 0);
-
       $gameMessage.setChoiceCallback(async (responseIndex) => {
         // @ts-ignore
         runner.advance(choiceIndexMap[responseIndex]);
@@ -190,42 +156,16 @@ async function commandHandler(cmdResult: YarnBound.CommandResult, callingEventId
   const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
   const cmd = splitCmd[0];
   await getCommand(cmd, splitCmd.slice(1), callingEventId);
-
-  //     break;
-  //   case 'FadeToBlackAndBack':
-  //     if (splitCmd.length == 2) {
-  //       // @ts-ignore
-  //       SceneManager._scene._active = false;
-  //       $gameScreen.startFadeOut(30);
-  //       await new Promise((r) => setTimeout(r, parseInt(splitCmd[1])));
-  //       $gameScreen.startFadeIn(30);
-  //       // @ts-ignore
-  //       SceneManager._scene._active = true;
-  //     } else {
-  //       console.log('Invalid argument number passed into FadeToBlackAndBack!');
-  //     }
-  //     break;
-
-  //     break;
-  //   // case 'BuyHouse':
-  //   //   if (splitCmd.length == 1) {
-  //   //     buyHouse();
-  //   //   } else {
-  //   //     console.log('Invalid argument number passed into PlaySound!');
-  //   //   }
-  //   //   break;
-  //   default:
-  //     console.log('No support yet for command: ' + cmd);
-  // }
 }
 
+const storage = new Map<string, unknown>();
 class VariableStorage {
   storage: Map<string, unknown>;
   prefix: string;
 
   constructor(prefix: string) {
     // this.storage = MMO_Core_Player.mmoVariableStorage as Map<string, unknown>;
-    this.storage = new Map<string, unknown>();
+    this.storage = storage;
     this.prefix = prefix;
   }
 
@@ -238,7 +178,7 @@ class VariableStorage {
       return getDynamicValue(key.replace('dynamic_', ''));
     }
     const retrievalKey = key.startsWith('global_') ? key : this.prefix + '_' + key;
-    return this.storage.get(retrievalKey);
+    return this.storage.get(retrievalKey) ?? 'unknown';
   }
 
   set(key: string, value: any) {
@@ -250,40 +190,5 @@ class VariableStorage {
 function getDynamicValue(variableName: string): any {
   console.log(variableName);
   return true;
-  // switch (variableName) {
-  //   case 'playerOwnsTile':
-  //     return true;
-  //   // return MMO_Core_Player.playerOwnsNFT('0x050dc61dfb867e0fe3cf2948362b6c0f3faf790b');
-  //   case 'playerOwnsHouse':
-  //     return true;
-  //   // return !!MMO_Core_Player.Player.house;
-  // }
 }
 
-// MonkeyPatch by Hudell, without this, it's impossible to call messages AFTER a choice callback
-// https://forums.rpgmakerweb.com/index.php?threads/script-works-but-not-in-a-conditional-explanation-please.71461/
-Window_ChoiceList.prototype.callOkHandler = function () {
-  const callback = $gameMessage._choiceCallback;
-  const index = this.index();
-
-  // @ts-ignore
-  this._messageWindow.terminateMessage();
-  this.close();
-
-  if (callback) {
-    callback(index);
-  }
-};
-
-Window_ChoiceList.prototype.callCancelHandler = function () {
-  const callback = $gameMessage._choiceCallback;
-  const index = $gameMessage.choiceCancelType();
-
-  // @ts-ignore
-  this._messageWindow.terminateMessage();
-  this.close();
-
-  if (callback) {
-    callback(index);
-  }
-};

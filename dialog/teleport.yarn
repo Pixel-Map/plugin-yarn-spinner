@@ -7,16 +7,16 @@ Teleporting you to "InsideMap" at 12,12 (x,y)!
 title: TeleportObject
 ---
 Teleporting the teleporter a bit...
-<<teleport_event 19 3>>
+<<teleport_self 19 3>>
 <<wait 1500>>
-<<teleport_event 21 3>>
+<<teleport_self 21 3>>
 <<wait 1500>>
-<<teleport_event 20 3>>
+<<teleport_self 20 3>>
 
 Now teleporting someone else...
-<<teleport_event 19 3 Monster1>>
+<<teleport_event Monster1 19 3>>
 <<wait 1500>>
-<<teleport_event 21 3 Monster1 >>
+<<teleport_event Monster1 21 3>>
 <<wait 1500>>
-<<teleport_event 6 1 Monster1>>
+<<teleport_event Monster1 6 1>>
 ===

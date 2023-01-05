@@ -6,6 +6,7 @@ import { fade_out } from './fade_out';
 import { flash_screen } from './flash_screen';
 import { hide_event } from './hide_event';
 import { move_event } from './move_event';
+import { move_self } from './move_self';
 import { play_music } from './play_music';
 import { play_sound } from './play_sound';
 import { remove_gold } from './remove_gold';
@@ -13,11 +14,14 @@ import { remove_item } from './remove_item';
 import { set_background } from './set_background';
 import { set_facing } from './set_facing';
 import { set_level } from './set_level';
+import { set_self_facing } from './set_self_facing';
 import { show_balloon } from './show_balloon';
 import { show_event } from './show_event';
 import { stop_music } from './stop_music';
 import { sync_move_event } from './sync_move_event';
+import { sync_move_self } from './sync_move_self';
 import { teleport_event } from './teleport_event';
+import { teleport_self } from './teleport_self';
 import { wait } from './wait';
 
 export const commands = {
@@ -29,6 +33,7 @@ export const commands = {
   flash_screen: flash_screen,
   hide_event: hide_event,
   move_event: move_event,
+  move_self: move_self,
   play_music: play_music,
   play_sound: play_sound,
   remove_item: remove_item,
@@ -39,9 +44,12 @@ export const commands = {
   show_event: show_event,
   stop_music: stop_music,
   teleport_event: teleport_event,
-  wait: wait,
+  teleport_self: teleport_self,
   set_background: set_background,
+  set_self_facing: set_self_facing,
   sync_move_event: sync_move_event,
+  sync_move_self: sync_move_self,
+  wait: wait,
 };
 
 function isNum(value: string) {

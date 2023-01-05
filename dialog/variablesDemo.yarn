@@ -1,0 +1,16 @@
+title: VariablesDemo
+---
+<<declare $favoriteFood = "unknown">>
+<<if $favoriteFood is "unknown">>
+Charles: Hi, What is your favorite food?
+-> Tacos
+  <<set $favoriteFood to "tacos">>
+  Charles: Sweet, I'll remember that!
+-> Spam
+  <<set $favoriteFood to "spam">>
+  Charles: Interesting... Noting it down.
+Charles learned that you love [special]{$favoriteFood}[/special]!
+<<else>>
+I remember you... You love [special]{$favoriteFood}[/special] right?
+<<endif>>
+===

@@ -3341,6 +3341,12 @@
     return moveEntity(_callingEventId, direction_name, distance, speed, event, false);
   }
 
+  // src/commands/move_self.ts
+  async function move_self(_callingEventId, direction_name, distance, speed = 0.25) {
+    const event = $gameMap._events[_callingEventId];
+    return moveEntity(_callingEventId, direction_name, distance, speed, event, false);
+  }
+
   // src/commands/play_music.ts
   function play_music(_callingEventId, music_name, volume = 100) {
     AudioManager.playBgm({
@@ -3381,10 +3387,11 @@
     $gameMessage.setBackground(opacity);
   }
 
-  // src/commands/set_self_facing.ts
-  function set_self_facing(_callingEventId, direction) {
+  // src/commands/set_facing.ts
+  function set_facing(_callingEventId, event_name, direction) {
+    const targetEventId = getEventIdByName(event_name);
     const parsedDirection = DIRECTION[direction];
-    $gameMap._events[_callingEventId].setDirection(parsedDirection);
+    $gameMap._events[targetEventId].setDirection(parsedDirection);
   }
 
   // src/commands/set_level.ts
@@ -3397,6 +3404,12 @@
       parsedDirection,
       FADE_TYPE[fade_type]
     );
+  }
+
+  // src/commands/set_self_facing.ts
+  function set_self_facing(_callingEventId, direction) {
+    const parsedDirection = DIRECTION[direction];
+    $gameMap._events[_callingEventId].setDirection(parsedDirection);
   }
 
   // src/commands/show_balloon.ts
@@ -3444,28 +3457,17 @@
     return moveEntity(_callingEventId, direction_name, distance, speed, event, true);
   }
 
-  // src/commands/teleport_event.ts
-  function teleport_event(_callingEventId, event_name, x, y) {
-    const targetEventId = getEventIdByName(event_name);
-    const event = $gameMap._events[targetEventId];
-    event.setPosition(x, y);
-  }
-
-  // src/commands/wait.ts
-  async function wait(_callingEventId, duration) {
-    await new Promise((r) => setTimeout(r, duration));
-  }
-
   // src/commands/sync_move_self.ts
   async function sync_move_self(_callingEventId, direction_name, distance, speed = 0.25) {
     const event = $gameMap._events[_callingEventId];
     return moveEntity(_callingEventId, direction_name, distance, speed, event, true);
   }
 
-  // src/commands/move_self.ts
-  async function move_self(_callingEventId, direction_name, distance, speed = 0.25) {
-    const event = $gameMap._events[_callingEventId];
-    return moveEntity(_callingEventId, direction_name, distance, speed, event, false);
+  // src/commands/teleport_event.ts
+  function teleport_event(_callingEventId, event_name, x, y) {
+    const targetEventId = getEventIdByName(event_name);
+    const event = $gameMap._events[targetEventId];
+    event.setPosition(x, y);
   }
 
   // src/commands/teleport_self.ts
@@ -3475,11 +3477,9 @@
     event.setPosition(x, y);
   }
 
-  // src/commands/set_facing.ts
-  function set_facing(_callingEventId, event_name, direction) {
-    const targetEventId = getEventIdByName(event_name);
-    const parsedDirection = DIRECTION[direction];
-    $gameMap._events[targetEventId].setDirection(parsedDirection);
+  // src/commands/wait.ts
+  async function wait(_callingEventId, duration) {
+    await new Promise((r) => setTimeout(r, duration));
   }
 
   // src/commands/index.ts
@@ -3610,6 +3610,19 @@
   }
 
   // src/index.ts
+  var callBackAfterMessageClose = () => {
+  };
+  Window_Base.prototype.updateClose = function() {
+    if (this._closing) {
+      this.openness -= 32;
+      if (this.isClosed()) {
+        this._closing = false;
+      }
+      if (!this._closing)
+        callBackAfterMessageClose();
+      ;
+    }
+  };
   function initializeVariableStorage() {
     Game_System.prototype.variableStorage = function() {
       if (!this._variableStorage) {
@@ -3687,23 +3700,30 @@
     }
   }
   function addFormattedGameMessage(currentResult) {
-    if (currentResult.text.trim().length > 0) {
-      let text = currentResult.text;
-      const special = currentResult.markup.find((markup) => {
-        return markup.name === "special";
-      });
-      if (special) {
-        text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
+    return new Promise((resolve) => {
+      if (currentResult.text.trim().length > 0) {
+        let text = currentResult.text;
+        const special = currentResult.markup.find((markup) => {
+          return markup.name === "special";
+        });
+        if (special) {
+          text = currentResult.text.slice(0, special.position) + "\\C[1]" + currentResult.text.slice(special.position, special.position + special.length) + "\\C[0]" + currentResult.text.slice(special.position + special.length);
+        }
+        callBackAfterMessageClose = () => {
+          resolve();
+          callBackAfterMessageClose = () => {
+          };
+        };
+        $gameMessage.add(wrap(text, { width: 58 }));
       }
-      $gameMessage.add(wrap(text, { width: 58 }));
-    }
+    });
   }
   async function processYarnDialog(runner, callingEventId) {
     const currentResult = runner.currentResult;
     switch (currentResult.constructor) {
       case import_yarn_bound.default.TextResult:
         updateCharacterPortrait(currentResult);
-        addFormattedGameMessage(currentResult);
+        await addFormattedGameMessage(currentResult);
         if (!currentResult.isDialogueEnd) {
           if (currentResult.text.trim().length > 0) {
           }

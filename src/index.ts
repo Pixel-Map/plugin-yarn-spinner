@@ -13,6 +13,22 @@ declare global {
   }
 }
 
+let callBackAfterMessageClose = () => {};
+Window_Base.prototype.updateClose = function() {
+  // @ts-ignore
+  if (this._closing) {
+    // @ts-ignore
+    this.openness -= 32;
+    // @ts-ignore
+    if (this.isClosed()) {
+      // @ts-ignore
+      this._closing = false;
+    }
+    // @ts-ignore
+    if ( !this._closing ) callBackAfterMessageClose();;
+  }
+};
+
 export function initializeVariableStorage() {
   Game_System.prototype.variableStorage = function () {
     if (!this._variableStorage) {
@@ -115,23 +131,29 @@ function updateCharacterPortrait(currentResult: any) {
 }
 
 function addFormattedGameMessage(currentResult: any) {
-  if (currentResult.text.trim().length > 0) {
-    let text = currentResult.text;
+  return new Promise<void>((resolve) => {
+    if (currentResult.text.trim().length > 0) {
+      let text = currentResult.text;
 
-    // Add Special Color
-    const special = currentResult.markup.find((markup: { name: string }) => {
-      return markup.name === 'special';
-    });
-    if (special) {
-      text =
-        currentResult.text.slice(0, special.position) +
-        '\\C[1]' +
-        currentResult.text.slice(special.position, special.position + special.length) +
-        '\\C[0]' +
-        currentResult.text.slice(special.position + special.length);
+      // Add Special Color
+      const special = currentResult.markup.find((markup: { name: string }) => {
+        return markup.name === 'special';
+      });
+      if (special) {
+        text =
+          currentResult.text.slice(0, special.position) +
+          '\\C[1]' +
+          currentResult.text.slice(special.position, special.position + special.length) +
+          '\\C[0]' +
+          currentResult.text.slice(special.position + special.length);
+      }
+      callBackAfterMessageClose = () => {
+        resolve();
+        callBackAfterMessageClose = () => {};
+      };
+      $gameMessage.add(wrap(text, { width: 58 }));
     }
-    $gameMessage.add(wrap(text, { width: 58 }));
-  }
+  });
 }
 
 async function processYarnDialog(runner: YarnBound, callingEventId: number) {
@@ -139,7 +161,7 @@ async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   switch (currentResult.constructor) {
     case YarnBound.TextResult:
       updateCharacterPortrait(currentResult);
-      addFormattedGameMessage(currentResult);
+      await addFormattedGameMessage(currentResult);
 
       if (!currentResult.isDialogueEnd) {
         if (currentResult.text.trim().length > 0) {

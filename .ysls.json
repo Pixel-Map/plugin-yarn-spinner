@@ -610,6 +610,21 @@
   ],
   "Functions": [
     {
+      "YarnName": "get_variable",
+      "DefinitionName": "get_variable",
+      "Language": "text",
+      "Signature": "get_variable(variable_name)",
+      "Documentation": "Returns the value of the variable with the given name (starts at global window).",
+      "Parameters": [
+        {
+          "Name": "variable_name",
+          "Type": "String",
+          "Documentation": "The name of global variable to retrieve.",
+          "IsParamsArray": false
+        }
+      ]
+    },
+    {
       "YarnName": "has_item",
       "DefinitionName": "has_item",
       "Language": "text",

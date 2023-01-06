@@ -1,0 +1,45 @@
+title: Bocks_Start
+---
+<<declare $playerOwnsTile = false>>
+<<declare $playerOwnsHouse = false>>
+<<declare $received_voucher = false>>
+<<if $playerOwnsTile is false>>
+  <<jump Bocks_AlreadyBoughtHouse>>
+<<endif>>
+<<if $received_voucher is true>>
+  Test
+  <<jump AlreadyReceivedVoucher>>
+<<endif>>
+Bocks: What can I do for you?
+-> I'm interested in getting a house.
+  Bocks: Well you've come to the right place!  We have a lot of houses to choose from here.  You'll need a voucher to get your house.  I sell them for $85,000,000 after rebate, OR one for free if you own one or more tiles.
+  <<jump Bocks_GetVoucher>>
+-> Just looking around
+  Bocks: Great, well let me know if you have any questions!
+
+===
+title: Bocks_GetVoucher
+---
+Bocks: Do you own a tile?
+-> Yes<<if $playerOwnsTile is true>>
+  Bocks: Oh I knew I recognized you, I'll be right back, let me go grab your voucher.                                                            \\^
+  <<fade_out 30>>
+  <<wait 3500>>
+  <<fade_in 30>>
+  <<add_item "House Voucher" 1>>
+  <<set $received_voucher to true>>
+
+  Bocks: Here you go!  Make sure you look around and find the perfect spot before using the voucher, because we don't offer any relocation assistance just yet.
+-> No
+  Bocks: Ah well, if you're interested there's still a lot to choose from, just head to opensea.io/collection/pixelmap.  But, no matter what, you're always welcome in our town, even without a house.
+===
+
+title: Bocks_AlreadyReceivedVoucher
+---
+Bocks: Have you found the perfect place in town yet?  Some love living in the country, some near water, some just want to live next to everyone else, we have something for everyone!
+===
+
+title: Bocks_AlreadyBoughtHouse
+---
+Bocks: Oh I saw you've moved in, I can't wait to see what you do with the place!  Some people have decorated theirs to the nines, with NFTs, rugs, wallpaper, and even some trinkets.  I heard later on there's even going to be a contest for the best decorated house!
+===

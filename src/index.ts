@@ -43,7 +43,6 @@ function invokeYarn(this: any, args: any) {
   });
 }
 
-
 export async function yarnSpinnerProcesser(prefix: string, dialogue: string, startAt: string, callingEventId: number) {
   const variableStorage = new VariableStorage(prefix);
 
@@ -164,6 +163,7 @@ class VariableStorage {
   prefix: string;
 
   constructor(prefix: string) {
+    console.log(arguments);
     // this.storage = MMO_Core_Player.mmoVariableStorage as Map<string, unknown>;
     this.storage = storage;
     this.prefix = prefix;
@@ -174,21 +174,14 @@ class VariableStorage {
   }
 
   get(key: string) {
-    if (key.startsWith('dynamic_')) {
-      return getDynamicValue(key.replace('dynamic_', ''));
-    }
+    console.log('get', this.prefix + '_' + key);
     const retrievalKey = key.startsWith('global_') ? key : this.prefix + '_' + key;
     return this.storage.get(retrievalKey) ?? 'unknown';
   }
 
   set(key: string, value: any) {
+    console.log('Setting ' + key + ' to ' + value);
     const retrievalKey = key.startsWith('global_') ? key : this.prefix + '_' + key;
     this.storage.set(retrievalKey, value);
   }
 }
-
-function getDynamicValue(variableName: string): any {
-  console.log(variableName);
-  return true;
-}
-

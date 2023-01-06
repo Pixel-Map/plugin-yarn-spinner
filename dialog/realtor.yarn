@@ -1,0 +1,38 @@
+title: Start
+---
+<<declare $dynamic_playerOwnsHouse = false>>
+<<if $dynamic_playerOwnsHouse>>
+  <<jump AlreadyBoughtHouse>>
+<<endif>>
+<<if playerHasItem("House Voucher") is true>>
+Realtor: Whoa there, looks like you have a voucher!  This house is ridiculously nice, and I'd be happy to sell it to you if you hand it over.  Thoughts?
+-> Buy House
+  <<StopMusic 3>>
+  Realtor: Great!  I'd ask you to sit down but uh, well looks like you don't have a chair yet.  I just need to get your signature on a few documents.
+  <<FadeOut 30>>
+  Realtor: ...
+  <<Wait 3500>>
+  <<PlaySound sharpie 100>>
+  Realtor: ...Yep sign there too
+  <<Wait 3500>>
+  Realtor: ...
+  <<Wait 3500>>
+  Realtor: Ohh and this waiver, I need you to initial here, and here
+  Realtor: ...
+  <<Wait 3500>>
+  Realtor: Well, that's it!  Thank you, and enjoy the house!  I'm sure I'll see you around town sometime, best of luck!
+  <<Wait 3500>>
+  <<PlayMusic>>
+  <<FadeIn 30>>
+  <<BuyHouse>>
+-> No thanks! 
+  Realtor: Did I mention that the roof is literally only 25 years old?  And no wasted space for closets!  Let me know if you change your mind!
+<<else>>
+Realtor: Why hello there!  This magnificient house is for sale, for the low price of $95,000,242, OR a PixelMap tile voucher.  Looks like you don't have a voucher or enough $$ at the moment, but feel free to take a look around.
+<<endif>>
+===
+
+title: AlreadyBoughtHouse
+---
+Realtor: Nice to see you again, how's that house treating you?  If you know anyone else in the market, send em here please!
+===

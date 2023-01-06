@@ -101,6 +101,10 @@
       "type": "runtime"
     },
     {
+      "name": "lodash.get",
+      "type": "runtime"
+    },
+    {
       "name": "tablemark",
       "version": "2.0.0",
       "type": "runtime"

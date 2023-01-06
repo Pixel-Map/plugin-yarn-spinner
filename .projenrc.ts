@@ -6,7 +6,7 @@ const project = new typescript.TypeScriptProject({
   license: 'GPL-3.0-or-later',
   artifactsDirectory: 'dist',
   projenrcTs: true,
-  deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0'],
+  deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0', 'lodash.get'],
   entrypoint: 'index.html',
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [

@@ -5,7 +5,7 @@
 Here are some of the features:
 
 * 25 Commands!
-* 3 Functions!
+* 4 Functions!
 * Stardew Valley mode (See guide for more information)
 * Sample Dialog!
 
@@ -79,11 +79,12 @@ Commands allow Yarn Spinner to control parts of the game that you've built.
 ## Functions
 Functions are units of code that Yarn scripts can call to receive a value.
 
-| Name         | Signature              | Documentation                                             |
-| ------------ | ---------------------- | --------------------------------------------------------- |
-| has_item     | has_item(itemName)     | Returns true if the player has the specified item.        |
-| item_count   | item_count(itemName)   | Returns the number of the given item the player has.      |
-| random_range | random_range(min, max) | Given a min and max, return a random number between them. |
+| Name         | Signature                   | Documentation                                                                    |
+| ------------ | --------------------------- | -------------------------------------------------------------------------------- |
+| get_variable | get_variable(variable_name) | Returns the value of the variable with the given name (starts at global window). |
+| has_item     | has_item(itemName)          | Returns true if the player has the specified item.                               |
+| item_count   | item_count(itemName)        | Returns the number of the given item the player has.                             |
+| random_range | random_range(min, max)      | Given a min and max, return a random number between them.                        |
 
 
 ## Credits

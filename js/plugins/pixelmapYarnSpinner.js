@@ -55,6 +55,10 @@
     return to;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
@@ -75,6 +79,7 @@
         return (() => {
           "use strict";
           var __webpack_modules__ = {
+            /***/
             144: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -127,6 +132,7 @@
               }
               module2.exports = exports2.default;
             },
+            /***/
             131: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -139,6 +145,7 @@
                 set(name, value) {
                   this.data[name] = value;
                 }
+                // Called when a variable is being evaluated.
                 get(name) {
                   return this.data[name];
                 }
@@ -147,6 +154,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             167: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -164,6 +172,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             367: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -179,6 +188,17 @@
                   this.textRule = null;
                   this.isTrackingNextIndentation = false;
                 }
+                /**
+                 * addTransition - Define a new transition for this state.
+                 *
+                 * @param  {type} token - the token to match
+                 * @param  {string} [state] - the state to which transition; if not provided, will
+                 *                            remain in the same state.
+                 * @param  {boolean} [delimitsText] - `true` if the token is a text delimiter. A text delimiters
+                 *                                    is a token which should be considered as a token, even if it
+                 *                                    doesn't start the line.
+                 * @return {Object} - returns the LexState itself for chaining.
+                 */
                 addTransition(token, state, delimitsText) {
                   this.transitions.push({
                     token,
@@ -188,6 +208,14 @@
                   });
                   return this;
                 }
+                /**
+                 * addTextRule - Match all the way up to any of the other transitions in this state.
+                 *               The text rule can only be added once.
+                 *
+                 * @param  {type} type  description
+                 * @param  {type} state description
+                 * @return {Object} - returns the LexState itself for chaining.
+                 */
                 addTextRule(type, state) {
                   if (this.textRule) {
                     throw new Error("Cannot add more than one text rule to a state.");
@@ -204,6 +232,12 @@
                   this.textRule.regex = new RegExp(textPattern);
                   return this;
                 }
+                /**
+                 * setTrackNextIndentation - tell this state whether to track indentation.
+                 *
+                 * @param  {boolean} track - `true` to track, `false` otherwise.
+                 * @return {Object} - returns the LexState itself for chaining.
+                 */
                 setTrackNextIndentation(track) {
                   this.isTrackingNextIndentation = track;
                   return this;
@@ -213,6 +247,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             525: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -233,6 +268,9 @@
                   this.previousLevelOfIndentation = 0;
                   this.reset();
                 }
+                /**
+                 * reset - Reset the lexer location, text and line number. Nothing fancy.
+                 */
                 reset() {
                   this.yytext = "";
                   this.yylloc = {
@@ -243,6 +281,11 @@
                   };
                   this.yylineno = 1;
                 }
+                /**
+                 * lex - Lex the input and emit the next matched token.
+                 *
+                 * @return {string}  Emit the next token found.
+                 */
                 lex() {
                   if (this.isAtTheEndOfText()) {
                     this.yytext = "";
@@ -327,6 +370,12 @@
                   }
                   throw new Error("Invalid syntax in: ".concat(this.getCurrentLine()));
                 }
+                // /////////////// Getters & Setters
+                /**
+                 * setState - set the current state of the lexer.
+                 *
+                 * @param  {string} state name of the state
+                 */
                 setState(state) {
                   if (this.states[state] === void 0) {
                     throw new Error("Cannot set the unknown state [".concat(state, "]"));
@@ -336,11 +385,22 @@
                     this.shouldTrackNextIndentation = true;
                   }
                 }
+                /**
+                 * setInput - Set the text on which perform lexical analysis.
+                 *
+                 * @param  {string} text the text to lex.
+                 */
                 setInput(text) {
                   this.originalText = text.replace(/(\r\n)/g, "\n").replace(/\r/g, "\n").replace(/[\n\r]+$/, "");
                   this.lines = this.originalText.split("\n");
                   this.reset();
                 }
+                /**
+                 * getState - Returns the full current state object (LexerState),
+                 * rather than its identifier.
+                 *
+                 * @return {Object}  the state object.
+                 */
                 getState() {
                   return this.states[this.state];
                 }
@@ -357,9 +417,16 @@
                   }
                   return this.indentation[this.indentation.length - 1];
                 }
+                // /////////////// Booleans tests
+                /**
+                 * @return {boolean}  `true` when yylloc indicates that the end was reached.
+                 */
                 isAtTheEndOfText() {
                   return this.isAtTheEndOfLine() && this.yylloc.first_line >= this.lines.length;
                 }
+                /**
+                 * @return {boolean}  `true` when yylloc indicates that the end of the line was reached.
+                 */
                 isAtTheEndOfLine() {
                   return this.yylloc.last_column > this.getCurrentLine().length;
                 }
@@ -368,6 +435,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             404: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -390,6 +458,11 @@
                   stop: new _lexerState.default().addTransition("EndCommand", "base", true),
                   expression: new _lexerState.default().addTransition("As").addTransition("ExplicitType").addTransition("EndCommand", "base").addTransition("Number").addTransition("String").addTransition("LeftParen").addTransition("RightParen").addTransition("EqualTo").addTransition("EqualToOrAssign").addTransition("NotEqualTo").addTransition("GreaterThanOrEqualTo").addTransition("GreaterThan").addTransition("LessThanOrEqualTo").addTransition("LessThan").addTransition("Add").addTransition("UnaryMinus").addTransition("Minus").addTransition("Exponent").addTransition("Multiply").addTransition("Divide").addTransition("Modulo").addTransition("And").addTransition("Or").addTransition("Xor").addTransition("Not").addTransition("Variable").addTransition("Comma").addTransition("True").addTransition("False").addTransition("Null").addTransition("Identifier").addTextRule(),
                   inlineExpression: new _lexerState.default().addTransition("EndInlineExp", "base").addTransition("Number").addTransition("String").addTransition("LeftParen").addTransition("RightParen").addTransition("EqualTo").addTransition("EqualToOrAssign").addTransition("NotEqualTo").addTransition("GreaterThanOrEqualTo").addTransition("GreaterThan").addTransition("LessThanOrEqualTo").addTransition("LessThan").addTransition("Add").addTransition("UnaryMinus").addTransition("Minus").addTransition("Exponent").addTransition("Multiply").addTransition("Divide").addTransition("Modulo").addTransition("And").addTransition("Or").addTransition("Xor").addTransition("Not").addTransition("Variable").addTransition("Comma").addTransition("True").addTransition("False").addTransition("Null").addTransition("Identifier").addTextRule("Text", "base"),
+                  // TODO: Copied from above
+                  // There has to be a non-stupid way to do this, right?
+                  // I'm just not familiar enough yet to know how to
+                  // transition from inline expression back to base OR command
+                  // states depending on how we got there
                   inlineExpressionInCommand: new _lexerState.default().addTransition("EndInlineExp", "command").addTransition("Number").addTransition("String").addTransition("LeftParen").addTransition("RightParen").addTransition("EqualTo").addTransition("EqualToOrAssign").addTransition("NotEqualTo").addTransition("GreaterThanOrEqualTo").addTransition("GreaterThan").addTransition("LessThanOrEqualTo").addTransition("LessThan").addTransition("Add").addTransition("UnaryMinus").addTransition("Minus").addTransition("Exponent").addTransition("Multiply").addTransition("Divide").addTransition("Modulo").addTransition("And").addTransition("Or").addTransition("Xor").addTransition("Not").addTransition("Variable").addTransition("Comma").addTransition("True").addTransition("False").addTransition("Null").addTransition("Identifier").addTextRule("Text", "base"),
                   inlineExpressionInShortcut: new _lexerState.default().addTransition("EndInlineExp", "shortcutOption").addTransition("Number").addTransition("String").addTransition("LeftParen").addTransition("RightParen").addTransition("EqualTo").addTransition("EqualToOrAssign").addTransition("NotEqualTo").addTransition("GreaterThanOrEqualTo").addTransition("GreaterThan").addTransition("LessThanOrEqualTo").addTransition("LessThan").addTransition("Add").addTransition("UnaryMinus").addTransition("Minus").addTransition("Exponent").addTransition("Multiply").addTransition("Divide").addTransition("Modulo").addTransition("And").addTransition("Or").addTransition("Xor").addTransition("Not").addTransition("Variable").addTransition("Comma").addTransition("True").addTransition("False").addTransition("Null").addTransition("Identifier").addTextRule("Text", "base")
                 };
@@ -400,28 +473,43 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             197: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
               });
               exports2["default"] = void 0;
               const Tokens = {
+                // Special tokens
                 Whitespace: null,
+                // (not used currently)
                 Indent: null,
                 Dedent: null,
                 EndOfLine: /\n/,
                 EndOfInput: null,
+                // Literals in ("<<commands>>")
                 Number: /-?[0-9]+(\.[0-9+])?/,
                 String: /"([^"\\]*(?:\\.[^"\\]*)*)"/,
+                // Command syntax ("<<foo>>")
                 BeginCommand: /<</,
                 EndCommand: />>/,
+                // Variables ("$foo")
                 Variable: /\$([A-Za-z0-9_.])+/,
+                // Shortcut syntax ("->")
                 ShortcutOption: /->/,
+                // Hashtag ("#something")
                 Hashtag: /#([^(\s|#|//)]+)/,
+                // seems a little hacky to explicitly consider comments here
+                // Comment ("// some stuff")
                 Comment: /\/\/.*/,
+                // Option syntax ("[[Let's go here|Destination]]")
                 OptionStart: /\[\[/,
+                // [[
                 OptionDelimit: /\|/,
+                // |
                 OptionEnd: /\]\]/,
+                // ]]
+                // Command types (specially recognized command word)
                 If: /if(?!\w)/,
                 ElseIf: /elseif(?!\w)/,
                 Else: /else(?!\w)/,
@@ -432,44 +520,81 @@
                 Declare: /declare(?!\w)/,
                 As: /as(?!\w)/,
                 ExplicitType: /(String|Number|Bool)(?=>>)/,
+                // Boolean values
                 True: /true(?!\w)/,
                 False: /false(?!\w)/,
+                // The null value
                 Null: /null(?!\w)/,
+                // Parentheses
                 LeftParen: /\(/,
                 RightParen: /\)/,
+                // Parameter delimiters
                 Comma: /,/,
+                // Operators
                 UnaryMinus: /-(?!\s)/,
                 EqualTo: /(==|is(?!\w)|eq(?!\w))/,
+                // ==, eq, is
                 GreaterThan: /(>|gt(?!\w))/,
+                // >, gt
                 GreaterThanOrEqualTo: /(>=|gte(?!\w))/,
+                // >=, gte
                 LessThan: /(<|lt(?!\w))/,
+                // <, lt
                 LessThanOrEqualTo: /(<=|lte(?!\w))/,
+                // <=, lte
                 NotEqualTo: /(!=|neq(?!\w))/,
+                // !=, neq
+                // Logical operators
                 Or: /(\|\||or(?!\w))/,
+                // ||, or
                 And: /(&&|and(?!\w))/,
+                // &&, and
                 Xor: /(\^|xor(?!\w))/,
+                // ^, xor
                 Not: /(!|not(?!\w))/,
+                // !, not
+                // this guy's special because '=' can mean either 'equal to'
+                // or 'becomes' depending on context
                 EqualToOrAssign: /(=|to(?!\w))/,
+                // =, to
                 Add: /\+/,
+                // +
                 Minus: /-/,
+                // -
                 Exponent: /\*\*/,
+                // **
                 Multiply: /\*/,
+                // *
                 Divide: /\//,
+                // /
                 Modulo: /%/,
+                // /
                 AddAssign: /\+=/,
+                // +=
                 MinusAssign: /-=/,
+                // -=
                 MultiplyAssign: /\*=/,
+                // *=
                 DivideAssign: /\/=/,
+                // /=
                 Identifier: /[a-zA-Z0-9_:.]+/,
+                // a single word (used for functions)
                 EscapedCharacter: /\\./,
+                // for escaping \# special characters
                 Text: /[^\\]/,
+                // generic until we hit other syntax
+                // Braces are used for inline expressions. Ignore escaped braces
+                // TODO: doesn't work ios
                 BeginInlineExp: /{/,
+                // {
                 EndInlineExp: /}/
+                // }
               };
               var _default = Tokens;
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             348: (__unused_webpack_module, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -1949,7 +2074,7 @@
                   }
                 },
                 parse: function parse(input) {
-                  var self = this, stack = [0], tstack = [], vstack = [null], lstack = [], table = this.table, yytext = "", yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
+                  var self2 = this, stack = [0], tstack = [], vstack = [null], lstack = [], table = this.table, yytext = "", yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
                   var args = lstack.slice.call(arguments, 1);
                   var lexer = Object.create(this.lexer);
                   var sharedState = {
@@ -1984,7 +2109,7 @@
                       var token;
                       token = lexer.lex() || EOF;
                       if (typeof token !== "number") {
-                        token = self.symbols_[token] || token;
+                        token = self2.symbols_[token] || token;
                       }
                       return token;
                     };
@@ -2085,6 +2210,7 @@
               Parser.prototype = parser;
               parser.Parser = Parser;
             },
+            /***/
             748: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -2117,6 +2243,7 @@
                   FunctionCall,
                   Command
                 },
+                // /////////////// Dialog Nodes
                 DialogShortcutNode: class extends Shortcut {
                   constructor(text, content, lineNo) {
                     let hashtags = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : [];
@@ -2130,6 +2257,7 @@
                     this.conditionalExpression = conditionalExpression;
                   }
                 },
+                // /////////////// Conditional Nodes
                 IfNode: class extends Conditional {
                   constructor(expression, statement) {
                     super();
@@ -2163,6 +2291,7 @@
                     this.elseStatement = elseStatement;
                   }
                 },
+                // /////////////// Command Nodes
                 GenericCommandNode: class extends Command {
                   constructor(command, lineNo) {
                     let hashtags = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
@@ -2186,6 +2315,7 @@
                     this.type = "StopCommandNode";
                   }
                 },
+                // /////////////// Contents Nodes
                 TextNode: class extends Text {
                   constructor(text, lineNo) {
                     let hashtags = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
@@ -2206,6 +2336,7 @@
                     this.hashtags = hashtags;
                   }
                 },
+                // /////////////// Literal Nodes
                 NumericLiteralNode: class extends Literal {
                   constructor(numericLiteral) {
                     super();
@@ -2234,6 +2365,7 @@
                     this.variableName = variableName;
                   }
                 },
+                // /////////////// Arithmetic Expression Nodes
                 UnaryMinusExpressionNode: class extends Expression {
                   constructor(expression) {
                     super();
@@ -2289,6 +2421,7 @@
                     this.expression2 = expression2;
                   }
                 },
+                // /////////////// Boolean Expression Nodes
                 NegatedBooleanExpressionNode: class extends Expression {
                   constructor(expression) {
                     super();
@@ -2368,6 +2501,7 @@
                     this.expression2 = expression2;
                   }
                 },
+                // /////////////// Assignment Expression Nodes
                 SetVariableEqualToNode: class extends Assignment {
                   constructor(variableName, expression) {
                     super();
@@ -2376,6 +2510,7 @@
                     this.expression = expression;
                   }
                 },
+                // /////////////// Function Nodes
                 FunctionCallNode: class extends FunctionCall {
                   constructor(functionName, args, lineNo) {
                     let hashtags = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : [];
@@ -2387,6 +2522,7 @@
                     this.hashtags = hashtags;
                   }
                 },
+                // /////////////// Inline Expression
                 InlineExpressionNode: class extends Expression {
                   constructor(expression, lineNo) {
                     let hashtags = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
@@ -2401,6 +2537,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             173: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -2434,6 +2571,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             34: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -2442,6 +2580,12 @@
               class Result {
               }
               class TextResult extends Result {
+                /**
+                 * Create a text display result
+                 * @param {string} [text] text to be displayed
+                 * @param {string[]} [hashtags] the hashtags for the line
+                 * @param {object} [metadata] the parent yarn data
+                 */
                 constructor(text, hashtags, metadata) {
                   super();
                   this.text = text;
@@ -2450,6 +2594,12 @@
                 }
               }
               class CommandResult extends Result {
+                /**
+                 * Return a command string
+                 * @param {string} [command] the command text
+                 * @param {string[]} [hashtags] the hashtags for the line
+                 * @param {object} [metadata] the parent yarn data
+                 */
                 constructor(command, hashtags, metadata) {
                   super();
                   this.command = command;
@@ -2458,6 +2608,13 @@
                 }
               }
               class OptionResult extends Result {
+                /**
+                 * Strip down Conditional option for presentation
+                 * @param {string} [text] option text to display
+                 * @param {boolean} [isAvailable] whether option is available
+                 * @param {string[]} [hashtags] the hashtags for the line
+                 * @param {object} [metadata] the parent yarn data
+                 */
                 constructor(text) {
                   let isAvailable = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
                   let hashtags = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
@@ -2470,6 +2627,11 @@
                 }
               }
               class OptionsResult extends Result {
+                /**
+                 * Create a selectable list of options from the given list of text
+                 * @param {Node[]} [options] list of the text of options to be shown
+                 * @param {object} [metadata] the parent yarn data
+                 */
                 constructor(options, metadata) {
                   super();
                   this.options = options.map((s) => {
@@ -2494,6 +2656,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             159: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -2544,6 +2707,10 @@
                   this.variables = new _defaultVariableStorage.default();
                   this.functions = {};
                 }
+                /**
+                 * Loads the yarn node data into this.nodes
+                 * @param dialogue {any[]} yarn dialogue as string or array
+                 */
                 load(dialogue) {
                   if (!dialogue) {
                     throw new Error("No dialogue supplied");
@@ -2573,12 +2740,22 @@
                   this.handleDeclarations(nodes);
                   _parser.default.yy.areDeclarationsHandled = true;
                 }
+                /**
+                 * Set a new variable storage object
+                 * This must simply contain a 'get(name)' and 'set(name, value)' function
+                 *
+                 * Calling this function will clear any existing variable's values
+                 */
                 setVariableStorage(storage2) {
                   if (typeof storage2.set !== "function" || typeof storage2.get !== "function") {
                     throw new Error('Variable Storage object must contain both a "set" and "get" function');
                   }
                   this.variables = storage2;
                 }
+                /**
+                 * Scans for <<declare>> commands and sets initial variable values
+                 * @param {any[]} yarn dialogue as string or array
+                 */
                 handleDeclarations(nodes) {
                   const exampleValues = {
                     Number: 0,
@@ -2616,6 +2793,10 @@
                   }
                   this.functions[name] = func;
                 }
+                /**
+                 * Generator to return each sequential dialog result starting from the given node
+                 * @param {string} [startNode] - The name of the yarn node to begin at
+                 */
                 *run(startNode) {
                   let jumpTo = startNode;
                   while (jumpTo) {
@@ -2630,6 +2811,12 @@
                     jumpTo = result && result.jump;
                   }
                 }
+                /**
+                 * Evaluate a list of parser nodes, yielding the ones that need to be seen by
+                 * the user. Calls itself recursively if that is required by nested nodes
+                 * @param {Node[]} nodes
+                 * @param {YarnNode[]} metadata
+                 */
                 *evalNodes(nodes, metadata) {
                   let shortcutNodes = [];
                   let textRun = "";
@@ -2678,6 +2865,10 @@
                   }
                   return void 0;
                 }
+                /**
+                 * yield a shortcut result then handle the subsequent selection
+                 * @param {any[]} selections
+                 */
                 *handleShortcuts(selections, metadata) {
                   const transformedSelections = selections.map((s) => {
                     let isAvailable = true;
@@ -2702,6 +2893,9 @@
                   }
                   return void 0;
                 }
+                /**
+                 * Evaluates the given assignment node
+                 */
                 evaluateAssignment(node) {
                   const result = this.evaluateExpressionOrLiteral(node.expression);
                   const oldValue = this.variables.get(node.variableName);
@@ -2710,6 +2904,10 @@
                   }
                   this.variables.set(node.variableName, result);
                 }
+                /**
+                 * Evaluates the given conditional node
+                 * Returns the statements to be run as a result of it (if any)
+                 */
                 evaluateConditional(node) {
                   if (node.type === "IfNode") {
                     if (this.evaluateExpressionOrLiteral(node.expression)) {
@@ -2733,6 +2931,9 @@
                   }
                   throw new Error('Function "'.concat(node.functionName, '" not found'));
                 }
+                /**
+                 * Evaluates an expression or literal down to its final value
+                 */
                 evaluateExpressionOrLiteral(node) {
                   if (Array.isArray(node)) {
                     return node.reduce((acc, n) => {
@@ -2773,6 +2974,7 @@
                     BooleanXorExpressionNode: (a, b) => {
                       return !!(a ^ b);
                     },
+                    // eslint-disable-line no-bitwise
                     EqualToExpressionNode: (a, b) => {
                       return a === b;
                     },
@@ -2832,6 +3034,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             352: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -2854,6 +3057,7 @@
               exports2["default"] = _default;
               module2.exports = exports2.default;
             },
+            /***/
             279: (module2, exports2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -3079,6 +3283,7 @@
               }
               module2.exports = exports2.default;
             },
+            /***/
             424: (module2, exports2, __webpack_require__2) => {
               Object.defineProperty(exports2, "__esModule", {
                 value: true
@@ -3173,6 +3378,7 @@
               exports2["default"] = YarnBound2;
               module2.exports = exports2.default;
             }
+            /******/
           };
           var __webpack_module_cache__ = {};
           function __webpack_require__(moduleId) {
@@ -3181,7 +3387,13 @@
               return cachedModule.exports;
             }
             var module2 = __webpack_module_cache__[moduleId] = {
+              /******/
+              // no module.id needed
+              /******/
+              // no module.loaded needed
+              /******/
               exports: {}
+              /******/
             };
             __webpack_modules__[moduleId](module2, module2.exports, __webpack_require__);
             return module2.exports;
@@ -3190,6 +3402,311 @@
           return __webpack_exports__;
         })();
       });
+    }
+  });
+
+  // node_modules/lodash.get/index.js
+  var require_lodash = __commonJS({
+    "node_modules/lodash.get/index.js"(exports, module) {
+      var FUNC_ERROR_TEXT = "Expected a function";
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      var INFINITY = 1 / 0;
+      var funcTag = "[object Function]";
+      var genTag = "[object GeneratorFunction]";
+      var symbolTag = "[object Symbol]";
+      var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+      var reIsPlainProp = /^\w*$/;
+      var reLeadingDot = /^\./;
+      var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+      var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+      var reEscapeChar = /\\(\\)?/g;
+      var reIsHostCtor = /^\[object .+?Constructor\]$/;
+      var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+      var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+      var root = freeGlobal || freeSelf || Function("return this")();
+      function getValue(object, key) {
+        return object == null ? void 0 : object[key];
+      }
+      function isHostObject(value) {
+        var result = false;
+        if (value != null && typeof value.toString != "function") {
+          try {
+            result = !!(value + "");
+          } catch (e) {
+          }
+        }
+        return result;
+      }
+      var arrayProto = Array.prototype;
+      var funcProto = Function.prototype;
+      var objectProto = Object.prototype;
+      var coreJsData = root["__core-js_shared__"];
+      var maskSrcKey = function() {
+        var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+        return uid ? "Symbol(src)_1." + uid : "";
+      }();
+      var funcToString = funcProto.toString;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var objectToString = objectProto.toString;
+      var reIsNative = RegExp(
+        "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+      );
+      var Symbol2 = root.Symbol;
+      var splice = arrayProto.splice;
+      var Map2 = getNative(root, "Map");
+      var nativeCreate = getNative(Object, "create");
+      var symbolProto = Symbol2 ? Symbol2.prototype : void 0;
+      var symbolToString = symbolProto ? symbolProto.toString : void 0;
+      function Hash(entries) {
+        var index = -1, length = entries ? entries.length : 0;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      function hashClear() {
+        this.__data__ = nativeCreate ? nativeCreate(null) : {};
+      }
+      function hashDelete(key) {
+        return this.has(key) && delete this.__data__[key];
+      }
+      function hashGet(key) {
+        var data = this.__data__;
+        if (nativeCreate) {
+          var result = data[key];
+          return result === HASH_UNDEFINED ? void 0 : result;
+        }
+        return hasOwnProperty.call(data, key) ? data[key] : void 0;
+      }
+      function hashHas(key) {
+        var data = this.__data__;
+        return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+      }
+      function hashSet(key, value) {
+        var data = this.__data__;
+        data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+        return this;
+      }
+      Hash.prototype.clear = hashClear;
+      Hash.prototype["delete"] = hashDelete;
+      Hash.prototype.get = hashGet;
+      Hash.prototype.has = hashHas;
+      Hash.prototype.set = hashSet;
+      function ListCache(entries) {
+        var index = -1, length = entries ? entries.length : 0;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      function listCacheClear() {
+        this.__data__ = [];
+      }
+      function listCacheDelete(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          return false;
+        }
+        var lastIndex = data.length - 1;
+        if (index == lastIndex) {
+          data.pop();
+        } else {
+          splice.call(data, index, 1);
+        }
+        return true;
+      }
+      function listCacheGet(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        return index < 0 ? void 0 : data[index][1];
+      }
+      function listCacheHas(key) {
+        return assocIndexOf(this.__data__, key) > -1;
+      }
+      function listCacheSet(key, value) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          data.push([key, value]);
+        } else {
+          data[index][1] = value;
+        }
+        return this;
+      }
+      ListCache.prototype.clear = listCacheClear;
+      ListCache.prototype["delete"] = listCacheDelete;
+      ListCache.prototype.get = listCacheGet;
+      ListCache.prototype.has = listCacheHas;
+      ListCache.prototype.set = listCacheSet;
+      function MapCache(entries) {
+        var index = -1, length = entries ? entries.length : 0;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      function mapCacheClear() {
+        this.__data__ = {
+          "hash": new Hash(),
+          "map": new (Map2 || ListCache)(),
+          "string": new Hash()
+        };
+      }
+      function mapCacheDelete(key) {
+        return getMapData(this, key)["delete"](key);
+      }
+      function mapCacheGet(key) {
+        return getMapData(this, key).get(key);
+      }
+      function mapCacheHas(key) {
+        return getMapData(this, key).has(key);
+      }
+      function mapCacheSet(key, value) {
+        getMapData(this, key).set(key, value);
+        return this;
+      }
+      MapCache.prototype.clear = mapCacheClear;
+      MapCache.prototype["delete"] = mapCacheDelete;
+      MapCache.prototype.get = mapCacheGet;
+      MapCache.prototype.has = mapCacheHas;
+      MapCache.prototype.set = mapCacheSet;
+      function assocIndexOf(array, key) {
+        var length = array.length;
+        while (length--) {
+          if (eq(array[length][0], key)) {
+            return length;
+          }
+        }
+        return -1;
+      }
+      function baseGet(object, path) {
+        path = isKey(path, object) ? [path] : castPath(path);
+        var index = 0, length = path.length;
+        while (object != null && index < length) {
+          object = object[toKey(path[index++])];
+        }
+        return index && index == length ? object : void 0;
+      }
+      function baseIsNative(value) {
+        if (!isObject(value) || isMasked(value)) {
+          return false;
+        }
+        var pattern = isFunction(value) || isHostObject(value) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value));
+      }
+      function baseToString(value) {
+        if (typeof value == "string") {
+          return value;
+        }
+        if (isSymbol(value)) {
+          return symbolToString ? symbolToString.call(value) : "";
+        }
+        var result = value + "";
+        return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+      }
+      function castPath(value) {
+        return isArray(value) ? value : stringToPath(value);
+      }
+      function getMapData(map, key) {
+        var data = map.__data__;
+        return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+      }
+      function getNative(object, key) {
+        var value = getValue(object, key);
+        return baseIsNative(value) ? value : void 0;
+      }
+      function isKey(value, object) {
+        if (isArray(value)) {
+          return false;
+        }
+        var type = typeof value;
+        if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+          return true;
+        }
+        return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
+      }
+      function isKeyable(value) {
+        var type = typeof value;
+        return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+      }
+      function isMasked(func) {
+        return !!maskSrcKey && maskSrcKey in func;
+      }
+      var stringToPath = memoize(function(string) {
+        string = toString(string);
+        var result = [];
+        if (reLeadingDot.test(string)) {
+          result.push("");
+        }
+        string.replace(rePropName, function(match, number, quote, string2) {
+          result.push(quote ? string2.replace(reEscapeChar, "$1") : number || match);
+        });
+        return result;
+      });
+      function toKey(value) {
+        if (typeof value == "string" || isSymbol(value)) {
+          return value;
+        }
+        var result = value + "";
+        return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+      }
+      function toSource(func) {
+        if (func != null) {
+          try {
+            return funcToString.call(func);
+          } catch (e) {
+          }
+          try {
+            return func + "";
+          } catch (e) {
+          }
+        }
+        return "";
+      }
+      function memoize(func, resolver) {
+        if (typeof func != "function" || resolver && typeof resolver != "function") {
+          throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        var memoized = function() {
+          var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
+          if (cache.has(key)) {
+            return cache.get(key);
+          }
+          var result = func.apply(this, args);
+          memoized.cache = cache.set(key, result);
+          return result;
+        };
+        memoized.cache = new (memoize.Cache || MapCache)();
+        return memoized;
+      }
+      memoize.Cache = MapCache;
+      function eq(value, other) {
+        return value === other || value !== value && other !== other;
+      }
+      var isArray = Array.isArray;
+      function isFunction(value) {
+        var tag = isObject(value) ? objectToString.call(value) : "";
+        return tag == funcTag || tag == genTag;
+      }
+      function isObject(value) {
+        var type = typeof value;
+        return !!value && (type == "object" || type == "function");
+      }
+      function isObjectLike(value) {
+        return !!value && typeof value == "object";
+      }
+      function isSymbol(value) {
+        return typeof value == "symbol" || isObjectLike(value) && objectToString.call(value) == symbolTag;
+      }
+      function toString(value) {
+        return value == null ? "" : baseToString(value);
+      }
+      function get2(object, path, defaultValue) {
+        var result = object == null ? void 0 : baseGet(object, path);
+        return result === void 0 ? defaultValue : result;
+      }
+      module.exports = get2;
     }
   });
 
@@ -3551,42 +4068,21 @@
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  // src/functions/get_variable.ts
+  var import_lodash = __toESM(require_lodash());
+  function get_variable(variable_name) {
+    const moo = (0, import_lodash.default)(window, variable_name);
+    console.log(moo);
+    return moo;
+  }
+
   // src/functions/index.ts
   var functions = {
     has_item,
     item_count,
-    random_range
+    random_range,
+    get_variable
   };
-
-  // src/split-spaces-exclude-quotes.ts
-  function splitSpacesExcludeQuotes(input) {
-    const matches = input.match(/\\?.|^$/g);
-    if (matches) {
-      return matches.reduce(
-        (p, c) => {
-          if (c === '"') {
-            p.quote ^= 1;
-          } else if (!p.quote && c === " ") {
-            p.a.push("");
-          } else {
-            p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
-          }
-          return p;
-        },
-        { a: [""] }
-      ).a;
-    }
-  }
-
-  // src/processor/updateCharacterPortrait.ts
-  function updateCharacterPortrait(currentResult) {
-    const character = currentResult.markup.find((markup) => {
-      return markup.name === "character";
-    });
-    if (character) {
-      $gameMessage.setFaceImage(character.properties.name, 0);
-    }
-  }
 
   // src/wrap.ts
   function wrap(str, options) {
@@ -3617,6 +4113,16 @@
   }
   function identity(str) {
     return str;
+  }
+
+  // src/processor/updateCharacterPortrait.ts
+  function updateCharacterPortrait(currentResult) {
+    const character = currentResult.markup.find((markup) => {
+      return markup.name === "character";
+    });
+    if (character) {
+      $gameMessage.setFaceImage(character.properties.name, 0);
+    }
   }
 
   // src/processor/addFormattedGameMessage.ts
@@ -3651,6 +4157,27 @@
         $gameMessage.add(wrap(text, { width: 58 }));
       }
     });
+  }
+
+  // src/split-spaces-exclude-quotes.ts
+  function splitSpacesExcludeQuotes(input) {
+    const matches = input.match(/\\?.|^$/g);
+    if (matches) {
+      return matches.reduce(
+        (p, c) => {
+          if (c === '"') {
+            p.quote ^= 1;
+          } else if (!p.quote && c === " ") {
+            p.a.push("");
+          } else {
+            p.a[p.a.length - 1] += c.replace(/\\(.)/, "$1");
+          }
+          return p;
+        },
+        { a: [""] }
+        // @ts-ignore
+      ).a;
+    }
   }
 
   // src/index.ts
@@ -3774,6 +4301,7 @@
     storage;
     prefix;
     constructor(prefix) {
+      console.log(arguments);
       this.storage = storage;
       this.prefix = prefix;
     }
@@ -3781,20 +4309,15 @@
       return this.storage.get(this.prefix + "_dialog_exhaustion");
     }
     get(key) {
-      if (key.startsWith("dynamic_")) {
-        return getDynamicValue(key.replace("dynamic_", ""));
-      }
+      console.log("get", this.prefix + "_" + key);
       const retrievalKey = key.startsWith("global_") ? key : this.prefix + "_" + key;
       return this.storage.get(retrievalKey) ?? "unknown";
     }
     set(key, value) {
+      console.log("Setting " + key + " to " + value);
       const retrievalKey = key.startsWith("global_") ? key : this.prefix + "_" + key;
       this.storage.set(retrievalKey, value);
     }
   };
-  function getDynamicValue(variableName) {
-    console.log(variableName);
-    return true;
-  }
 })();
 //# sourceMappingURL=pixelmapYarnSpinner.js.map

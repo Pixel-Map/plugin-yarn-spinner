@@ -24,11 +24,11 @@
   },
   "devDependencies": {
     "@comuns-rpgmaker/plugin-metadata": "github:kenerwin88/plugin-metadata",
-    "@types/jest": "^29.2.4",
+    "@types/jest": "^29.2.5",
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "esbuild": "^0.16.12",
+    "esbuild": "^0.16.16",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^3.5.2",
@@ -39,8 +39,8 @@
     "jest-junit": "^13",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^16",
-    "prettier": "^2.8.1",
-    "projen": "^0.66.7",
+    "prettier": "^2.8.2",
+    "projen": "^0.66.11",
     "standard-version": "^9",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
@@ -51,7 +51,7 @@
     "lodash.get": "^4.4.2",
     "tablemark": "2.0.0",
     "typescript": "^4.9.4",
-    "yarn-bound": "^0.3.1"
+    "yarn-bound-ts": "^0.0.6"
   },
   "main": "index.html",
   "license": "GPL-3.0-or-later",

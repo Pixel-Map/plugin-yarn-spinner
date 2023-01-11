@@ -1,10 +1,10 @@
-// @ts-ignore
-import YarnBound from 'yarn-bound';
+import YarnBound from 'yarn-bound-ts';
 import { getCommand } from './commands';
 import { functions } from './functions';
 import { addFormattedGameMessage } from './processor/addFormattedGameMessage';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
+import { CommandResult } from 'yarn-bound-ts/lib/results';
 
 declare global {
   interface Game_System {
@@ -150,7 +150,7 @@ async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   }
 }
 
-async function commandHandler(cmdResult: YarnBound.CommandResult, callingEventId: number) {
+async function commandHandler(cmdResult: CommandResult, callingEventId: number) {
   // This matcher splits by spaces, but ignores spaces within quotes
   const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
   const cmd = splitCmd[0];

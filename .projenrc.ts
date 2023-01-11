@@ -1,12 +1,14 @@
 import { typescript } from 'projen';
+import { NodePackageManager } from 'projen/lib/javascript';
 
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'rmmz-game',
   license: 'GPL-3.0-or-later',
   artifactsDirectory: 'dist',
+  packageManager: NodePackageManager.NPM,
   projenrcTs: true,
-  deps: ['yarn-bound', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0', 'lodash.get'],
+  deps: ['yarn-bound-ts', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0', 'lodash.get'],
   entrypoint: 'index.html',
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [
@@ -25,7 +27,6 @@ const project = new typescript.TypeScriptProject({
       skipLibCheck: true,
       lib: ['ES2022', 'DOM'],
     },
-    include: ['.projenrc.ts'],
   },
   package: false,
   scripts: {

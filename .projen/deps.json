@@ -114,7 +114,7 @@
       "type": "runtime"
     },
     {
-      "name": "yarn-bound",
+      "name": "yarn-bound-ts",
       "type": "runtime"
     }
   ],

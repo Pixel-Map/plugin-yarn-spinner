@@ -1,0 +1,5 @@
+title: CustomCommandDemo_Start
+---
+Check the "script" section of my event, you'll see how to add your own commands!
+<<custom_hello george>>
+===

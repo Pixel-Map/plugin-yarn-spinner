@@ -1,7 +1,7 @@
 title: SetLevelTest
 ---
 Teleporting you to "InsideMap" at 12,12 (x,y)!
-<<set_level InsideMap 12 12 >>
+<<set_level Spawn 12 12 >>
 ===
 
 title: TeleportObject

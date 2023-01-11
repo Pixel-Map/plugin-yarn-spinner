@@ -1,12 +1,12 @@
 title: SpriteCommands
 ---
-<<set_facing left>>
+<<set_self_facing left>>
 <<wait 200>>
-<<set_facing right>>
+<<set_self_facing right>>
 <<wait 200>>
-<<set_facing up>>
+<<set_self_facing up>>
 <<wait 200>>
-<<set_facing down>>
+<<set_self_facing down>>
 
 <<set_facing Monster1 left>>
 <<wait 200>>

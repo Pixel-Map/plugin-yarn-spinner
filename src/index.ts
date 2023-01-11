@@ -1,10 +1,9 @@
-import YarnBound from 'yarn-bound-ts';
-import { getCommand } from './commands';
+import { YarnBound, CommandResult, TextResult, OptionsResult } from 'yarn-bound-ts';
+import { executeCommand, addCommand, commands } from './commands';
 import { functions } from './functions';
 import { addFormattedGameMessage } from './processor/addFormattedGameMessage';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
-import { CommandResult } from 'yarn-bound-ts/lib/results';
 
 declare global {
   interface Game_System {
@@ -45,7 +44,6 @@ function invokeYarn(this: any, args: any) {
 
 export async function yarnSpinnerProcesser(prefix: string, dialogue: string, startAt: string, callingEventId: number) {
   const variableStorage = new VariableStorage(prefix);
-
   // Stardew Mode is heavily opinionated, and based on https://stardewvalleywiki.com/Modding:Dialogue
   if (startAt == 'StardewMode') {
     startAt = getStardewModeNode(variableStorage, dialogue);
@@ -104,18 +102,17 @@ function getRandomNodeOfType(type: YarnNodeType, dialogue: string) {
 async function processYarnDialog(runner: YarnBound, callingEventId: number) {
   const currentResult = runner.currentResult;
   switch (currentResult.constructor) {
-    case YarnBound.TextResult:
+    case TextResult:
       await addFormattedGameMessage(currentResult);
       if (!currentResult.isDialogueEnd) {
         if (currentResult.text.trim().length > 0) {
-          // console.log("Noodles")
           // $gameMessage.newPage();
         }
         runner.advance();
         await processYarnDialog(runner, callingEventId);
       }
       break;
-    case YarnBound.OptionsResult:
+    case OptionsResult:
       const choices = []; // Because some choices may NOT be available, the index within the choices array does
       const choiceIndexMap = {}; // not always match the index in yarn.  Because of that, we store the position
       let arrayIndex = 0; // of each option in BOTH arrays within a dictionary, so we can reference them in
@@ -138,7 +135,7 @@ async function processYarnDialog(runner: YarnBound, callingEventId: number) {
         await processYarnDialog(runner, callingEventId);
       });
       break;
-    case YarnBound.CommandResult:
+    case CommandResult:
       await commandHandler(currentResult, callingEventId);
       if (!currentResult.isDialogueEnd) {
         runner.advance();
@@ -154,7 +151,7 @@ async function commandHandler(cmdResult: CommandResult, callingEventId: number) 
   // This matcher splits by spaces, but ignores spaces within quotes
   const splitCmd = splitSpacesExcludeQuotes(cmdResult.command);
   const cmd = splitCmd[0];
-  await getCommand(cmd, splitCmd.slice(1), callingEventId);
+  await executeCommand(cmd, splitCmd.slice(1), callingEventId);
 }
 
 const storage = new Map<string, unknown>();
@@ -163,7 +160,6 @@ class VariableStorage {
   prefix: string;
 
   constructor(prefix: string) {
-    console.log(arguments);
     // this.storage = MMO_Core_Player.mmoVariableStorage as Map<string, unknown>;
     this.storage = storage;
     this.prefix = prefix;
@@ -174,14 +170,14 @@ class VariableStorage {
   }
 
   get(key: string) {
-    console.log('get', this.prefix + '_' + key);
     const retrievalKey = key.startsWith('global_') ? key : this.prefix + '_' + key;
     return this.storage.get(retrievalKey) ?? 'unknown';
   }
 
   set(key: string, value: any) {
-    console.log('Setting ' + key + ' to ' + value);
     const retrievalKey = key.startsWith('global_') ? key : this.prefix + '_' + key;
     this.storage.set(retrievalKey, value);
   }
 }
+
+export { addCommand, commands };

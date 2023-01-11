@@ -24,8 +24,8 @@ Realtor: Whoa there, looks like you have a voucher!  This house is ridiculously 
   <<wait 3500>>
   <<play_music>>
   <<fade_in 30>>
-  <<BuyHouse>>
--> No thanks! 
+  <<buy_house>>
+-> No thanks!
   Realtor: Did I mention that the roof is literally only 25 years old?  And no wasted space for closets!  Let me know if you change your mind!
 <<else>>
 Realtor: Why hello there!  This magnificient house is for sale, for the low price of $95,000,242, OR a PixelMap tile voucher.  Looks like you don't have a voucher or enough $$ at the moment, but feel free to take a look around.

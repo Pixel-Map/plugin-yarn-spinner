@@ -90,7 +90,8 @@ let readme =
   ' Functions!\n' +
   '* Stardew Valley mode (See guide for more information)\n' +
   '* Sample Dialog!\n\n## Commands\n';
-readme += '\n' +
+readme +=
+  '\n' +
   '## Demo\n' +
   '[![Plugin Demo](https://img.youtube.com/vi/xRlhuiQvHjE/0.jpg)](https://www.youtube.com/watch?v=xRlhuiQvHjE)\n\n';
 readme += "Commands allow Yarn Spinner to control parts of the game that you've built.\n";
@@ -112,9 +113,11 @@ readme += '\n## Functions\n';
 readme += 'Functions are units of code that Yarn scripts can call to receive a value.\n\n';
 readme += tablemark(allFunctions);
 
+readme += '\n';
+readme += fs.readFileSync('src/docUtils/addingCustomCommands.md');
 // Credits
 readme +=
-  '\n\n## Credits\n' +
+  '\n## Credits\n' +
   '\n' +
   '* [Yarn Spinner](https://yarnspinner.dev/) - The Yarn Spinner engine\n' +
   '* [Yarn Bound](https://github.com/mnbroatch/yarn-bound) - Yarn 2.0 wrapper around bondage.js by mnbroatch.\n' +

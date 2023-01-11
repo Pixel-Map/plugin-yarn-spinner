@@ -5,9 +5,7 @@
  */
 
 export function get_variable(variable_name: string) {
-  const moo = get(window, variable_name);
-  console.log(moo);
-  return moo;
+  return get(window, variable_name);;
 }
 
 // @ts-ignore

@@ -5,6 +5,7 @@ generate('src/metadata.yaml').then((header) => {
   require('esbuild')
     .build({
       logLevel: 'info',
+      globalName: 'pixelmapYarnSpinner',
       entryPoints: ['src/index.ts'],
       bundle: true,
       sourcemap: true,

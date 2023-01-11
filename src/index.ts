@@ -1,10 +1,10 @@
 import YarnBound from 'yarn-bound-ts';
+import { CommandResult } from 'yarn-bound-ts/lib/results';
 import { getCommand } from './commands';
 import { functions } from './functions';
 import { addFormattedGameMessage } from './processor/addFormattedGameMessage';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
 import { YarnNodeType } from './types';
-import { CommandResult } from 'yarn-bound-ts/lib/results';
 
 declare global {
   interface Game_System {

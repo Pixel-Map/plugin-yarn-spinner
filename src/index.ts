@@ -3,6 +3,7 @@ import { executeCommand, addCommand, commands } from './commands';
 import { functions } from './functions';
 import { addFormattedGameMessage } from './processor/addFormattedGameMessage';
 import { splitSpacesExcludeQuotes } from './split-spaces-exclude-quotes';
+import { getCharacterData, invokeStardew } from './stardewMode';
 import { YarnNodeType } from './types';
 
 declare global {
@@ -25,6 +26,12 @@ export function initializeVariableStorage() {
 const MAX_DIALOG_EXHAUSTION = 3;
 
 PluginManager.registerCommand('pixelmapYarnSpinner', 'yarn', invokeYarn);
+PluginManager.registerCommand('pixelmapYarnSpinner', 'stardew', stardewCaller);
+
+async function stardewCaller(this: any, args: any) {
+  const characterData = await getCharacterData(args['Character Name']);
+  invokeStardew(characterData);
+}
 
 function invokeYarn(this: any, args: any) {
   const callingEventId: number = this._eventId as number;

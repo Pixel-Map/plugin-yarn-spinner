@@ -8,7 +8,7 @@ const project = new typescript.TypeScriptProject({
   artifactsDirectory: 'dist',
   packageManager: NodePackageManager.NPM,
   projenrcTs: true,
-  deps: ['yarn-bound-ts', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0', 'lodash.get'],
+  deps: ['yarn-bound-ts', 'typescript', '@microsoft/tsdoc', 'tablemark@2.0.0', 'lodash.get', 'yaml'],
   entrypoint: 'index.html',
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [

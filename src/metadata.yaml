@@ -34,3 +34,11 @@ commands:
         type: text
         text: Start At
         description: What node to start at?
+  - name: stardew
+    text: Enhanced Stardew Mode
+    description: Highly opinionated Stardew Valley style dialog
+    args:
+      - name: Character Name
+        type: text
+        text: Character Name
+        description: Please read the README, this is highly opinionated / custom.
